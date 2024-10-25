@@ -1,9 +1,12 @@
+
 import { useState } from "react";
 import styles from "./Auth.module.css";
 import Registration from "../../components/Registration/Registration";
 import loginSvg from "../../assets/images/login.svg";
+import { useLocation } from 'react-router-dom'
 
 export default function AuthPage() {
+  const location = useLocation();
   const [isAuther, setIsAuther] = useState<boolean>(true);
   return (
     <>
