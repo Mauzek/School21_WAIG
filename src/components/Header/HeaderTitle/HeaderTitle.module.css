@@ -1,0 +1,101 @@
+.page__header__text__container {
+    display: flex;
+    gap: 1em;
+    height: 65px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page__header__title {
+    align-self: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.header__title__span{
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+}
+
+.page__header__title_profile {
+    font-size: 24px;
+    align-self: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.backArrow {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%; 
+    cursor: pointer;
+    transition: background-color 0.3s, border-radius 0.3s, color 0.3s, padding 0.2s; 
+  }
+  
+  .backArrow:hover {
+    background-color: rgba(255, 255, 255, 0.2); 
+    border-radius: 50%; 
+    padding: 5px; 
+  }
+
+  .navMenu {
+    margin-top: 20px;
+  }
+  
+  .navMenuList {
+    display: flex;
+    gap: 6em;
+    justify-content: center;
+  }
+  
+  .navbar__menu__item {
+    font-size: 16px;
+    list-style: none;
+    position: relative;
+}
+
+.navbar__menu__item a {
+    position: relative;
+    text-decoration: none;
+    padding: 20px;
+    font-size: 16px;
+    color: #fff; /* Цвет текста */
+    transition: color 0.3s ease; /* Анимация для цвета текста */
+}
+
+.navbar__menu__item a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    left: 0;
+    bottom: 8px;
+    background-color: #44EB99; 
+    transition: width 0.3s ease; 
+}
+
+.navbar__menu__item:hover a {
+    color: #44EB99; 
+}
+
+.navbar__menu__item:hover a::after {
+    width: 100%; 
+    transform-origin: left; 
+}
+
+.navbar__menu__item.active a {
+    color: #fff;
+}
+
+.navbar__menu__item.active a::after {
+    width: 100%;
+    transform-origin: left;
+}
+
+  .text__container_main{
+    display: flex;
+    gap: 1em;
+    height: 65px;
+    justify-content: center;
+    align-items: center;
+  }
