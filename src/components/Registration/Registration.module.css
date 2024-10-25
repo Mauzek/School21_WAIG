@@ -1,0 +1,254 @@
+body {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.input__container {
+    color: black;
+    cursor: text;
+}
+
+.input__container::before {
+    content: " ";
+}
+
+.input {
+    width: 100%;
+    color: currentColor;
+    position: relative;
+    margin-bottom: 10px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(174, 187, 202);
+    border-radius: 8px;
+    max-width: 330px;
+}
+
+.input::before {
+    border: 1px solid rgb(174, 187, 202);
+    height: 0;
+}
+
+.input__box:focus-visible {
+    outline: -webkit-focus-ring-color auto 0px;
+}
+
+.input__box {
+    line-height: 24px;
+    padding: 12px 16px;
+    width: 100%;
+    background: none;
+    border: 0;
+    color: black;
+}
+
+.input__label {
+    position: absolute;
+    transform: translate(16px, 14px) scale(1);
+    color: #516077;
+    transform: translate(16px, 1px) scale(0.85);
+
+    font-size: 14px;
+    font-style: normal;
+    font-family: "SB Sans Text", Helvetica, sans-serif;
+    font-weight: 400;
+    line-height: 20px;
+
+    padding: 0px;
+    display: block;
+    transform-origin: left top;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(133% - 24px);
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    z-index: 1;
+    pointer-events: auto;
+    user-select: none;
+}
+
+
+.reg {
+    border-radius: 20px;
+    width: 800px;
+    height: 550px;
+    background: linear-gradient(47.28deg, rgb(134, 27, 227) -13.58%, rgb(68, 235, 153) 150.46%);
+    padding: 56px;
+    position: relative;
+}
+
+.reg::after {
+    left: 780px;
+    bottom: 524px;
+    display: block;
+    position: absolute;
+    content: url("../../../src/assets/images/download\ \(1\).svg");
+}
+
+.reg::before {
+    top: 529px;
+    right: 778px;
+    display: block;
+    position: absolute;
+    content: url("../../../src/assets/images/download.svg");
+}
+
+.form__container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 340px;
+    flex-wrap: wrap;
+}
+
+.input {
+    height: 50px;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"]:checked+label {
+    background-image: linear-gradient(to bottom, #61605e, #a4a4a2);
+}
+
+
+
+
+
+
+label[id="male"]:hover,
+label[id="female"]:hover {
+    background-image: linear-gradient(to bottom, #fff, #b9b9b9);
+}
+
+label[id="male"],
+label[id="female"] {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    float: left;
+    padding: 5px 10px;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    background-position: bottom;
+    position: absolute;
+    bottom: -2px;
+    /* width: 50%;
+    position: absolute;
+    bottom: 0;
+    color: black;
+    user-select: none; */
+    /* width: 100%;
+    height: 100%; */
+}
+
+.auth__container {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="radio"]:checked+label {
+    transition: background-color 0.3s ease;
+}
+
+input[type="radio"]:checked+label[id="female"] {
+    background-image: linear-gradient(to bottom, transparent, #FF547F);
+    transition: background-color 0.3s ease;
+    background-size: 100% 100%;
+    background-position: bottom right;
+}
+
+input[type="radio"]:checked+label[id="male"] {
+    background-image: linear-gradient(to bottom, transparent, #008bff);
+    transition: background-color 0.3s ease;
+    background-size: 100% 100%;
+    background-position: bottom right;
+}
+
+input[type="radio"]:checked {
+    width: 200px;
+    height: 100px;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease;
+
+}
+
+
+label[id="male"] {
+    background-color: transparent;
+    transition: 2s ease;
+    background-image: linear-gradient(to bottom, transparent, #008bff);
+    background-size: 100% 0%;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    left: 0;
+}
+
+label[id="male"]:hover {
+    animation: fill-gradient 0.3s ease-in-out forwards;
+    background-image: linear-gradient(to bottom, transparent, #008bff);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+label[id="female"] {
+
+    margin-left: -1px;
+    right: 0;
+    background-color: transparent;
+    transition: 2s ease;
+    background-image: linear-gradient(to bottom, transparent, #FF547F);
+    background-size: 100% 0%;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+}
+
+label[id="female"]:hover {
+    animation: fill-gradient 0.3s ease-in-out forwards;
+    background-image: linear-gradient(to bottom, transparent, #FF547F);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+label[id="male2"]:hover~label[id="male"] {
+    animation: fill-gradient 0.3s ease-in-out forwards;
+    background-image: linear-gradient(to bottom, transparent, #008bff);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+label[id="female2"]:hover~label[id="female"] {
+    animation: fill-gradient 0.3s ease-in-out forwards;
+    background-image: linear-gradient(to bottom, transparent, #FF547F);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+
+.Gender__img {
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+    background-color: white;
+}
+
+.input__inactive {
+    display: none;
+}
+
+.input__active {
+    display: block;
+}
+
+.step__button {
+    background: none;
+    border: 0;
+}
+
+.step__button:hover {
+    border: 0;
+}
