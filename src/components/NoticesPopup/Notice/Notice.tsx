@@ -16,10 +16,11 @@ type Group = {
   }
 
 interface NoticeProps {
+  id: number;
   name: string; 
   groupName?: Group,
-  avatar?: string; // Аватар пользователя
-  isGroupInvite: boolean; // Тип уведомления: приглашение в группу (true) или заявка в друзья (false)
+  avatar?: string; 
+  isGroupInvite: boolean; 
 }
 
 export const Notice: FC<NoticeProps> = ({
@@ -37,9 +38,9 @@ export const Notice: FC<NoticeProps> = ({
       </div>
 
       <div className={styles.textContainer}>
-        <span className={styles.name}>{name}</span> 
+        <Link to={`/Profile/${name}`} className={styles.name}>{name}</Link> 
         {isGroupInvite ? ` приглашает вас в группу ` : ` хочет добавить вас в друзья `}
-        {isGroupInvite && <Link to={`/Group/${groupName?.id}`} className={styles.groupName}>{groupName?.name}</Link>}
+        {isGroupInvite && <Link to={`/Group/${groupName?.id}/Main`} className={styles.groupName}>{groupName?.name}</Link>}
       </div>
 
       <div className={styles.actions}>

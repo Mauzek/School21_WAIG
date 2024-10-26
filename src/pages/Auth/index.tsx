@@ -3,13 +3,15 @@ import { useState } from "react";
 import styles from "./Auth.module.css";
 import Registration from "../../components/Registration/Registration";
 import loginSvg from "../../assets/images/login.svg";
-import { useLocation } from 'react-router-dom'
 
 export default function AuthPage() {
-  const location = useLocation();
   const [isAuther, setIsAuther] = useState<boolean>(true);
   return (
-    <>
+    <div style={{ margin: "0",
+        display: "flex",
+        placeItems: "center",
+        minWidth: "320px",
+        minHeight: "100vh",justifyContent:"center"}}>
       <div className={styles.auth}>
         {isAuther ?
           <div className={styles.auth__container}>
@@ -56,6 +58,6 @@ export default function AuthPage() {
         <button onClick={() => (setIsAuther(!isAuther))} />
       </div>
 
-    </>
+    </div>
   );
 }
