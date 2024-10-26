@@ -83,6 +83,7 @@ export const NoticesPopup: FC<NoticeProps> = ({
         {mockNotices.map((notice) => (
           <Notice
             key={notice.id}
+            id={notice.id}
             name={notice.name}
             avatar={notice.avatarUrl}
             isGroupInvite={notice.isGroupInvite}

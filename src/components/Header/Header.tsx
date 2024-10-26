@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { NavMenu } from "./NavMenu/NavMenu";
 import { HeaderTitle } from "./HeaderTitle/HeaderTitle";
 import { HeaderButtons } from "./HeaderButtons/HeaderButtons";
@@ -15,6 +15,8 @@ interface HeaderProps {
 }
 
 export const Header: FC<HeaderProps> = ({ user }) => {
+  const {login} = useParams<{login: string}>();
+  console.log(login)
   const [isNoticesBtnActive, setIsNoticesBtnActive] = useState<boolean>(false);
   const [isSearchBtnActive, setIsSearchBtnActive] = useState<boolean>(false);
   const location = useLocation();
@@ -38,11 +40,17 @@ export const Header: FC<HeaderProps> = ({ user }) => {
 
   const getNavMenuItems = () => {
     if (location.pathname.startsWith("/Profile/")) {
-      return [
-        { label: "Профиль", path: `/Profile/${user.login}` },
-        { label: "Конфиденциальность", path: `/Profile/${user.login}/Privacy` },
-        { label: "Редактирование", path: `/Profile/${user.login}/Edit` },
-      ];
+      if (login === user.login) { // Проверяем, совпадает ли логин
+        return [
+          { label: "Профиль", path: `/Profile/${user.login}` },
+          { label: "Конфиденциальность", path: `/Profile/${user.login}/Privacy` },
+          { label: "Редактирование", path: `/Profile/${user.login}/Edit` },
+        ];
+      } else {
+        return [
+          { label: "Профиль", path: `/Profile/${login}` }, // Текущий логин
+        ];
+      }
     } else if (location.pathname.startsWith("/Groups")) {
       return [
         { label: "Все группы", path: "/Groups/All" },
@@ -58,7 +66,14 @@ export const Header: FC<HeaderProps> = ({ user }) => {
       return [
         { label: "Пользователи", path: "/Admin/Users" },
         { label: "Группы", path: "/Admin/Groups" },
-      ];     
+      ];          
+    }
+    if (location.pathname.startsWith(`/Group/1`)) {
+      return [
+        { label: "Группа", path: `/Group/1/Main` },
+        { label: "Участники", path: `/Group/1/Users` },
+        { label: "Редактирование", path: `/Group/1/Edit` },
+      ];
     }
     return [];
   };

@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
+import './fonts.css';
 import { BrowserRouter } from "react-router-dom";
 import BackgroudVectorPurpl from './assets/icons/backgroud_vector_purpl.svg'
 import BackgroudVectorGreen from './assets/icons/backgroud_vector_green.svg'
