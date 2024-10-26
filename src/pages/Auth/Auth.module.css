@@ -3,6 +3,11 @@
     padding: 0;
     margin: 0;
 }
+:root{
+    --green: #44eb99;
+    --lightGray: #c6cfda;
+    --linkBlue: #008bff;
+}
 
 .input__container {
     color: black;
@@ -75,9 +80,13 @@
     width: 448px;
     height: 550px;
     background: linear-gradient(47.28deg, rgb(134, 27, 227) -13.58%, rgb(68, 235, 153) 150.46%);
-    padding: 56px;
+    padding: 56px 0px;
     position: relative;
 }
+
+
+
+
 
 .auth::before {
     top: 530px;
@@ -163,3 +172,30 @@ font-size: 14px;
     margin: 0px;
     border-width: 0px 0px thin;
 }
+
+.center__auth{
+    
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh; 
+    justify-content :center;
+}
+
+
+/* 
+.center__auth::before {
+    top: 530px;
+    right: 427px;
+    display: block;
+    position: absolute;
+    content: url("../../../src/assets/images/purpleLine.svg");
+}
+
+.center__auth::after {
+    left: 428px;
+    bottom: 524px;
+    display: block;
+    position: absolute;
+    content: url("../../../src/assets/images/greenLine.svg");}   */

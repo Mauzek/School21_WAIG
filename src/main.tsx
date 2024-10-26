@@ -5,6 +5,8 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import BackgroudVectorPurpl from './assets/icons/backgroud_vector_purpl.svg'
 import BackgroudVectorGreen from './assets/icons/backgroud_vector_green.svg'
+import './fonts.css'
+
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

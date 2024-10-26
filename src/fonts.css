@@ -1,0 +1,35 @@
+
+@font-face {
+    font-family: "SB Sans Text";
+    src: url("./assets/fonts/SBSansDisplay-SemiBold.otf") format("opentype");
+    font-weight: 600; 
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "SB Sans Text";
+    src: url("./assets/fonts/SBSansText-Regular.otf") format("opentype");
+    font-weight: 400; 
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "SB Sans Display";
+    src: url("./assets/fonts/SBSansDisplay-SemiBold.otf") format("opentype");
+    font-weight: 600; 
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "SB Sans Display";
+    src: url("./assets/fonts/SBSansDisplay-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "SB Sans Display";
+    src: url("./assets/fonts/SBSansDisplay-Bold.otf") format("opentype");
+    font-weight: 700; 
+    font-style: normal;
+  }
