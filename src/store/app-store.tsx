@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 export interface User {
-  id: number;
+  id: string;
   login: string;
   password: string;
   firstName: string;
@@ -23,7 +23,7 @@ interface StoreState {
 export const useStore = create<StoreState>((set) => ({
   isAuth: true,
   user: {
-    id: 1,
+    id: '1',
     login: "Morganfriman",
     password: '111',
     firstName: 'Алёша',

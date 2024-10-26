@@ -6,6 +6,7 @@ import BackArrow from "../../../assets/icons/back_arrow.svg";
 interface HeaderTitleProps {
   pageTitle: string;
   userLogin?: string;
+  groupName?: string;
   hasBackArrow?: boolean;
   navItems?: { label: string; path: string }[];
 }
@@ -13,6 +14,7 @@ interface HeaderTitleProps {
 export const HeaderTitle: FC<HeaderTitleProps> = ({
   pageTitle,
   userLogin,
+  groupName,
   hasBackArrow,
   navItems,
 }) => {
@@ -35,10 +37,10 @@ export const HeaderTitle: FC<HeaderTitleProps> = ({
           />
         )}
         <h2 className={styles.page__header__title}>{pageTitle}</h2>
-        {userLogin && hasBackArrow && (
+        {(userLogin || groupName) && hasBackArrow && (
           <>
             <span className={styles.header__title__span}>|</span>
-            <h3 className={styles.page__header__title_profile}>{userLogin}</h3>
+            <h3 className={styles.page__header__title_profile}>{userLogin ? userLogin : groupName}</h3>
           </>
         )}
       </div>

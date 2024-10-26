@@ -9,14 +9,12 @@ import { User } from "../../store/app-store";
 import SearchIcon from "../../assets/icons/search_icon.svg";
 import { NoticesPopup } from "../NoticesPopup/NoticesPopup";
 
-
 interface HeaderProps {
   user: User;
 }
 
 export const Header: FC<HeaderProps> = ({ user }) => {
-  const {login} = useParams<{login: string}>();
-  console.log(login)
+  const { login, id } = useParams<{ login: string; id: string }>();
   const [isNoticesBtnActive, setIsNoticesBtnActive] = useState<boolean>(false);
   const [isSearchBtnActive, setIsSearchBtnActive] = useState<boolean>(false);
   const location = useLocation();
@@ -35,21 +33,23 @@ export const Header: FC<HeaderProps> = ({ user }) => {
     if (location.pathname.startsWith("/Profile/")) return "Профиль";
     if (location.pathname.startsWith("/Admin"))
       return "Панель администрирования";
+    if (location.pathname.startsWith("/Group/")) return "Группа";
     return "Интересные группы";
   };
 
   const getNavMenuItems = () => {
     if (location.pathname.startsWith("/Profile/")) {
-      if (login === user.login) { // Проверяем, совпадает ли логин
+      if (login === user.login) {
         return [
           { label: "Профиль", path: `/Profile/${user.login}` },
-          { label: "Конфиденциальность", path: `/Profile/${user.login}/Privacy` },
+          {
+            label: "Конфиденциальность",
+            path: `/Profile/${user.login}/Privacy`,
+          },
           { label: "Редактирование", path: `/Profile/${user.login}/Edit` },
         ];
       } else {
-        return [
-          { label: "Профиль", path: `/Profile/${login}` }, // Текущий логин
-        ];
+        return [{ label: "Профиль", path: `/Profile/${login}` }];
       }
     } else if (location.pathname.startsWith("/Groups")) {
       return [
@@ -61,19 +61,26 @@ export const Header: FC<HeaderProps> = ({ user }) => {
       return [
         { label: "Мои друзья", path: "/Friends/All" },
         { label: "Запросы в друзья", path: "/Friends/Requests" },
-      ];     
+      ];
     } else if (location.pathname.startsWith("/Admin")) {
       return [
         { label: "Пользователи", path: "/Admin/Users" },
         { label: "Группы", path: "/Admin/Groups" },
-      ];          
-    }
-    if (location.pathname.startsWith(`/Group/1`)) {
-      return [
-        { label: "Группа", path: `/Group/1/Main` },
-        { label: "Участники", path: `/Group/1/Users` },
-        { label: "Редактирование", path: `/Group/1/Edit` },
       ];
+    }
+    if (location.pathname.startsWith("/Group/")) {
+      if (id === user.id) {
+        return [
+          { label: "Главная", path: `/Group/${id}/Main` },
+          { label: "Участники", path: `/Group/${id}/Users` },
+          { label: "Редактирование", path: `/Group/${id}/Edit` },
+        ];
+      } else {
+        return [
+          { label: "Главная", path: `/Group/${id}/Main` },
+          { label: "Участники", path: `/Group/${id}/Users` },
+        ];
+      }
     }
     return [];
   };
@@ -107,7 +114,7 @@ export const Header: FC<HeaderProps> = ({ user }) => {
             <NavMenu menuItems={mainMenuItems} />
           ) : (
             <div className={styles.nav__input__container}>
-              <img src={SearchIcon}/>
+              <img src={SearchIcon} alt="Поиск" />
               <input
                 type="text"
                 placeholder="Поиск..."
@@ -118,8 +125,12 @@ export const Header: FC<HeaderProps> = ({ user }) => {
 
           <HeaderTitle
             pageTitle={pageTitle}
-            userLogin={user.login}
-            hasBackArrow={location.pathname.startsWith("/Profile/")}
+            userLogin={login}
+            groupName={id}
+            hasBackArrow={
+              location.pathname.startsWith("/Profile/") ||
+              location.pathname.startsWith("/Group/")
+            }
             navItems={navMenuItems}
           />
         </div>
@@ -132,7 +143,12 @@ export const Header: FC<HeaderProps> = ({ user }) => {
           userLogin={user.login}
         />
       </div>
-      {isNoticesBtnActive && <NoticesPopup isNoticesBtnActive={isNoticesBtnActive} onClickNotices={handleClickNotices}/>}
+      {isNoticesBtnActive && (
+        <NoticesPopup
+          isNoticesBtnActive={isNoticesBtnActive}
+          onClickNotices={handleClickNotices}
+        />
+      )}
     </header>
   );
 };
