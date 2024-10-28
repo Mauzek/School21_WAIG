@@ -1,8 +1,12 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  
+
+  --green: #44eb99;
+  --lightGray: #c6cfda;
+  --linkBlue: #008bff;
+  --heightAuth: 450px;
+
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #1D2633;
@@ -13,24 +17,28 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 @font-face {
   font-family: 'SB Sans Text';
   src: url('assets/fonts/SB\ Sans\ Text.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
+
 html {
-  overflow: hidden; 
+  overflow: hidden;
 }
+
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box; 
+  box-sizing: border-box;
+  font-family: 'SB Sans Text', sans-serif;
 }
 
-body{
-  font-family: 'SB Sans Text', sans-serif;
-  
+
+body {
+  overflow-x: hidden;
 }
 
 a {
@@ -44,9 +52,6 @@ a:hover {
   color: #d0a6f4;
 }
 
-body {
-  margin: 0;
-}
 
 h1 {
   font-size: 3.2em;
@@ -57,22 +62,22 @@ button:hover {
   border-color: #861be3;
 }
 
-a:hover{
+a:hover {
   border-color: #861be3;
 }
 
-.back-img{
+.back-img {
   z-index: -3;
   position: absolute;
   filter: blur(8px);
 }
 
-.green{
+.green {
   top: 14em;
   left: -2em;
 }
 
-.purple{
+.purple {
   bottom: -1em;
   right: -2.5em;
 }

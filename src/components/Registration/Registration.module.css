@@ -1,7 +1,4 @@
-body {
- height: 100vh;
- overflow: hidden;
-}
+
 
 .input__container {
  color: black;
@@ -69,6 +66,11 @@ body {
  user-select: none;
 }
 
+.Gender__container{
+    height: 165px;
+    border: 0;
+    background:    transparent;
+}
 
 .reg {
  border-radius: 20px;
@@ -99,13 +101,20 @@ body {
  display: flex;
  flex-direction: column;
  gap: 10px;
- height: 340px;
+ height: 250px;
  flex-wrap: wrap;
  align-content: center;
 }
 
-.input {
- height: 50px;
+.auth__title{
+    font-size: 32px; 
+text-align : center ;
+}
+
+.auth__hello{
+   padding-bottom:10px; 
+   text-align: center;
+   font-size: 24px;
 }
 
 input[type="radio"] {
@@ -255,7 +264,6 @@ label[id="female2"]:hover~label[id="female"] {
 }
 
 .step__container {
- padding: 0px 56px;
  display: flex;
  align-items: center;
  flex-direction: row;

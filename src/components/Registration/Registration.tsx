@@ -17,7 +17,9 @@ export default function Registration() {
 
   return (
     <div className={styles.auth__container}>
-      <p style={{ padding: "0px 56px" }}>Welcome to School 21 Chat</p>
+      <h2 className={styles.auth__title}>Здравствуйте!</h2>
+      <p className={styles.auth__hello}>Давайте знакомиться:</p>
+
       <form>
         <div className={styles.form__container}>
           <div style={{ width: "100%", position: "absolute" }} className={`${styles.form__container__part} ${currentStep > 1 ? styles.form__container__left : ""}`}>
@@ -55,7 +57,7 @@ export default function Registration() {
                 <DatePicker style={{ border: "0", width: "330px", height: "48px" }} />
               </div>
             </div>
-            <div style={{ height: "165px", border: "0", background: "transparent" }} className={`${styles.input} `}>
+            <div  className={`${styles.input} ${styles.Gender__container}`}>
               <label className={styles.input__label}>
                 Пол
               </label>
@@ -82,14 +84,7 @@ export default function Registration() {
             </div>
           </div>
           <div style={{ width: "100%" }} className={`${styles.form__container__part} ${currentStep > 3 ? styles.form__container__left : ""} ${currentStep < 3 ? styles.form__container__right : ""}`}>
-            <div className={`${styles.input} `}>
-              <label className={styles.input__label}>
-                Ник на платформе
-              </label>
-              <div>
-                <input type="password" className={`${styles.input__box}`} />
-              </div>
-            </div>
+            
             <div className={`${styles.input} `}>
               <label className={styles.input__label}>
                 Ник telegram
@@ -108,6 +103,15 @@ export default function Registration() {
             </div>
           </div>
           <div style={{ width: "100%" }} className={`${styles.form__container__part} ${currentStep > 4 ? styles.form__container__left : ""} ${currentStep < 4 ? styles.form__container__right : ""}`}>
+            <div className={`${styles.input} `}>
+              <label className={styles.input__label}>
+                Ник на платформе
+              </label>
+              <div>
+                <input type="password" className={`${styles.input__box}`} />
+              </div>
+            </div>
+          
             <div className={`${styles.input} `}>
               <label className={styles.input__label}>
                 Пароль
@@ -143,15 +147,4 @@ export default function Registration() {
 
     </div>
   );
-}
-
-function Getasd() {
-  return (
-    <h2>
-      h2
-
-    </h2>
-
-
-  )
 }
