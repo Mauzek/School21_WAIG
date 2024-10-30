@@ -1,0 +1,21 @@
+.group-list {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 16px;
+    justify-content: center; 
+    width: 100%;
+    max-width: 1300px; 
+  }
+  
+  .group-list__item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+  }
+  
+  .group-list__link {
+    text-decoration: none;
+  }
+  
+  

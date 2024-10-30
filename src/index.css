@@ -8,7 +8,7 @@
   --heightAuth: 450px;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(255, 255, 255, 1);
   background-color: #1D2633;
 
   font-synthesis: none;
@@ -30,7 +30,7 @@ a:hover{
 }
 
 html {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 * {
@@ -41,13 +41,29 @@ html {
 }
 
 
-body {
+
+
+body{
   overflow-x: hidden;
+}
+
+body::-webkit-scrollbar{
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track{
+  border-radius: 6px;
+  background: #2C384A; 
+}
+
+body::-webkit-scrollbar-thumb{
+  background: #44EB99; 
+  border-radius: 6px; 
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #008bff;
   text-decoration: inherit;
   transition: color 0.2s;
 }
@@ -55,7 +71,6 @@ a {
 /* a:hover {
   color: #d0a6f4;
 } */
-
 
 h1 {
   font-size: 3.2em;
@@ -66,13 +81,13 @@ button:hover {
   border-color: #861be3;
 }
 
-a:hover {
-  border-color: #861be3;
+a:hover{
+  border-color: #008bff;
 }
 
 .back-img {
   z-index: -3;
-  position: absolute;
+  position: fixed;
   filter: blur(8px);
 }
 

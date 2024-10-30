@@ -43,8 +43,13 @@
   
   .name {
     font-weight: bold;
+    transition: color 0.3s;
   }
   
+  .name:hover{
+    color: #d0a6ef;
+  }
+
   .groupName {
     font-style: italic;
     font-weight: bold;

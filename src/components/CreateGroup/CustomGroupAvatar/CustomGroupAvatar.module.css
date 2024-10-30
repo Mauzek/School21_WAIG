@@ -1,0 +1,131 @@
+.overlay {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .popup {
+    background-color: #2C384A;
+    padding: 15px 20px 20px 20px;
+    border-radius: 10px;
+    width: 420px;
+    color: white;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #3E4857;
+  }
+  
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  
+  .btn_close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 3em;
+    height: 3em;
+    transition: background-color 0.25s;
+  }
+
+  .btn_close:hover{ 
+    background-color: #3E4857;
+  }
+  
+  .content {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .avatarPreview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E17575;
+    border-radius: 50%;
+    width: 7em;
+    height: 7em;
+  }
+  
+  .avatarText {
+    font-size: 40px;
+    color: white;
+    text-shadow: 1px 1px 2px #000;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .label {
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+  
+  .input {
+    background-color: #1D2633;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+  
+  .colorPickerContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .colorPickerContainer .label {
+    margin:0px 10px 0px 0;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .saveButton,
+  .cancelButton {
+    background-color: #1D2633;
+    color: white;
+    width: 100%;
+    height: 3em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.25s;
+  }
+  
+  
+  .cancelButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .saveButton:hover{
+    background-color: rgba(68, 235, 153, 0.6);
+  }

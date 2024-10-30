@@ -5,6 +5,7 @@ import styles from "./NoticesPopup.module.css";
 
 type Group = {
   id: number,
+  ownerID: number,
   name: string,
   chars: string,
   description: string
@@ -31,6 +32,7 @@ const mockNotices: Notice[] = [
     isGroupInvite: true,
     group: {
       id: 1,
+      ownerID: 2,
       name: "C# все дела",
       chars: "C#",
       description: ""
@@ -44,7 +46,7 @@ const mockNotices: Notice[] = [
   },
   {
     id: 3,
-    name: "regxtk",
+    name: "bomjara",
     avatarUrl: "https://example.com/avatar2.png",
     isGroupInvite: false,
   },
@@ -55,6 +57,7 @@ const mockNotices: Notice[] = [
     isGroupInvite: true,
     group: {
       id: 2,
+      ownerID:1,
       name: "Таверна",
       chars: "WW",
       description: ""
@@ -83,6 +86,7 @@ export const NoticesPopup: FC<NoticeProps> = ({
         {mockNotices.map((notice) => (
           <Notice
             key={notice.id}
+            id={notice.id}
             name={notice.name}
             avatar={notice.avatarUrl}
             isGroupInvite={notice.isGroupInvite}
