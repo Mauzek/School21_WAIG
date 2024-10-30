@@ -1,0 +1,21 @@
+.home_page__container{
+    display: flex;
+    flex-direction: column;
+    padding: 0 5em ;
+    /* overflow: auto;
+    max-height: 80vh; */
+}
+
+.home_page__container::-webkit-scrollbar{
+    width: 8px;
+}
+
+.home_page__container::-webkit-scrollbar-track{
+    border-radius: 6px;
+    background: #2C384A; 
+}
+
+.home_page__container::-webkit-scrollbar-thumb{
+    background: #44EB99; 
+    border-radius: 6px; 
+}

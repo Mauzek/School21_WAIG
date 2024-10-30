@@ -54,7 +54,7 @@ export const Header: FC<HeaderProps> = ({ user }) => {
     } else if (location.pathname.startsWith("/Groups")) {
       return [
         { label: "Все группы", path: "/Groups/All" },
-        { label: "Мои группы", path: "/Groups/My" },
+        { label: "Подписки", path: "/Groups/Subscriptions" },
         { label: "Управляемые", path: "/Groups/Managed" },
       ];
     } else if (location.pathname.startsWith("/Friends")) {

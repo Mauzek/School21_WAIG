@@ -1,0 +1,85 @@
+.group_card{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    background-color: #263040;
+    border: none;
+    border-radius: 30px ;
+    width: 15.63em;
+    height: 18.8em;
+    padding: 1em;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+
+.group_card:hover{
+    background-color: #3E4857;
+}
+
+.group_card__header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:0.5em;
+    width: 100%;
+}
+
+.group_card__avatar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;;
+    height: 2.6em;
+    border-radius: 50%;
+    background-color: #DDE3E9;
+    font-size: 50px;
+    font-weight:400;
+    color: #FFF;
+    text-shadow: 1px 1px 2px #000;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.group_card__title{
+    display: -webkit-box;
+    text-align: center;
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical; 
+    font-size: 28px;
+    font-family: 'SB Sans Display', sans-serif;
+    font-weight: 400;
+    overflow: hidden;
+    border-bottom: 1px solid transparent;
+    transition: text-decoration 0.3s;
+    color: #fff;
+}
+
+.group_card:hover .group_card__title{
+    text-decoration: underline #44EB99;
+}
+
+.group_card__body{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 40%;
+}
+
+.group_card__description{
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 14px;
+    color: #DDE3E9;
+}
+
+.group_card__members{
+    color: #C6CFDA;
+    font-size: 12px;
+}
