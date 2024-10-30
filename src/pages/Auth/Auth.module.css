@@ -1,9 +1,3 @@
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-
 .input__container {
     color: black;
     cursor: text;
@@ -69,7 +63,6 @@
     user-select: none;
 }
 
-
 .auth {
     border-radius: 20px;
     width: 448px;
@@ -94,12 +87,6 @@
     position: absolute;
     content: url("../../../src/assets/images/greenLine.svg");
 }
-
-
-
-
-
-
 
 .reg {
     border-radius: 20px;
@@ -126,39 +113,39 @@
     content: url("../../../src/assets/images/greenLine.svg");
 }
 
-.login__Button{
-padding: 8px 8px 8px 16px;
-color:black;
-background-color: var(--green);
-align-content: start;
-display: inline-flex;
-align-items: center;
-border: 0;
-font-weight: 400;
-border-radius: 8px;
+.login__Button {
+    padding: 8px 8px 8px 16px;
+    color: black;
+    background-color: var(--green);
+    align-content: start;
+    display: inline-flex;
+    align-items: center;
+    border: 0;
+    font-weight: 400;
+    border-radius: 8px;
 }
 
-.login__Button__arrow{
+.login__Button__arrow {
     display: flex;
     align-items: center;
     margin-left: 8px;
 }
 
-.login__container{
+.login__container {
     padding-top: 8px;
     padding-bottom: 24px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-color: var(--green);
-font-size: 14px;
-}
-
-.login__Button > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--green);
     font-size: 14px;
 }
 
-.login__hr{
+.login__Button>div {
+    font-size: 14px;
+}
+
+.login__hr {
     border-color: var(--lightGray);
     margin: 0px;
     border-width: 0px 0px thin;

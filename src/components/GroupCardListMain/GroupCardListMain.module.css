@@ -1,0 +1,53 @@
+.group_list {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  border-radius: 10px;
+}
+
+.group_list__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.group_list__label {
+  font-size: 2em;
+  font-weight: 600;
+  color: #FFF;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.group_list__arrow {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.3s ease, background-color 0.3s; 
+}
+
+.group_list__arrow:hover{
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.group_list__arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.group_list__cards {
+  display: flex;
+  gap: 2em;
+  flex-wrap: wrap;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.3s ease;
+}
+
+.group_list__cards.collapsed {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.group_list__cards.expanded {
+  opacity: 1;
+}

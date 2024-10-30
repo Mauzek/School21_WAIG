@@ -22,14 +22,18 @@ function App() {
         <Route path="Home" element={<HomePage />} />
         
         <Route path="Groups" element={<Navigate to="/Groups/All" />} />
-        <Route path="Groups/:slug" element={<GroupsPage />}>
+        <Route path="Groups" element={<GroupsPage />}>
           <Route path="All" element={<GroupsPage />} />
-          <Route path="My" element={<GroupsPage />} />
+          <Route path="Subscriptions" element={<GroupsPage />} />
           <Route path="Managed" element={<GroupsPage />} />
+          <Route path="Create" element={<GroupsPage />} />
         </Route>
 
         <Route path="Friends" element={<Navigate to="/Friends/All" />} />
-        <Route path="Friends/:slug" element={<FriendsPage />} />
+        <Route path="Friends" element={<FriendsPage />}>
+            <Route path="All" element={<FriendsPage />}/>
+            <Route path="Requests" element={<FriendsPage />}/>
+        </Route>
 
         <Route path="Profile/:login" element={<ProfilePage />}>
           <Route path="Privacy" element={<ProfilePage />} />
