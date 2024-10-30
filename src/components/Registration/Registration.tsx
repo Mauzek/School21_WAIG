@@ -64,7 +64,7 @@ export default function Registration() {
               <div style={{ width: "100%", display: "flex", flexDirection: "row", height: "100%" }}>
                 <div style={{ borderBottomLeftRadius: "8px", borderTopLeftRadius: "8px" }} className={styles.Gender__img} >
                   <label htmlFor="male" id="male2" style={{ zIndex: "1000", position: "absolute", width: "100%", height: "100%", bottom: "0", right: "0" }} />
-                  <input type="radio" id="male" name="sex" />
+                  <input type="radio" id="male" name="sex" style={{display:"none"}} />
                   <label htmlFor="male" id="male" />
                   <img src={sberCat} className={styles.Male__img} />
                 </div>
@@ -76,7 +76,7 @@ export default function Registration() {
                 }} />
                 <div style={{ borderBottomRightRadius: "8px", borderTopRightRadius: "8px" }} className={styles.Gender__img} >
                   <label htmlFor="female" id="female2" style={{ zIndex: "1000", position: "absolute", width: "100%", height: "100%", bottom: "0", right: "0" }} />
-                  <input type="radio" id="female" name="sex" />
+                  <input style={{display:"none"}} type="radio" id="female" name="sex" />
                   <label htmlFor="female" id="female" />
                   <img src={sberKusya} className={styles.Female__img} />
                 </div>

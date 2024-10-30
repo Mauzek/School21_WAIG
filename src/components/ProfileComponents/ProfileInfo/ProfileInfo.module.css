@@ -1,0 +1,112 @@
+
+.avatar{
+    height: 150px;
+    width: 150px;
+    border-radius: 75px;
+    background-color: gray;
+}
+
+.avatar__change{
+background-color: #3E4857;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border: 0;
+}
+.avatar__container
+{
+    height: 150px;
+    position: relative;
+    margin-right: 19px;
+}
+.avatar__description{
+    text-align: center;
+    width: 100%;
+    padding-right: 19px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.avatar__change__img{
+    height: 22px;
+    width: 18px;
+}
+
+.info__block {
+    padding: 20px;
+display: flex;
+flex-direction: row;
+}
+.info__link {
+    border-bottom: 1px #c6cfda solid;
+}
+.info__link:hover {
+    border-bottom: 1px var(--linkBlue) solid;
+}
+
+.status__bar{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+height: 25px;
+align-items: center;
+gap: 4px;
+
+}
+
+.information{
+    width: 100%;
+    padding-top: 10px;
+}
+
+
+.status__circle__green{
+    background-color: #44EB99;
+    width:15px;height:15px;border-radius:50%;
+}
+.info__text{
+    color:var(--lightGray);
+    font-weight: 700;
+    
+}
+.Names{
+    color: #fff;
+
+    text-wrap: nowrap;
+}
+
+
+.profile__description{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.d{
+    padding: 4px;
+    margin-left: 40px;
+    min-width: 50%
+}
+
+
+
+
+
+
+.exit__button{
+    margin-top: 20px;
+    width: 250px;
+    height: 43px;
+    border-radius: 15px;
+    border-width: 0;
+    color: white;
+    font-weight: 700px;
+    background-color: #FF4A50;
+    font-size: 19px;
+}

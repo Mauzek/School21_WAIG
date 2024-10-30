@@ -17,6 +17,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+a:hover{
+  color: var(--linkBlue)
+  
+}
 
 @font-face {
   font-family: 'SB Sans Text';
@@ -48,9 +52,9 @@ a {
   transition: color 0.2s;
 }
 
-a:hover {
+/* a:hover {
   color: #d0a6f4;
-}
+} */
 
 
 h1 {
