@@ -1,85 +1,234 @@
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-
 .input__container {
-    color: black;
-    cursor: text;
+  color: black;
+  cursor: text;
 }
 
 .input__container::before {
-    content: " ";
+  content: " ";
 }
 
 .input {
-    width: 100%;
-    color: currentColor;
-    position: relative;
-    margin-bottom: 24px;
-    background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(174, 187, 202);
-    border-radius: 8px;
+  width: 100%;
+  color: currentColor;
+  position: relative;
+  margin-bottom: 24px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(174, 187, 202);
+  border-radius: 8px;
 
 }
 
 .input::before {
-    border: 1px solid rgb(174, 187, 202);
+  border: 1px solid rgb(174, 187, 202);
 }
 
 .input__box:focus-visible {
-    outline: -webkit-focus-ring-color auto 0px;
+  outline: -webkit-focus-ring-color auto 0px;
 }
 
 .input__box {
-    line-height: 24px;
-    padding: 12px 16px;
-    width: 100%;
-    background: none;
-    border: 0;
-    color: black;
+  line-height: 24px;
+  padding: 12px 16px;
+  width: 100%;
+  background: none;
+  border: 0;
+  color: black;
 }
 
 .input__label {
-    position: absolute;
-    transform: translate(16px, 14px) scale(1);
-    color: #516077;
-    transform: translate(16px, 1px) scale(0.85);
+  position: absolute;
+  transform: translate(16px, 14px) scale(1);
+  color: #516077;
+  transform: translate(16px, 1px) scale(0.85);
 
-    font-size: 14px;
-    font-style: normal;
-    font-family: "SB Sans Text", Helvetica, sans-serif;
-    font-weight: 400;
-    line-height: 20px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
 
-    padding: 0px;
-    display: block;
-    transform-origin: left top;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: calc(133% - 24px);
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-    z-index: 1;
-    pointer-events: auto;
-    user-select: none;
+  padding: 0px;
+  display: block;
+  transform-origin: left top;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(133% - 24px);
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  z-index: 1;
+  pointer-events: auto;
+  user-select: none;
 }
 
+.auth__asd {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  justify-content: space-between;
+}
 
 .auth {
-    border-radius: 20px;
-    width: 448px;
-    height: 550px;
-    background: linear-gradient(47.28deg, rgb(134, 27, 227) -13.58%, rgb(68, 235, 153) 150.46%);
-    padding: 56px;
-    position: relative;
+  border-radius: 20px;
+  width: 448px;
+  height: 550px;
+  background: linear-gradient(47.28deg, rgb(134, 27, 227) -13.58%, rgb(68, 235, 153) 150.46%);
+  padding: 56px;
+  position: relative;
 }
 
 .auth::before {
+  top: 530px;
+  right: 427px;
+  display: block;
+  position: absolute;
+  content: url("../../../src/assets/images/purpleLine.svg");
+}
+
+.auth::after {
+  left: 428px;
+  bottom: 524px;
+  display: block;
+  position: absolute;
+  content: url("../../../src/assets/images/greenLine.svg");
+}
+
+.reg {
+  border-radius: 20px;
+  width: 448px;
+  height: var(--heightAuth);
+  background: linear-gradient(47.28deg, rgb(134, 27, 227) -13.58%, rgb(68, 235, 153) 150.46%);
+  padding: 20px;
+  position: relative;
+}
+
+
+
+.switch__button__link {
+  color: var(--linkBlue);
+  border: 0;
+  background-color: transparent;
+  font-size: 16px;
+  padding-left: 5px;
+
+}
+
+
+.switch__button__title {
+  font-size: 16px;
+}
+
+.switch__button {
+  text-align: center;
+  border: 0;
+  background-color: transparent;
+  font-size: 16px;
+  padding-top: 10px;
+}
+
+.auth__asd1 {
+  left: 0px;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    padding: 0px 56px;
+}
+
+.reg::before {
+  top: calc(var(--heightAuth) - 21px);
+
+  right: 427px;
+  display: block;
+  position: absolute;
+  content: url("../../../src/assets/images/purpleLine.svg");
+}
+
+.reg::after {
+  left: 428px;
+  bottom: calc(var(--heightAuth) - 28px);
+  display: block;
+  position: absolute;
+  content: url("../../../src/assets/images/greenLine.svg");
+}
+
+.login__Button {
+  padding: 8px 8px 8px 16px;
+  color: black;
+  background-color: var(--green);
+  align-content: start;
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  font-weight: 400;
+  border-radius: 8px;
+}
+
+.login__Button__arrow {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.login__container {
+  padding-top: 8px;
+  padding-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--green);
+  font-size: 14px;
+}
+
+.login__Button>div {
+  font-size: 14px;
+}
+
+.login__hr {
+  border-color: var(--lightGray);
+  margin: 0px;
+  border-width: 0px 0px thin;
+}
+
+.auth__centre {
+  overflow: hidden;
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+.login__form{
+  margin-top: 40px
+}
+
+.login__title{
+
+    font-size: 24px;
+    margin-bottom: 16px;
+    text-align: start;
+}
+
+.login__description {
+  font-size: 14px;
+    font-weight: 400;
+    text-align: justify;
+
+}
+.passwordBox__visibility{
+  position: absolute;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  right: 12px;
+}
+
+/* 
+.center__auth::before {
     top: 530px;
     right: 427px;
     display: block;
@@ -87,79 +236,9 @@
     content: url("../../../src/assets/images/purpleLine.svg");
 }
 
-.auth::after {
+.center__auth::after {
     left: 428px;
     bottom: 524px;
     display: block;
     position: absolute;
-    content: url("../../../src/assets/images/greenLine.svg");
-}
-
-
-
-
-
-
-
-.reg {
-    border-radius: 20px;
-    width: 800px;
-    height: 550px;
-    background: linear-gradient(47.28deg, rgb(134, 27, 227) -13.58%, rgb(68, 235, 153) 150.46%);
-    padding: 56px;
-    position: relative;
-}
-
-.reg::after {
-    left: 780px;
-    bottom: 524px;
-    display: block;
-    position: absolute;
-    content: url("../../../src/assets/images/greenLine.svg");
-}
-
-.reg::before {
-    top: 529px;
-    right: 778px;
-    display: block;
-    position: absolute;
-    content: url("../../../src/assets/images/greenLine.svg");
-}
-
-.login__Button{
-padding: 8px 8px 8px 16px;
-color:black;
-background-color: var(--green);
-align-content: start;
-display: inline-flex;
-align-items: center;
-border: 0;
-font-weight: 400;
-border-radius: 8px;
-}
-
-.login__Button__arrow{
-    display: flex;
-    align-items: center;
-    margin-left: 8px;
-}
-
-.login__container{
-    padding-top: 8px;
-    padding-bottom: 24px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-color: var(--green);
-font-size: 14px;
-}
-
-.login__Button > div {
-    font-size: 14px;
-}
-
-.login__hr{
-    border-color: var(--lightGray);
-    margin: 0px;
-    border-width: 0px 0px thin;
-}
+    content: url("../../../src/assets/images/greenLine.svg");}   */

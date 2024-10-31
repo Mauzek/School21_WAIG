@@ -1,0 +1,30 @@
+.groupsPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+  }
+  
+.groupsPage__addBtn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #44EB99;
+  border-radius: 50%;
+  border: none;
+  height: 7em;
+  width: 7em;
+  position: fixed;
+  bottom: 3em;
+  right: 8em;
+  transition: background-color 0.3s;
+}
+
+.groupsPage__addBtn:hover{
+ background-color: rgba(68, 235, 153, 0.6);
+}
+
+.groupsPage__addBtn_img{
+  width: 70%;
+}

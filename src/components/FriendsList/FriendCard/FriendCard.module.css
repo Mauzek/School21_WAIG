@@ -1,0 +1,75 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #263040;
+    border-radius: 20px;
+    padding: 20px;
+    width: 220px;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: background-color 0.3s;
+  }
+  
+  .card:hover{
+    background-color: #3E4857;
+  }
+
+  .card__link{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .avatarContainer {
+    width: 8em;
+    height: 8em;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    padding: 25px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .avatar {
+    width: 100%;
+    height: auto;
+  }
+  
+  .info {
+    margin-top: 10px;
+  }
+  
+  .name {
+    font-size: 16px;
+    color: #FFF;
+    font-weight: bold;
+    margin: 5px 0 2px;
+  }
+  
+  .username {
+    font-size: 14px;
+    color: #8191A2;
+    margin: 0;
+  }
+  
+  .deleteButton {
+    align-self: flex-end;
+    margin-top: 10px;
+    background-color: #FF4A50;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .deleteButton:hover {
+    background-color: #ff0000;
+  }
+  

@@ -1,0 +1,23 @@
+.profile__back{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 75vh;
+    padding: 5vh 14vw;
+    
+}
+
+.profile__back__container{
+    background-color: #263040;
+    border-radius: 30px;
+    width: 100%;
+    height: 600px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* width: 100%;
+    height: 60vh;
+    margin: 10vh 20vw; */
+
+}

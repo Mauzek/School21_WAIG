@@ -1,0 +1,8 @@
+.friends_requests_list__container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1020px;
+}

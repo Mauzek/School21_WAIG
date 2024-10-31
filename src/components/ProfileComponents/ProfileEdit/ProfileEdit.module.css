@@ -1,0 +1,136 @@
+.list__parametrs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 150px;
+    flex-wrap: wrap;
+}
+
+.list__parametrs>li {
+    height: 40px;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    color: #fff
+}
+
+.input__date {
+    padding: 0px 15px;
+    margin-right: 15px;
+}
+
+.edit__container {
+    background-color: #263040;
+}
+
+.about__me__title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 20px;
+    font-size: 24px;
+    color: #fff
+}
+
+.about__me__textarea {
+    width: 100%;
+    height: 70px;
+    background-color: #1D2633;
+    border: 0;
+
+}
+
+.male {
+    display: inline;
+
+}
+
+.female {
+    display: inline;
+
+}
+
+.gender__picker__container {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+    gap: 2px
+}
+
+.gender__male {
+    color: #446BED;
+}
+
+
+
+.gender__female {
+    color: #FF547F;
+}
+
+.edit__title {
+    font-size: 34px;
+    color: #fff;
+    margin-bottom: 15px;
+
+
+}
+
+.about__me__stats {
+    font-size: 16px;
+    color: #8191A2
+}
+
+.edit__parametr__telegram {
+    margin-right: 15px;
+}
+
+.input__telegram {
+    margin-right: 15px;
+}
+
+.parametr__input {
+    height: 40px;
+    width: 100%;
+    background-color: #1D2633;
+    border: 0;
+    border-radius: 6px;
+    margin-left: 15px;
+    font-size: 24px;
+    padding-left: 15px;
+}
+
+.activity__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-top: 15px
+}
+
+.button__activity {
+    width: 250px;
+    height: 43px;
+    border-radius: 15px;
+    border: 0;
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+
+.button__activity__save {
+    background: #44EB99
+}
+
+
+.button__activity__cancel {
+    background: #36C5F0
+}
+
+.date__picker__container {
+    text-wrap: nowrap;
+}
+
+.about__me__container {
+    display: flex;
+    flex-direction: column;
+}
