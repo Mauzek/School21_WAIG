@@ -1,5 +1,5 @@
 type User = {
-    id: number;
+    id: string;
     username: string;
     birthday: Date | string;
     description: string;
@@ -26,9 +26,8 @@ type Group = {
 };
 
 type Interests = {
-    id: number;
     name: string;
     color: string;
 };
 
-export type { User, Group };
+export type { User, Group, Interests };

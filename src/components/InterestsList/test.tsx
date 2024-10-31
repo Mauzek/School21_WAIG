@@ -54,5 +54,4 @@ export const testDataTags= [{
     name: 'правильноепитание',
     color: '#EB9A93',
   }
-
 ];

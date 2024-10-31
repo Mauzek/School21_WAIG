@@ -35,7 +35,7 @@ function App() {
             <Route path="Requests" element={<FriendsPage />}/>
         </Route>
 
-        <Route path="Profile/:login" element={<ProfilePage />}>
+        <Route path="Profile/:username" element={<ProfilePage />}>
           <Route path="Privacy" element={<ProfilePage />} />
           <Route path="Edit" element={<ProfilePage />} />
         </Route>
@@ -55,6 +55,18 @@ function App() {
         />
         <Route
           path="Admin/Groups"
+          element={
+            user.isAdmin ? <AdminPage /> : <Navigate to="/Home" replace />
+          }
+        />
+        <Route
+          path="Admin/Interests"
+          element={
+            user.isAdmin ? <AdminPage /> : <Navigate to="/Home" replace />
+          }
+        />
+        <Route
+          path="Admin/Statistic"
           element={
             user.isAdmin ? <AdminPage /> : <Navigate to="/Home" replace />
           }

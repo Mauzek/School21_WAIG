@@ -9,7 +9,7 @@ const Layout: FC = () => {
 
     return (
         <>
-            {location.pathname !== '/Auth' && <Header user={user} />}
+            {(location.pathname !== '/Auth' && location.pathname !== '/auth') && <Header user={user} />}
             <Outlet />
         </>
     );
