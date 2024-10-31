@@ -5,7 +5,7 @@ import { HeaderTitle } from "./HeaderTitle/HeaderTitle";
 import { HeaderButtons } from "./HeaderButtons/HeaderButtons";
 import styles from "./Header.module.css";
 import LogoIcon from "../../assets/icons/logo.svg";
-import { User } from "../../store/app-store";
+import { User } from "../../types";
 import SearchIcon from "../../assets/icons/search_icon.svg";
 import { NoticesPopup } from "../NoticesPopup/NoticesPopup";
 
@@ -14,7 +14,7 @@ interface HeaderProps {
 }
 
 export const Header: FC<HeaderProps> = ({ user }) => {
-  const { login, id } = useParams<{ login: string; id: string }>();
+  const { username, id } = useParams<{ username: string; id: string }>();
   const [isNoticesBtnActive, setIsNoticesBtnActive] = useState<boolean>(false);
   const [isSearchBtnActive, setIsSearchBtnActive] = useState<boolean>(false);
   const location = useLocation();
@@ -39,17 +39,17 @@ export const Header: FC<HeaderProps> = ({ user }) => {
 
   const getNavMenuItems = () => {
     if (location.pathname.startsWith("/Profile/")) {
-      if (login === user.login) {
+      if (username === user.username) {
         return [
-          { label: "Профиль", path: `/Profile/${user.login}` },
+          { label: "Профиль", path: `/Profile/${user.username}` },
           {
             label: "Конфиденциальность",
-            path: `/Profile/${user.login}/Privacy`,
+            path: `/Profile/${user.username}/Privacy`,
           },
-          { label: "Редактирование", path: `/Profile/${user.login}/Edit` },
+          { label: "Редактирование", path: `/Profile/${user.username}/Edit` },
         ];
       } else {
-        return [{ label: "Профиль", path: `/Profile/${login}` }];
+        return [{ label: "Профиль", path: `/Profile/${username}` }];
       }
     } else if (location.pathname.startsWith("/Groups")) {
       return [
@@ -66,6 +66,8 @@ export const Header: FC<HeaderProps> = ({ user }) => {
       return [
         { label: "Пользователи", path: "/Admin/Users" },
         { label: "Группы", path: "/Admin/Groups" },
+        { label: "Интересы", path: "/Admin/Interests" },
+        { label: "Статистика", path: "/Admin/Statistic" },
       ];
     }
     if (location.pathname.startsWith("/Group/")) {
@@ -125,7 +127,7 @@ export const Header: FC<HeaderProps> = ({ user }) => {
 
           <HeaderTitle
             pageTitle={pageTitle}
-            userLogin={login}
+            userLogin={username}
             groupName={id}
             hasBackArrow={
               location.pathname.startsWith("/Profile/") ||
@@ -140,7 +142,7 @@ export const Header: FC<HeaderProps> = ({ user }) => {
           isSearchActive={isSearchBtnActive}
           onClickNotices={handleClickNotices}
           onClickSearch={handleClickSearch}
-          userLogin={user.login}
+          userLogin={user.username}
         />
       </div>
       {isNoticesBtnActive && (

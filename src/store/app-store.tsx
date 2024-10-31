@@ -1,39 +1,31 @@
 import { create } from "zustand";
-
-export type User = {
-  id: string;
-  login: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  patronymic: string;
-  isAdmin: boolean;
-  telegram: string;
-  email: string;
-  age: string;
-  DescriptionsUser: string;
-  gender: string;
-}
+import { User } from "../types";
+import { avatars } from "../assets/images/avatars/avatars";
 
 interface StoreState {
   isAuth: boolean;
   user: User;
+  setAvatar: (avatarId: keyof typeof avatars) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
   isAuth: true,
   user: {
-    id: '1',
-    login: "Morganfriman",
-    password: '111',
-    firstName: 'Алёша',
-    lastName: 'Бойкин',
-    patronymic: 'Башмакович',
+    id: "1",
+    username: "Morganfriman",
+    birthday: "10.10.2001",
+    description: "Парень симпотяга по жизни бродяга",
+    email: "alesha@mail.ru",
+    firstName: "Алёша",
+    lastName: "Бойкин",
+    patronymic: "Башмакович",
+    gender: "М",
     isAdmin: false,
-    telegram: 'kakaTV',
-    email: 'alesha@mail.ru',
-    age: "10.10.2001",
-    DescriptionsUser: "Парень симпотяга по жизни бродяга",
-    gender: 'М'
+    tgName: "kakaTV",
+    profileImageId: "stitch",
   },
+  setAvatar: (avatarId) =>
+    set((state) => ({
+      user: { ...state.user, profileImageId: avatarId },
+    })),
 }));

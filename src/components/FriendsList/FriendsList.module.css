@@ -1,6 +1,6 @@
 .friend_list__container{
     display: flex;
-    gap: 1.5em;
+    gap: 20px;
     flex-direction: row;
     flex-wrap: wrap;
     max-width: 1440px;
