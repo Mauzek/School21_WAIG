@@ -1,0 +1,28 @@
+.users__table{margin: 15px;
+border: 2px solid black;
+border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.users__table>thead>tr>th{
+    background-color: #404040;
+    width: max-content;
+    padding: 0px 15px;
+}
+.users__table>thead>tr{
+    border: 1px solid black;
+}
+
+.users__table>thead>tr>th{
+    border: 1px solid black;
+}
+
+.users__table>tbody>tr>td{
+    background-color: #363636;
+    border: 1px solid black;
+    vertical-align: top;
+    padding: 0px 15px;
+}
+    .users__table>tbody>tr{
+    border: 1px solid black;
+}

@@ -20,7 +20,7 @@ export const useStore = create<StoreState>((set) => ({
     lastName: "Бойкин",
     patronymic: "Башмакович",
     gender: "М",
-    isAdmin: false,
+    isAdmin: true,
     tgName: "kakaTV",
     profileImageId: "stitch",
   },
