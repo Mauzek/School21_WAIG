@@ -1,0 +1,39 @@
+.interest__title {
+    font-size: 24px;
+}
+
+.interest {
+    background-color: #1D2633;
+    height: 210px;
+    border-radius: 30px;
+}
+
+.interest__list {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tag__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    background-color: #2A3A4B;
+    gap: 8px;
+    height: 30px;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.tag__container>p {
+    color: var(--lightGray);
+    font-style: italic;
+}
+
+.tag__color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}

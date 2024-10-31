@@ -6,7 +6,7 @@ import { avatars } from "../../assets/images/avatars/avatars";
 
 const friends: User[] = [
   {
-    id: 1,
+    id: '1',
     username: "mauzek",
     birthday: "1999-04-15",
     description: "Любитель технологий и игр sdf sdf sdf sdf dfsd fsdfs dsd fsdfsds dfs dfs dfs dfs dfs ds dfsd fsdfs dfsd sdfsdfs dfs dfs dfsd fsd sd sdf sdf sdf sdfs dfsd fds fsdfs fsd fsd dfsd fsdfs d fsdfs sdf s",
@@ -20,7 +20,7 @@ const friends: User[] = [
     tgName: "@mauzek",
   },
   {
-    id: 2,
+    id: '2',
     username: "klmrnk",
     birthday: "2000-08-23",
     description: "Фотограф и путешественница",
@@ -34,7 +34,7 @@ const friends: User[] = [
     tgName: "@annasmith",
   },
   {
-    id: 3,
+    id: '3',
     username: "icqxp",
     birthday: "1998-11-30",
     description: "Спортсмен и кулинар",
@@ -48,7 +48,7 @@ const friends: User[] = [
     tgName: "@johndoe",
   },
   {
-    id: 4,
+    id: '4',
     username: "regxtk",
     birthday: "2001-06-10",
     description: "Музыкант и любитель кино",
@@ -62,7 +62,7 @@ const friends: User[] = [
     tgName: "@mariak",
   },
   {
-    id: 5,
+    id: '5',
     username: "BigPenis",
     birthday: "1995-02-17",
     description: "Разработчик и путешественник",
@@ -76,7 +76,7 @@ const friends: User[] = [
     tgName: "@pavel89",
   },
   {
-    id: 6,
+    id: '6',
     username: "soup-chief",
     birthday: "2002-09-05",
     description: "Художница и дизайнер",
