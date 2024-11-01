@@ -1,0 +1,84 @@
+.create__menu{
+    height: 400px;
+    width: 815px;
+
+
+    background-color: #263040;
+    border-radius: 30px;
+    padding: 20px;
+}
+
+
+.table__container{
+display: grid;
+gap: 15px;
+
+}
+
+.change__menu{
+    grid-column: 1;
+    width: 100px;
+    height: 400px;
+    grid-row: 2;
+    width: 815px;
+
+}
+
+.search__menu{
+width: 815px;
+    height: 200px;
+    grid-row: span 2;
+    grid-column: 2;
+    height: 815px;
+}
+
+.tools__list__title{
+    font-size: 32px;
+}
+
+.tools__list{
+display: flex;
+flex-direction: column;
+gap: 20px;
+list-style-type: none;
+}
+
+.colorPicker__tool>div{
+color:#fff;
+
+}
+
+
+.name__input{
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    border: 0;
+    background-color: #1D2633;
+margin-left: 5px;
+}
+
+.tool__container{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.button__activity{
+    height: 43px;
+    width: 250px;
+    border-radius: 15px;
+    border: 0;
+}
+
+.button__clear {
+    background-color: #36C5F0;
+}
+
+.button__create {
+    background-color: #44EB99;
+}
+
+.colorPicker__tool{
+    margin-left: 5px;
+}

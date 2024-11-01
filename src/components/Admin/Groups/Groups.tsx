@@ -231,7 +231,7 @@ export const Groups: FC = () => {
     <>
       <table className={styles.groups__table}>
         <thead>
-          <tr className={styles.search__input__container}>            
+          <tr className={styles.search__input__container}>
             <th><input /></th>
             <th><input /></th>
             <th><input /></th>
@@ -259,7 +259,14 @@ export const Groups: FC = () => {
 
               <tr key={groupsData.id}>
                 <td>{groupsData.id}</td>
-                <td> <div className={styles.color__print} style={{ background: groupsData.color }}></div></td>
+                <td>
+                  <div style={{ display: "flex", flexDirection: "row", gap: "15px" }}>
+                    <div className={styles.color__print} style={{ background: groupsData.color }} />
+                    <p>
+                      {groupsData.color}
+                    </p>
+                  </div>
+                </td>
                 <td>{groupsData.chars}</td>
                 <td>{groupsData.name}</td>
                 <td style={{ width: "530px" }} >{groupsData.description.length > 30 ?
