@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./ProfileInfo.module.css";
 import { InterestsList } from "../../InterestsList/InterestsList";
 import changeImg from "../../../assets/icons/change_img.svg";
@@ -6,7 +6,6 @@ import { Interests, User } from "../../../types";
 import { avatars } from "../../../assets/images/avatars/avatars";
 import { useStore } from "../../../store/app-store";
 import { ChooseProfileAvatar } from "../ChooseProfileAvatar/ChooseProfileAvatar";
-
 interface ProfileInfoProps {
   userData: User;
   userInterests: Interests[];
@@ -17,13 +16,26 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
   userInterests,
 }) => {
   const { user } = useStore();
-  const fullName = `${userData.firstName} ${userData.lastName} ${userData.patronymic}`;
+  const fullName = `${userData.firstname} ${userData.lastname} ${userData.patronymic}`;
   const avatarID = userData.profileImageId as keyof typeof avatars;
   const isFriend = true;
   const formattedBirthday =
     userData.birthday instanceof Date
       ? userData.birthday.toLocaleDateString()
       : userData.birthday;
+
+  
+
+
+
+  // if (isResponseOk(userData)) {
+  //   setJWT(userData.token); console.log("%c Успешный вход!", 'color:#44eb99');
+  //   console.log(userData.token);
+  //   //updateUser({username:`${authData.username}`}); // '','' -> '', 'username'
+  //   navigate('/home');
+  // } else {
+  //   console.log("no");
+  // }
 
   return (
     <>
@@ -89,7 +101,7 @@ function Avatar(username: string, avatar: keyof typeof avatars, user: User) {
 
   const handleSetAvatar = (newAvatar: keyof typeof avatars) => {
     setAvatar(newAvatar);
-    togglePopup(); 
+    togglePopup();
   };
 
   return (

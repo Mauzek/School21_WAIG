@@ -109,16 +109,18 @@
 
 .switch__button__link {
   color: var(--linkBlue);
+
+  color: var(--green);
   border: 0;
   background-color: transparent;
-  font-size: 16px;
+  font-size: 14px;
   padding-left: 5px;
 
 }
 
 
 .switch__button__title {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .switch__button {
@@ -131,10 +133,10 @@
 
 .auth__asd1 {
   left: 0px;
-    width: 100%;
-    overflow: hidden;
-    position: absolute;
-    padding: 0px 56px;
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  padding: 0px 56px;
 }
 
 .reg::before {
@@ -180,6 +182,8 @@
   align-items: center;
   color: var(--green);
   font-size: 14px;
+  width: 100%;
+
 }
 
 .login__Button>div {
@@ -190,6 +194,7 @@
   border-color: var(--lightGray);
   margin: 0px;
   border-width: 0px 0px thin;
+  width: 100%;
 }
 
 .auth__centre {
@@ -202,24 +207,28 @@
   justify-content: center;
 }
 
-.login__form{
-  margin-top: 40px
+.login__form {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.login__title{
-
-    font-size: 24px;
-    margin-bottom: 16px;
-    text-align: start;
+.login__title {
+  font-family: "SB Sans Display";
+  font-size: 18px;
+  margin-bottom: 16px;
+  text-align: start;
 }
 
 .login__description {
   font-size: 14px;
-    font-weight: 400;
-    text-align: justify;
+  font-weight: 400;
+  text-align: justify;
 
 }
-.passwordBox__visibility{
+
+.passwordBox__visibility {
   position: absolute;
   display: flex;
   height: 100%;
@@ -242,3 +251,35 @@
     display: block;
     position: absolute;
     content: url("../../../src/assets/images/greenLine.svg");}   */
+
+
+@media (max-width: 1200px) {
+  .auth__asd1 {
+    padding: 0px 28px;
+  }
+
+  .auth {
+    margin: 0px 16px;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .input {
+    width: 280px;
+  }
+
+  .auth {
+
+    padding: 24px;
+    width: 328px;
+          height: 472px;
+  }
+
+  .reg{
+    margin: 0px 24px;
+  }
+
+}

@@ -4,13 +4,14 @@ type User = {
     birthday: Date | string;
     description: string;
     email: string;
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
     patronymic: string;
     gender: string;
     isAdmin: boolean;
     profileImageId: string;
     tgName: string;
+    age?: number;
 };
 
 

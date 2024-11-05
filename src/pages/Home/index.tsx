@@ -1,6 +1,8 @@
 import { FC } from 'react'
 import { GroupCardListMain } from '../../components/GroupCardListMain/GroupCardListMain';
 import styles from './Home.module.css'
+import { useStore } from '../../store/app-store';
+import { getJWT, getUser } from '../../API/api-utils';
 
 export type Group = {
   id: string,
@@ -240,11 +242,22 @@ const HomePage: FC = () => {
     });
     return acc;
   }, {} as Record<string, Group[]>); // Указываем тип для аккамулятора
+//! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+//   const {user} = useStore();
+//   console.log(user);
+// let jwt:(string|null) = getJWT();
+// if (jwt){
+//   console.log(user.username);
+//   // const CurrentUser = getUser(user.username,jwt);
+//   // console.error(CurrentUser);
+// }else{
+//   console.error("пипяо");
+// }
+//! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
   return (
     <main className={styles.home_page__container}>
       {Object.entries(groupedByType).map(([type, groups]) => {
-        // Сортируем группы по количеству участников
         const sortedGroups = groups.sort((a, b) => b.members.length - a.members.length);
 
         return (

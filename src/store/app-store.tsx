@@ -5,27 +5,32 @@ import { avatars } from "../assets/images/avatars/avatars";
 interface StoreState {
   isAuth: boolean;
   user: User;
-  setAvatar: (avatarId: keyof typeof avatars) => void;
+  setAvatar: (avatarId: keyof typeof avatars) => void,
+  updateUserStore: (updatedUser: any) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
   isAuth: true,
   user: {
-    id: "1",
-    username: "Morganfriman",
-    birthday: "10.10.2001",
-    description: "Парень симпотяга по жизни бродяга",
-    email: "alesha@mail.ru",
-    firstName: "Алёша",
-    lastName: "Бойкин",
-    patronymic: "Башмакович",
-    gender: "М",
+    id: "",
+    username: "",
+    birthday: "",
+    description: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    patronymic: "",
+    gender: "",
     isAdmin: true,
-    tgName: "kakaTV",
-    profileImageId: "stitch",
+    tgName: "",
+    profileImageId: "",
   },
   setAvatar: (avatarId) =>
     set((state) => ({
       user: { ...state.user, profileImageId: avatarId },
+    })),
+  updateUserStore: (updatedUser) =>
+    set((state) => ({
+      user: {  ...state.user ,...updatedUser},
     })),
 }));

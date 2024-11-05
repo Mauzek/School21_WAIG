@@ -6,6 +6,8 @@ import { ProfilePrivacy } from "../../../components/ProfileComponents/ProfilePri
 import { useLocation, useParams } from "react-router-dom";
 import { useStore } from "../../../store/app-store";
 import { Interests, User } from "../../../types";
+import { getJWT, getUserInterests } from "../../../API/api-utils";
+import { endpoints } from "../../../API/config";
 
 const ProfilePage: FC = () => {
   const location = useLocation();
@@ -17,21 +19,17 @@ const ProfilePage: FC = () => {
   if (user.username === username) {
     userData = { ...user };
     userInterests = [
-      { name: "программирование", color: "#B472EE" },
       { name: "сериалы", color: "#F18100" },
-      { name: "музыка", color: "#00C91E" },
-      { name: "спорт", color: "#AB2810" },
       { name: "чтение", color: "#0099BB" },
       { name: "общение", color: "#FFFA5A" },
       { name: "гейминг", color: "#DF5B71" },
       { name: "рисование", color: "#9C0B9E" },
-      { name: "монтаж", color: "#7CAB3B" },
       { name: "отдых", color: "#161D9B" },
       { name: "математика", color: "#793929" },
       { name: "физика", color: "#217340" },
       { name: "обучение", color: "#BA8D46" },
-      { name: "правильноепитание", color: "#EB9A93" },
     ];
+    // userInterests = await fetchUser();
   } else {
     userData = {
       id: "1",
@@ -39,8 +37,8 @@ const ProfilePage: FC = () => {
       birthday: "01/10/2000",
       description: "dadada",
       email: "lox@gmail.com",
-      firstName: "Mary",
-      lastName: "Dadada",
+      firstname: "Mary",
+      lastname: "Dadada",
       patronymic: "Batkonva",
       gender: "Ж",
       isAdmin: false,
@@ -59,8 +57,24 @@ const ProfilePage: FC = () => {
       { name: "обучение", color: "#BA8D46" },
     ];
   }
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = getJWT();
+      if (token) {
+        try {
+          const asdsdasd: (Response | Error) = await getUserInterests(endpoints.getUserInterests(user.username), token);
+          return asdsdasd;
+        } catch (error) {
+          console.error("Ошибка при получении пользователя:", error);
+        }
+      }
 
-  useEffect(() => {}, []);
+    };
+    
+    // userInterests = await fetchUser();
+
+     // Вызов функции для получения пользователя
+  }, []);
 
   return (
     <main className={styles.profile__back}>

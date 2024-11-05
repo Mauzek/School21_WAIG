@@ -106,16 +106,26 @@
  align-content: center;
 }
 
-.auth__title{
-    font-size: 32px; 
+.reg__title{
+font-family: 'SB Sans Display';
+    font-size: 18px; 
 text-align : center ;
+margin-bottom: 10px;
 }
 
-.auth__hello{
+.reg__hello{
    padding-bottom:10px; 
    text-align: center;
-   font-size: 24px;
+   font-size: 16px;
 }
+
+.auth__asd1 {
+    left: 0px;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    padding: 0px 56px;
+  }
 
 
 input[type="radio"]:checked+label {
@@ -153,7 +163,7 @@ label[id="female"] {
     height: 100%; */
 }
 
-.auth__container {
+.reg__container {
  display: flex;
  flex-direction: column;
 }
@@ -300,5 +310,17 @@ display: flex;
 
 .form__container__right{
  transform: translateX(150%);
+
+}
+
+@media (max-width: 600px){
+    .input {
+        width: 280px;
+    }
+
+}
+
+@media (max-width: 1200px){
+    
 
 }

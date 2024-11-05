@@ -16,9 +16,9 @@ export default function Registration() {
 
 
   return (
-    <div className={styles.auth__container}>
-      <h2 className={styles.auth__title}>Здравствуйте!</h2>
-      <p className={styles.auth__hello}>Давайте знакомиться:</p>
+    <div className={styles.reg__container}>
+      <h2 className={styles.reg__title}>Здравствуйте!</h2>
+      <p className={styles.reg__hello}>Давайте знакомиться:</p>
 
       <form>
         <div className={styles.form__container}>
@@ -54,7 +54,7 @@ export default function Registration() {
                 Дата рождения
               </label>
               <div>
-                <DatePicker style={{ border: "0", width: "330px", height: "48px" }} />
+                <DatePicker style={{ border: "0", width: "100%", height: "48px" }} />
               </div>
             </div>
             <div  className={`${styles.input} ${styles.Gender__container}`}>

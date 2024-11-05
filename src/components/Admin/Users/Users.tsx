@@ -1,89 +1,38 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useStore } from "../../../store/app-store";
 import { Interests, User } from "../../../types";
 import styles from "./Users.module.css";
+import { getAllUsers, getJWT } from "../../../API/api-utils";
 
 export const Users: FC = () => {
   const { username } = useParams<{ username: string }>();
   const { user } = useStore();
   let userData: User;
   let userInterests: Interests[];
+  const [users, setUsers] = useState<User[]>([]); // State for all users
 
-  const users: User[] =  [{
-    "id": "2",
-    "username": "Svetlana_89",
-    "birthday": "15.05.1989",
-    "description": "Творческая душа и любительница путешествий",
-    "email": "svetlana89@mail.ru",
-    "firstName": "Светлана",
-    "lastName": "Петрова",
-    "patronymic": "Ивановна",
-    "gender": "Ж",
-    "isAdmin": false,
-    "tgName": "svetlana_travel",
-    "profileImageId": "sunset"
-  },
-  {
-    "id": "3",
-    "username": "Vladimir_the_Great",
-    "birthday": "22.08.1995",
-    "description": "Спортсмен и любитель активного образа жизни",
-    "email": "vladimir95@mail.ru",
-    "firstName": "Владимир",
-    "lastName": "Сидоров",
-    "patronymic": "Алексеевич",
-    "gender": "М",
-    "isAdmin": false,
-    "tgName": "vlad_sport",
-    "profileImageId": "fitness"
-  },
-  {
-    "id": "4",
-    "username": "Anastasia_Rose",
-    "birthday": "30.12.1992",
-    "description": "Фотограф и любитель природы",
-    "email": "anastasia92@mail.ru",
-    "firstName": "Анастасия",
-    "lastName": "Кузнецова",
-    "patronymic": "Дмитриевна",
-    "gender": "Ж",
-    "isAdmin": false,
-    "tgName": "anastasia_photos",
-    "profileImageId": "nature"
-  },
-  {
-    "id": "5",
-    "username": "Igor_Smith",
-    "birthday": "01.01.1988",
-    "description": "Геймер и программист, обожает технологии",
-    "email": "igor88@mail.ru",
-    "firstName": "Игорь",
-    "lastName": "Смирнов",
-    "patronymic": "Викторович",
-    "gender": "М",
-    "isAdmin": true,
-    "tgName": "igor_tech",
-    "profileImageId": "gamer"
-  },
-  {
-    "id": "6",
-    "username": "Elena_Sunny",
-    "birthday": "05.07.1990",
-    "description": "Оптимистка, люблю готовить и заниматься фитнесомОптимистка, люблю готовить и заниматься фитнесомОптимистка, люблю готовить и заниматься фитнесомОптимистка, люблю готовить и заниматься фитнесомОптимистка, люблю готовить и заниматься фитнесом",
-    "email": "elena90@mail.ru",
-    "firstName": "Елена",
-    "lastName": "Николаева",
-    "patronymic": "Андреевна",
-    "gender": "Ж",
-    "isAdmin": false,
-    "tgName": "elena_fitfoodie",
-    "profileImageId": "cooking"
-  }
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const token = getJWT();
+      if (token) {
+        try {
+          setUsers(await getAllUsers(token));
+          console.log("Fetched users:", users);
+          // You can filter or process users here if needed
+        } catch (error) {
+          console.error("Error fetching users:", error);
+        }
+      }
+    };
 
+    fetchUsers();
+  }, []);
 
+  useEffect(()=>{
+console.log(users);
+  },[users])
 
-  ]
   if (user.username === username)
     userData = { ...user };
 
@@ -109,7 +58,7 @@ export const Users: FC = () => {
 
         </thead>
         <tbody>
-          {users.map(userone => {
+          {users&&users.map(userone => {
 
             return (
 
