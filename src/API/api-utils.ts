@@ -1,6 +1,154 @@
 import axios from "axios";
 import { endpoints } from "./config";
-import { Interests, User } from "../types";
+import { User, Interests } from "../types";
+
+const authorize = async (url: string, data: { username: string; password: string }) => {
+  try {
+    const response = await axios.post(url, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении данных пользователя:", error);
+    throw error;
+  }
+};
+
+interface CreateGroupData {
+  chars: string,
+  name: string,
+  color: string
+  description: string,
+  interests: Interests[]
+}
+
+const createGroup = async (userLogin: string, token: string, data: CreateGroupData) => {
+  try {
+    const response = await axios.post(endpoints.createGroup(userLogin), data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при обновлении информации о пользователе:", error);
+    throw error;
+  }
+};
+
+const getAllGroups = async (token: string) => {
+  try {
+    const response = await axios.get(endpoints.adminGetAllGroups, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при обновлении информации о пользователе:", error);
+    throw error;
+  }
+};
+
+const getAllUsers = async (token: string) => {
+  try {
+    const response = await axios.get(endpoints.adminGetAllUsers, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data.map(normalizeUserData);
+  } catch (error) {
+    console.error("Ошибка при получении данных пользователя:", error);
+    throw error;
+  }
+};
+
+const getFriendship = async (userLogin: string, token: string) => {
+  try {
+    const response = await axios.get(endpoints.getFriendship(userLogin), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при обновлении информации о пользователе:", error);
+    throw error;
+  }
+};
+
+const getGroupById = async (groupID: string, token: string) => {
+  try {
+    const response = await axios.get(endpoints.getGroupById(groupID), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при обновлении информации о пользователе:", error);
+    throw error;
+  }
+};
+
+const getUser = async (login: string, token: string) => {
+  try {
+    const response = await axios.get(endpoints.getUser(login), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          `Bearer ${token}`,
+      },
+    });
+    const normalizedData = normalizeUserData(response.data);
+    return normalizedData;
+  } catch (error) {
+    console.error("Ошибка при получении данных пользователя:", error);
+    throw error;
+  }
+};
+
+const getUserCreatedGroups = async (userLogin: string, token: string) => {
+  try {
+    const response = await axios.get(endpoints.getUserCreatedGroups(userLogin), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при обновлении информации о пользователе:", error);
+    throw error;
+  }
+};
+
+const getUserInterests = async (
+  login: string,
+  token: string
+): Promise<Interests[]> => {
+  try {
+    const response = await axios.get(endpoints.getUserInterests(login), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении данных интересов пользователя:", error);
+    throw error;
+  }
+};
 
 interface UserDataFromServer {
   id: string;
@@ -36,43 +184,6 @@ const normalizeUserData = (user: UserDataFromServer): User => {
   };
 };
 
-const getUser = async (login: string, token: string) => {
-  try {
-    const response = await axios.get(endpoints.getUser(login), {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const normalizedData = normalizeUserData(response.data);
-    console.log(response.data);
-    return normalizedData;
-  } catch (error) {
-    console.error("Ошибка при получении данных пользователя:", error);
-    throw error;
-  }
-};
-
-const getUserInterests = async (
-  login: string,
-  token: string
-): Promise<Interests[]> => {
-  try {
-    const response = await axios.get(endpoints.getUserInterests(login), {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error("Ошибка при получении данных интересов пользователя:", error);
-    throw error;
-  }
-};
-
 interface UpdateUserInfoData {
   firstname: string;
   lastname: string;
@@ -81,7 +192,7 @@ interface UpdateUserInfoData {
   tgName: string;
   description?: string;
   birthday: string;
-}
+};
 
 const updateUserInfo = async (
   login: string,
@@ -95,7 +206,6 @@ const updateUserInfo = async (
         Authorization: `Bearer ${token}`,
       },
     });
-
     return response.data;
   } catch (error) {
     console.error("Ошибка при обновлении информации о пользователе:", error);
@@ -129,7 +239,6 @@ const updateUserSecurity = async (
         },
       }
     );
-
     return response.data;
   } catch (error) {
     console.error("Ошибка при обновлении информации о пользователе:", error);
@@ -137,98 +246,41 @@ const updateUserSecurity = async (
   }
 };
 
-const getFriendship = async (userLogin: string, token: string) => {
-  try {
-    const response = await axios.get(endpoints.getFriendship(userLogin), {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error("Ошибка при обновлении информации о пользователе:", error);
-    throw error;
+const setJWT = (jwt: string) => {
+  document.cookie = `jwt=${jwt}`
+  localStorage.setItem('jwt', jwt)
+}
+
+const getJWT = () => {
+  if (document.cookie === '') {
+    return localStorage.getItem('jwt')
   }
+  const jwt = document.cookie.split(';').find((item) => item.includes('jwt'))
+  return jwt ? jwt.split('=')[1] : null
+}
+
+const removeJWT = () => {
+  document.cookie = 'jwt=;'
+  localStorage.removeItem('jwt')
+}
+
+export const isResponseOk = (response: Response | Error): response is Response => {
+  return !(response instanceof Error);
 };
-
-const getAllGroups = async (token: string) => {
-  try {
-    const response = await axios.get(endpoints.adminGetAllGroups, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Ошибка при обновлении информации о пользователе:", error);
-    throw error;
-  }
-};
-
-interface CreateGroupData {
-  chars: string,
-  name : string,
-  color: string
-  description: string,
-  interests: Interests[]
-}
-
-const createGroup = async (userLogin: string ,token: string, data: CreateGroupData) => {
-  try {
-    const response = await axios.post(endpoints.createGroup(userLogin), data, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Ошибка при обновлении информации о пользователе:", error);
-    throw error;
-  }
-}
-
-const getUserCreatedGroups = async(userLogin: string, token: string) => {
-  try {
-    const response = await axios.get(endpoints.getUserCreatedGroups(userLogin), {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Ошибка при обновлении информации о пользователе:", error);
-    throw error;
-  }
-}
-
-const getGroupById = async(groupID: string, token: string) => {
-  try {
-    const response = await axios.get(endpoints.getGroupById(groupID), {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Ошибка при обновлении информации о пользователе:", error);
-    throw error;
-  }
-}
 
 export {
+  authorize,
+  createGroup,
+  getAllGroups,
+  getAllUsers,
+  getFriendship,
+  getGroupById,
   getUser,
+  getUserCreatedGroups,
   getUserInterests,
   updateUserInfo,
   updateUserSecurity,
-  getFriendship,
-  getAllGroups,
-  createGroup,
-  getUserCreatedGroups,
-  getGroupById
+  setJWT,
+  getJWT,
+  removeJWT
 };

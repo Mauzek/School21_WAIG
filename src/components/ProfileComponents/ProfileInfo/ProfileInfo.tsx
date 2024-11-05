@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./ProfileInfo.module.css";
 import { InterestsList } from "../../InterestsList/InterestsList";
 import changeImg from "../../../assets/icons/change_img.svg";
@@ -6,7 +6,6 @@ import { Interests, User } from "../../../types";
 import { avatars } from "../../../assets/images/avatars/avatars";
 import { useStore } from "../../../store/app-store";
 import { ChooseProfileAvatar } from "../ChooseProfileAvatar/ChooseProfileAvatar";
-
 interface ProfileInfoProps {
   userData: User;
   userInterests: Interests[];
@@ -88,7 +87,7 @@ function Avatar(username: string, avatar: keyof typeof avatars, user: User) {
 
   const handleSetAvatar = (newAvatar: keyof typeof avatars) => {
     setAvatar(newAvatar);
-    togglePopup(); 
+    togglePopup();
   };
 
   return (

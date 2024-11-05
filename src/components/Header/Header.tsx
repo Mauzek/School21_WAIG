@@ -24,7 +24,7 @@ export const Header: FC<HeaderProps> = ({ user }) => {
     { label: "Группы", path: "/Groups/" },
     { label: "Друзья", path: "/Friends/" },
     ...(user.isAdmin ? [{ label: "Админ", path: "/Admin" }] : []),
-  ];
+     ];
 
   const getPageTitle = () => {
     if (location.pathname.startsWith("/Home")) return "Интересные группы";

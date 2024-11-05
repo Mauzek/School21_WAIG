@@ -16,6 +16,7 @@ interface StoreState {
     birthday: Date | string,
     description: string
   ) => void;
+  updateUserStore: (updatedUser: any) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -34,6 +35,18 @@ export const useStore = create<StoreState>((set) => ({
     tgName: "tralebys",
     profileImageId: "stitch",
     age: 24
+    // id: "",
+    // username: "",
+    // birthday: "",
+    // description: "",
+    // email: "",
+    // firstName: "",
+    // lastName: "",
+    // patronymic: "",
+    // gender: "",
+    // isAdmin: true,
+    // tgName: "",
+    // profileImageId: "",
   },
   token:
     "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXV6ZWsiLCJleHAiOjE3MzA5MDk3MDV9.vMVYjjjEsE_aD0_TWrfceWthSGjzvVrKPbkrwBfCD3ZBbv7qZT0JaiAhVYLJlGLksXXyhC8YFQ8LODmkkN5uAQ",
@@ -63,4 +76,8 @@ export const useStore = create<StoreState>((set) => ({
       },
     }));
   },
+  updateUserStore: (updatedUser) =>
+    set((state) => ({
+      user: {  ...state.user ,...updatedUser},
+    })),
 }));

@@ -15,7 +15,7 @@ export const endpoints = {
         "birthDay": "1990-01-15"
     }  
   */
-  auth: `${BASE_API}/auth/sign-in`, // post (Body) {"username":"john_doe","password":"securePassword123"}
+  auth: `${BASE_API}/auth/sing-in`, // post (Body) {"username":"john_doe","password":"securePassword123"} //! sing - sign
   refreshToken: `${BASE_API}/auth/refresh`, //post
   getUser: (userLogin: string) => `${BASE_API}/api/user/${userLogin}`, //get //http://localhost:8080/api/user/{login}
 
