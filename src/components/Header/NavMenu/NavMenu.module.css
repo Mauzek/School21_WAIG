@@ -63,7 +63,7 @@
     display: none;
 }
 
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
     .navbar__menu{
         gap: normal;
     }
@@ -118,4 +118,4 @@ z-index: 1000;
 display: block;
 
 }
-}
+} */

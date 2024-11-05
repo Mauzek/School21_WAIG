@@ -6,37 +6,29 @@ import PasswordHidden from "../../assets/icons/password_hidden.svg";
 import PasswordVisible from "../../assets/icons/password_visible.svg";
 import { endpoints } from "../../API/config";
 import { isResponseOk, authorize, setJWT } from "../../API/api-utils";
-// import { User } from "../../types";
-// import { useStore } from "../../store/app-store";
 import { useNavigate } from "react-router-dom";
+import { useStore } from "../../store/app-store";
 
-// interface GetTokens {
-//   token: string,
-//   refreshToken: string
-// }
+
 
 export default function AuthPage() {
-  //const {updateUser} = useStore();
-  //const {updateUser, user } = useStore();
-  //const updatedUser= user;
   const navigate = useNavigate();
-
   const [isAuther, setIsAuther] = useState<boolean>(true);
   const [isPasswordHidden, setIsPasswordHidden] = useState<boolean>(true);
-
   const [authData, setAuthData] = useState({ username: "", password: "" });
-
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAuthData({ ...authData, [e.target.name]: e.target.value });
   };
-
+const {updateUserStore} = useStore();
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const userData: (Response | Error) = await authorize(endpoints.auth, authData);
+    const userData: (Response | Error) = await authorize(authData);
     if (isResponseOk(userData)) {
       setJWT(userData.token); console.log("%c Успешный вход!", 'color:#44eb99');
-      console.log(userData.token);
-      //updateUser({username:`${authData.username}`}); // '','' -> '', 'username'
+      // console.log(userData.token);
+      updateUserStore({username:`${authData.username}`}); 
+      const {user} = useStore();
+      console.log(user);
       navigate('/home');
     } else {
       console.log("no");
@@ -68,10 +60,10 @@ export default function AuthPage() {
                     width: "100%"
                   }}
                   ><div>
-                      <input id="password" type={isPasswordHidden ? "password" : ""} 
-                      className={`${styles.input__box}`} name="password" value={authData.password} 
-                      autoComplete="on"
-                      onChange={handleInput}>
+                      <input id="password" type={isPasswordHidden ? "password" : ""}
+                        className={`${styles.input__box}`} name="password" value={authData.password}
+                        autoComplete="on"
+                        onChange={handleInput}>
                       </input>
                     </div>
                   </label>

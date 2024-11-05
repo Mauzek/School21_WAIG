@@ -1,29 +1,30 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Header } from "../Header/Header";
 import { useStore } from "../../store/app-store";
 import { Outlet, useLocation } from "react-router-dom";
-import { getJWT, getUser, isResponseOk } from "../../API/api-utils";
-import { User } from "../../types";
+// import { useEffect } from "react";
+// import { getJWT, getUser, isResponseOk } from "../../API/api-utils";
+// import { User } from "../../types";
 
 const Layout: FC = () => {
-  const { updateUserStore } = useStore();
+  // const { updateUserStore } = useStore();
   const location = useLocation();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = getJWT();
-      if (token) {
-        try {
-          const totaluser = await getUser('admin3', token);
-          updateUserStore(totaluser);
-        } catch (error) {
-          console.error("Ошибка при получении пользователя:", error);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const token = getJWT();
+  //     if (token) {
+  //       try {
+  //         const totaluser = await getUser('admin3', token);
+  //         updateUserStore(totaluser);
+  //       } catch (error) {
+  //         console.error("Ошибка при получении пользователя:", error);
+  //       }
+  //     }
+  //   };
 
-    fetchUser(); // Вызов функции для получения пользователя
-  }, []);
+  //   fetchUser(); 
+  // }, []);
   const { user } = useStore();
   return (
     <>

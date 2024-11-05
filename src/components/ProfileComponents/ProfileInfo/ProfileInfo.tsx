@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import styles from "./ProfileInfo.module.css";
 import { InterestsList } from "../../InterestsList/InterestsList";
 import changeImg from "../../../assets/icons/change_img.svg";

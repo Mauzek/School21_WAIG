@@ -95,17 +95,12 @@
 }
 
 
-@media (max-width: 1200px) {
-    
+/* @media (max-width: 1200px) {
 }
-
 @media (max-width: 600px) {
     .page__header{
-
     }
-
     .logo__container{
         display: none;
     }
-
-}
+} */

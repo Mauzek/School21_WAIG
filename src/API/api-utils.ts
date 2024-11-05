@@ -2,9 +2,9 @@ import axios from "axios";
 import { endpoints } from "./config";
 import { User, Interests } from "../types";
 
-const authorize = async (url: string, data: { username: string; password: string }) => {
+const authorize = async (data: { username: string; password: string }) => {
   try {
-    const response = await axios.post(url, data, {
+    const response = await axios.post(endpoints.auth, data, {
       headers: {
         'Content-Type': 'application/json',
       },
