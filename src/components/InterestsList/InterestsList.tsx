@@ -14,7 +14,7 @@ export const InterestsList: FC<InterestsListProps> = ({ interests }) => {
       <div className={styles.interest}>
         <ul className={styles.interest__list}>
           {interests.map((elem) => (
-            <Tag key={elem.color} color={elem.color} name={elem.name} />
+            <Tag key={elem.color} color={`#${elem.color}`} name={elem.name} />
           ))}
         </ul>
       </div>

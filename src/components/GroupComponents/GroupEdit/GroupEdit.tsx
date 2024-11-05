@@ -1,78 +1,68 @@
 import { ChangeEvent, FC, useState } from "react";
-import styles from "./CreateGroup.module.css";
-import { CustomGroupAvatar } from "./CustomGroupAvatar/CustomGroupAvatar";
-import EditAvatar from "../../assets/icons/edit_avatar_icon.svg";
-import { useNavigate } from "react-router-dom";
-import { ChooseInterests } from "./ChooseInterests/ChooseInterests";
-import { Interests } from "../../types";
-import { createGroup } from "../../API/api-utils";
-import { useStore } from "../../store/app-store";
+import styles from "./GroupEdit.module.css";
+import { ChooseInterests } from "../../CreateGroup/ChooseInterests/ChooseInterests";
+import { Group, Interests } from "../../../types";
+import EditAvatar from "../../../assets/icons/edit_avatar_icon.svg";
+import { CustomGroupAvatar } from "../../CreateGroup/CustomGroupAvatar/CustomGroupAvatar";
 
-const DataTags = [
-  { name: "программирование", color: "B472EE" },
-  { name: "сериалы", color: "F18100" },
-  { name: "музыка", color: "00C91E" },
-  { name: "спорт", color: "AB2810" },
-  { name: "чтение", color: "0099BB" },
-  { name: "общение", color: "FFFA5A" },
-  { name: "гейминг", color: "DF5B71" },
-  { name: "рисование", color: "9C0B9E" },
-  { name: "монтаж", color: "7CAB3B" },
-  { name: "отдых", color: "161D9B" },
-  { name: "математика", color: "793929" },
-  { name: "физика", color: "217340" },
-  { name: "обучение", color: "BA8D46" },
-  { name: "правильноепитание", color: "EB9A93" },
-];
+interface GroupEditProps {
+  groupData: Group;
+  dataTags: Interests[];
+}
 
 const MAX_DESCRIPTION_LENGTH = 300;
 
-export const CreateGroup: FC = () => {
-  const { user, token } = useStore();
+export const GroupEdit: FC<GroupEditProps> = ({ groupData, dataTags }) => {
   const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
-  const [chars, setChars] = useState<string>("AAA");
-  const [color, setColor] = useState<string>("#E17575");
-  const [name, setName] = useState<string>('');
-  const [availableInterests, setAvailableInterests] = useState(DataTags);
-  const [selectedInterests, setSelectedInterests] = useState<Interests[]>([]);
-  const [description, setDescription] = useState<string>("");
-
-  const navigate = useNavigate();
+  const [name, setName] = useState<string>(groupData.name);
+  const [chars, setChars] = useState<string>(groupData.chars);
+  const [color, setColor] = useState<string>(groupData.color);
+  const [description, setDescription] = useState<string>(groupData.description);
+  const [selectedInterests, setSelectedInterests] = useState<Interests[]>(
+    groupData?.interests || []
+  );
+  const [availableInterests, setAvailableInterests] = useState<Interests[]>(
+    groupData
+      ? dataTags.filter(
+          (interest) =>
+            !groupData.interests.some((tag) => tag.name === interest.name)
+        )
+      : dataTags
+  );
 
   const togglePopup = () => {
     setIsOpenPopup((prev) => !prev);
   };
 
-  const handleCancelCreateGroup = () => {
-    navigate(-1);
+  const handleCancelEditGroup = () => {
+    setName(groupData.name);
+    setChars(groupData.chars);
+    setColor(groupData.color);
+    setDescription(groupData.description);
+    setSelectedInterests(groupData.interests);
+    setAvailableInterests(
+      dataTags.filter(
+        (interest) => !groupData.interests.some((tag) => tag.name === interest.name)
+      )
+    );
   };
 
-
-
-  const handleCreateGroup = () => {
-    const groupData = {
-      chars,
-      name,
-      color,
-      description,
-      interests: selectedInterests,
-    };
-    console.log(groupData)
-    createGroup(user.username, token, groupData);
-  };
-
-  const addInterest = (interest: { name: string; color: string }) => {
+  const addInterest = (interest: Interests) => {
     setAvailableInterests((prev) =>
       prev.filter((item) => item.name !== interest.name)
     );
     setSelectedInterests((prev) => [...prev, interest]);
   };
 
-  const removeInterest = (interest: { name: string; color: string }) => {
+  const removeInterest = (interest: Interests) => {
     setSelectedInterests((prev) =>
       prev.filter((item) => item.name !== interest.name)
     );
     setAvailableInterests((prev) => [...prev, interest]);
+  };
+
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
   };
 
   const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -81,17 +71,13 @@ export const CreateGroup: FC = () => {
     }
   };
 
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
   return (
     <section className={styles.createGroupContainer}>
       <header className={styles.createGroupHeader}>
         <div className={styles.avatarSection}>
           <div
             className={styles.avatarPreview}
-            style={{ backgroundColor: `#${color}` }}
+            style={{ backgroundColor: color }}
           >
             <span className={styles.avatarText}>{chars}</span>
             <button
@@ -120,9 +106,9 @@ export const CreateGroup: FC = () => {
             id="group-name"
             type="text"
             className={styles.input}
-            onChange={handleNameChange}
             placeholder="Введите название группы"
             value={name}
+            onChange={handleNameChange}
           />
 
           <label className={styles.label} htmlFor="group-description">
@@ -153,15 +139,10 @@ export const CreateGroup: FC = () => {
       />
 
       <footer className={styles.footer}>
-        <button
-          onClick={handleCancelCreateGroup}
-          className={styles.cancelButton}
-        >
+        <button onClick={handleCancelEditGroup} className={styles.cancelButton}>
           Отменить
         </button>
-        <button onClick={handleCreateGroup} className={styles.createButton}>
-          Создать группу
-        </button>
+        <button className={styles.createButton}>Сохранить</button>
       </footer>
     </section>
   );

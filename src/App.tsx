@@ -17,10 +17,10 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="/" element={<Navigate to='/Auth'/>}/>
+        <Route path="/" element={<Navigate to="/Auth" />} />
         <Route path="Auth" element={<AuthPage />} />
         <Route path="Home" element={<HomePage />} />
-        
+
         <Route path="Groups" element={<Navigate to="/Groups/All" />} />
         <Route path="Groups" element={<GroupsPage />}>
           <Route path="All" element={<GroupsPage />} />
@@ -31,8 +31,8 @@ function App() {
 
         <Route path="Friends" element={<Navigate to="/Friends/All" />} />
         <Route path="Friends" element={<FriendsPage />}>
-            <Route path="All" element={<FriendsPage />}/>
-            <Route path="Requests" element={<FriendsPage />}/>
+          <Route path="All" element={<FriendsPage />} />
+          <Route path="Requests" element={<FriendsPage />} />
         </Route>
 
         <Route path="Profile/:username" element={<ProfilePage />}>
@@ -42,7 +42,7 @@ function App() {
 
         <Route path="Group/:id" element={<GroupPage />}>
           <Route path="Main" element={<GroupPage />} />
-          <Route path="Users" element={<GroupPage />} />
+          <Route path="Members" element={<GroupPage />} />
           <Route path="Edit" element={<GroupPage />} />
         </Route>
 
@@ -71,7 +71,7 @@ function App() {
             user.isAdmin ? <AdminPage /> : <Navigate to="/Home" replace />
           }
         />
-        
+
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

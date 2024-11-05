@@ -157,8 +157,10 @@
     color: white;
     font-weight: 700px;
     background-color: #FF4A50;
+    cursor: pointer;
     font-size: 19px;
     transition: background-color 0.3s;
+    text-shadow: 1px 1px 3px #000;
 }
 
 .exit__button:hover{

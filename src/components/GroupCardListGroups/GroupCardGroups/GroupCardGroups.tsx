@@ -5,6 +5,7 @@ import RemoveGroupIcon from "../../../assets/icons/close_popup.svg";
 import styles from "./GroupCardGroups.module.css";
 import { RemovePopup } from "../../RemovePopup/RemovePopup";
 import { Link } from "react-router-dom";
+import { Interests } from "../../../types";
 
 interface GroupCardGroupsProps {
   groupID: number;
@@ -13,7 +14,7 @@ interface GroupCardGroupsProps {
   color: string;
   membersCount: number;
   description: string;
-  tags: { id: number; name: string; color: string }[];
+  interests: Interests[];
   isAdded: boolean;
 }
 
@@ -23,7 +24,7 @@ export const GroupCardGroups: FC<GroupCardGroupsProps> = ({
   chars,
   membersCount,
   description,
-  tags,
+  interests,
   isAdded,
   color,
 }) => {
@@ -38,37 +39,36 @@ export const GroupCardGroups: FC<GroupCardGroupsProps> = ({
     setIsOpenPopup(false);
     console.log(`${name} был удален`);
   };
-
   return (
     <article className={styles.groupCard}>
-      <Link to={`/Group/${groupID}/Main`}  className={styles.groupCard_link}>
-      <div className={styles.groupCard__avatar}>
-        <span
-          className={styles.groupCard__avatarText}
-          style={{ backgroundColor: color }}
-        >
-          {chars}
-        </span>
-      </div>
-      <div className={styles.groupCard__content}>
-        <h2 className={styles.groupCard__title}>{name}</h2>
-        <span className={styles.groupCard__membersCount}>
-          {membersCount} участников
-        </span>
-        <p className={styles.groupCard__description}>{description}</p>
-        <ul className={styles.groupCard__tags}>
-          {tags.slice(0, 3).map((tag, index) => (
-            <li key={index} className={styles.groupCard__tag}>
-              <span
-                className={styles.groupCard__tagColor}
-                style={{ backgroundColor: tag.color }}
-              />{" "}
-              #{tag.name}
-            </li>
-          ))}
-          {tags.length > 3 && <li className={styles.groupCard__tag}>...</li>}
-        </ul>
-      </div>
+      <Link to={`/Group/${groupID}/Main`} className={styles.groupCard_link}>
+        <div className={styles.groupCard__avatar}>
+          <span
+            className={styles.groupCard__avatarText}
+            style={{ backgroundColor: `#${color}` }}
+          >
+            {chars}
+          </span>
+        </div>
+        <div className={styles.groupCard__content}>
+          <h2 className={styles.groupCard__title}>{name}</h2>
+          <span className={styles.groupCard__membersCount}>
+            {membersCount} участников
+          </span>
+          <p className={styles.groupCard__description}>{description}</p>
+          <ul className={styles.groupCard__tags}>
+            {interests.slice(0, 3).map((interest, index) => (
+              <li key={index} className={styles.groupCard__tag}>
+                <span
+                  className={styles.groupCard__tagColor}
+                  style={{ backgroundColor: `#${interest?.color}` }}
+                />
+                #{interest?.name}
+              </li>
+            ))}
+            {interests.length > 3 && <li className={styles.groupCard__tag}>...</li>}
+          </ul>
+        </div>
       </Link>
       <div className={styles.groupCard__actions}>
         <button

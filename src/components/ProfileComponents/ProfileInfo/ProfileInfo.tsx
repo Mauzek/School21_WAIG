@@ -17,21 +17,20 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
   userInterests,
 }) => {
   const { user } = useStore();
-  const fullName = `${userData.firstName} ${userData.lastName} ${userData.patronymic}`;
+  const fullName = `${userData.firstname} ${userData.lastname} ${userData.patronymic}`;
   const avatarID = userData.profileImageId as keyof typeof avatars;
   const isFriend = true;
   const formattedBirthday =
     userData.birthday instanceof Date
       ? userData.birthday.toLocaleDateString()
       : userData.birthday;
-
   return (
     <>
       <div className={styles.info__block}>
         {Avatar(userData.username, avatarID, user)}
         <div className={styles.information}>
           <h2 className={styles.Names}>{fullName}</h2>
-          <p className={styles.info__text}>{formattedBirthday}</p>
+          <p className={styles.info__text}>{formattedBirthday} <span className={styles.age}>({userData.age})</span></p>
           <a
             className={`${styles.info__link} ${styles.info__text}`}
             href={`https://t.me/${userData.tgName}`}
@@ -42,12 +41,12 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
           <p className={styles.info__text}>{userData.email}</p>
           <p
             style={
-              userData.gender === "Ж"
+              userData.gender === "Female"
                 ? { color: "#FF547F" }
                 : { color: "#008BFF" }
             }
           >
-            {userData.gender === "Ж" ? "жен" : "муж"}.
+            {userData.gender === "Female" ? "жен" : "муж"}.
           </p>
         </div>
         <fieldset className={styles.profile__description}>

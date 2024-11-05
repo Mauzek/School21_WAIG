@@ -18,8 +18,8 @@ export const GroupCardListGroups: FC<GroupCardGroupsProps> = ({ groups }) => {
           chars={group.chars}
           description={group.description}
           color={group.color}
-          membersCount={group.membersCount}
-          tags={group.tags}
+          membersCount={group.subscribers.length}
+          interests={group.interests}
           isAdded={true}
         />
       ))}

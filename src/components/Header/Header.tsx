@@ -74,13 +74,13 @@ export const Header: FC<HeaderProps> = ({ user }) => {
       if (id === user.id) {
         return [
           { label: "Главная", path: `/Group/${id}/Main` },
-          { label: "Участники", path: `/Group/${id}/Users` },
+          { label: "Участники", path: `/Group/${id}/Members` },
           { label: "Редактирование", path: `/Group/${id}/Edit` },
         ];
       } else {
         return [
           { label: "Главная", path: `/Group/${id}/Main` },
-          { label: "Участники", path: `/Group/${id}/Users` },
+          { label: "Участники", path: `/Group/${id}/Members` },
         ];
       }
     }
@@ -118,7 +118,7 @@ export const Header: FC<HeaderProps> = ({ user }) => {
             <div className={styles.nav__input__container}>
               <img src={SearchIcon} alt="Поиск" />
               <input
-                type="text"
+                type="search"
                 placeholder="Поиск..."
                 className={styles.searchInput}
               />
@@ -143,6 +143,7 @@ export const Header: FC<HeaderProps> = ({ user }) => {
           onClickNotices={handleClickNotices}
           onClickSearch={handleClickSearch}
           userLogin={user.username}
+          userAvatar={user.profileImageId}
         />
       </div>
       {isNoticesBtnActive && (

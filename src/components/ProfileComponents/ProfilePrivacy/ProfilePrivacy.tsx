@@ -1,50 +1,185 @@
-import { FC } from "react"
-import styles from "./ProfilePrivacy.module.css"
-import imgOK from "../../../assets/icons/checker.svg"
+import { FC, useState } from "react";
+import styles from "./ProfilePrivacy.module.css";
+import imgOK from "../../../assets/icons/checker.svg";
+import imgBad from "../../../assets/icons/close_popup.svg";
+import { updateUserSecurity } from "../../../API/api-utils";
+import { useStore } from "../../../store/app-store";
 
-export const ProfilePrivacy: FC = ({ }) => {
-  return (<>
-    <h2 className={styles.privacy__title}>Изменение конфиденциальности</h2>
-    <ul className={styles.privacy__container}>
-      <li>
-        <p>Изменить почту:</p>
-        <input />
-        <div className={`${styles.privacy__input__status} ${styles.status__green}`}>
-          <img className={styles.imgResult} src={imgOK} />
-        </div>
-      </li>
-      <li>
-        <p>Изменить ник/логин:</p>
-        <input />
-        <div className={`${styles.privacy__input__status} ${styles.status__green}`}>
-          <img className={styles.imgResult} src={imgOK} />
-        </div>
-      </li>
-      <li>
-        <p>Изменение пароля</p>
-      </li>
-      <li>
-        <p>Старый пароль:</p>
-        <input type="password" />
-        <div className={`${styles.privacy__input__status} ${styles.status__green}`}>
-          <img className={styles.imgResult} src={imgOK} />
-        </div>
-      </li>
-      <li>
-        <p>Новый пароль:</p>
-        <input type="password" />
-        <div className={`${styles.privacy__input__status} ${styles.status__green}`}>
-          <img className={styles.imgResult} src={imgOK} />
-        </div>
-      </li>
-    </ul>
-    <ul className={styles.buttons__activity}>
-      <li>
-        <button className={styles.buttons__activity__save} >Сохранить изменения</button>              
-        <button className={styles.buttons__activity__cancel} >Отменить изменения</button>
-      </li>
-      <li><button className={styles.buttons__activity__exit} >Выйти</button></li>
-    </ul>
+interface ProfilePrivacyProps {
+  email: string;
+  username: string;
+}
 
-     </>)
+export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
+  email,
+  username,
+}) => {
+  const [emailInput, setEmailInput] = useState(email);
+  const [usernameInput, setUsernameInput] = useState(username);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+
+  const { user, token } = useStore();
+
+  const validateEmail = (value: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  const isFieldValid = (value: string) =>
+    value.trim() !== "" && value.trim().length >= 4;
+
+  const getInputStatus = (value: string, isEmail = false) => {
+    const isValid = isEmail ? validateEmail(value) : isFieldValid(value);
+    return isValid ? imgOK : imgBad;
+  };
+
+  const getInputClass = (value: string, isEmail = false) => {
+    const isValid = isEmail ? validateEmail(value) : isFieldValid(value);
+    return isValid ? styles.status__green : styles.status__red;
+  };
+
+  const handleUndoChanges = () => {
+    setNewPassword("");
+    setOldPassword("");
+    setEmailInput(email);
+    setUsernameInput(username);
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const updateData = {
+        newEmail: emailInput,
+        newUsername: usernameInput,
+        newPassword: newPassword,
+      };
+
+      const response = await updateUserSecurity(user.username, token, updateData);
+
+      if (response) {
+        console.log("Информация обновлена:", response);
+        handleUndoChanges(); 
+      }
+    } catch (error) {
+      console.error("Ошибка при обновлении информации о пользователе:", error);
+    }
+  };
+
+  return (
+    <>
+      <h2 className={styles.privacy__title}>Изменение конфиденциальности</h2>
+      <ul className={styles.privacy__container}>
+        <li>
+          <label htmlFor="emailInput">Изменить почту:</label>
+          <input
+            id="emailInput"
+            type="email"
+            placeholder={email}
+            value={emailInput}
+            onChange={(e) => setEmailInput(e.target.value)}
+            className={getInputClass(emailInput, true)}
+          />
+          <div
+            className={`${styles.privacy__input__status} ${getInputClass(
+              emailInput,
+              true
+            )}`}
+          >
+            <img
+              className={styles.imgResult}
+              src={getInputStatus(emailInput, true)}
+              alt="status"
+            />
+          </div>
+        </li>
+        <li>
+          <label htmlFor="usernameInput">Изменить ник/логин:</label>
+          <input
+            id="usernameInput"
+            type="text"
+            placeholder={username}
+            value={usernameInput}
+            onChange={(e) => setUsernameInput(e.target.value)}
+            className={getInputClass(usernameInput)}
+          />
+          <div
+            className={`${styles.privacy__input__status} ${getInputClass(
+              usernameInput
+            )}`}
+          >
+            <img
+              className={styles.imgResult}
+              src={getInputStatus(usernameInput)}
+              alt="status"
+            />
+          </div>
+        </li>
+        <li>
+          <h3>Изменение пароля</h3>
+        </li>
+        <li>
+          <label htmlFor="oldPasswordInput">Старый пароль:</label>
+          <input
+            id="oldPasswordInput"
+            placeholder="Старый пароль от 4х символов"
+            type="password"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+            className={getInputClass(oldPassword)}
+            minLength={4}
+          />
+          <div
+            className={`${styles.privacy__input__status} ${getInputClass(
+              oldPassword
+            )}`}
+          >
+            <img
+              className={styles.imgResult}
+              src={getInputStatus(oldPassword)}
+              alt="status"
+            />
+          </div>
+        </li>
+        <li>
+          <label htmlFor="newPasswordInput">Новый пароль:</label>
+          <input
+            id="newPasswordInput"
+            placeholder="Новый пароль от 4х символов"
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className={getInputClass(newPassword)}
+            minLength={4}
+          />
+          <div
+            className={`${styles.privacy__input__status} ${getInputClass(
+              newPassword
+            )}`}
+          >
+            <img
+              className={styles.imgResult}
+              src={getInputStatus(newPassword)}
+              alt="status"
+            />
+          </div>
+        </li>
+      </ul>
+      <ul className={styles.buttons__activity}>
+        <li>
+          <button
+            onClick={handleSaveChanges}
+            className={styles.buttons__activity__save}
+          >
+            Сохранить изменения
+          </button>
+          <button
+            onClick={handleUndoChanges}
+            className={styles.buttons__activity__cancel}
+          >
+            Отменить изменения
+          </button>
+        </li>
+        <li>
+          <button className={styles.buttons__activity__exit}>Выход</button>
+        </li>
+      </ul>
+    </>
+  );
 };

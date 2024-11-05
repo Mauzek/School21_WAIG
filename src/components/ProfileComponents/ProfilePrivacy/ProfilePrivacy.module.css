@@ -1,9 +1,8 @@
-.privacy__container{
+.privacy__container {
     width: 50%;
 }
 
-.privacy__container>li{
-    
+.privacy__container>li {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -11,7 +10,8 @@
     margin-bottom: 15px;
     align-items: center;
 }
-.privacy__container>li>input{
+
+.privacy__container>li>input {
     border-radius: 10px;
     background-color: #1D2633;
     height: 40px;
@@ -20,7 +20,8 @@
     margin: 0px 15px;
     padding: 0px 15px;
 }
-.privacy__input__status{
+
+.privacy__input__status {
     min-width: 30px;
     width: 30px;
     height: 30px;
@@ -29,47 +30,68 @@
     align-items: center;
     justify-content: center;
 }
-.status__green{
+
+.status__red {
+    background-color: #FF4A50;
+}
+
+.status__green {
     background-color: var(--green);
 }
 
-.imgResult{
+.imgResult {
     width: 20px;
     height: 14px;
 }
 
-.privacy__container>li>p{
-    
+.privacy__container>li>p {
     font-size: 24px;
-    color:#fff
+    color: #fff
 }
 
-.buttons__activity{
+.buttons__activity {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    list-style-type:none
+    list-style-type: none
 }
 
-.buttons__activity>li>button{
+.buttons__activity>li>button {
     height: 43px;
     width: 250px;
-border-radius: 15px;
+    border-radius: 15px;
     border: 0;
+    text-shadow: 1px 1px 3px #000;
+    transition: background-color 0.3s;
+    cursor: pointer;
 }
 
-.privacy__title{
-    font-size: 34px;
-    color:#fff;
+.privacy__title {
+    font-size: 24px;
+    color: #fff;
 }
 
 .buttons__activity__save {
- background:#44EB99
+    background-color: #44EB99
 }
+
+.buttons__activity__save:hover {
+    background-color: rgba(68, 235, 153, 0.6);
+}
+
 .buttons__activity__cancel {
-    background:#36C5F0;
-    margin-left:15px;
-   }
-   .buttons__activity__exit {
-    background:#FF4A50
-   }
+    background-color: #36C5F0;
+    margin-left: 15px;
+}
+
+.buttons__activity__cancel:hover {
+    background-color: rgba(54, 197, 240, 0.6);
+}
+
+.buttons__activity__exit {
+    background-color: #FF4A50
+}
+
+.buttons__activity__exit:hover {
+    background-color: rgba(255, 74, 80, 0.6);
+}

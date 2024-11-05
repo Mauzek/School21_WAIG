@@ -5,27 +5,62 @@ import { avatars } from "../assets/images/avatars/avatars";
 interface StoreState {
   isAuth: boolean;
   user: User;
+  token: string;
   setAvatar: (avatarId: keyof typeof avatars) => void;
+  setMainInfo: (
+    firstName: string,
+    lastName: string,
+    patronymic: string,
+    gender: string,
+    tgName: string,
+    birthday: Date | string,
+    description: string
+  ) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
   isAuth: true,
   user: {
     id: "1",
-    username: "Morganfriman",
-    birthday: "10.10.2001",
+    username: "mauzek",
+    birthday: "1999/05/01",
     description: "Парень симпотяга по жизни бродяга",
-    email: "alesha@mail.ru",
-    firstName: "Алёша",
-    lastName: "Бойкин",
-    patronymic: "Башмакович",
-    gender: "М",
-    isAdmin: false,
-    tgName: "kakaTV",
+    email: "artemilliy@gmail.com",
+    firstname: "Артём",
+    lastname: "Иллий",
+    patronymic: "Андреевич",
+    gender: "Male",
+    isAdmin: true,
+    tgName: "tralebys",
     profileImageId: "stitch",
+    age: 24
   },
+  token:
+    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXV6ZWsiLCJleHAiOjE3MzA5MDk3MDV9.vMVYjjjEsE_aD0_TWrfceWthSGjzvVrKPbkrwBfCD3ZBbv7qZT0JaiAhVYLJlGLksXXyhC8YFQ8LODmkkN5uAQ",
   setAvatar: (avatarId) =>
     set((state) => ({
       user: { ...state.user, profileImageId: avatarId },
     })),
+  setMainInfo: (
+    firstName,
+    lastName,
+    patronymic,
+    gender,
+    tgName,
+    birthday,
+    description
+  ) => {
+    set((state) => ({
+      user: {
+        ...state.user,
+        firstName: firstName,
+        lastName: lastName,
+        patronymic: patronymic,
+        gender: gender,
+        tgName: tgName,
+        birthday: birthday,
+        description: description,
+      },
+    }));
+  },
 }));

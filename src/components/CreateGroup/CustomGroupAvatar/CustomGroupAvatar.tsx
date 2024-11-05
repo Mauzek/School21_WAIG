@@ -31,8 +31,17 @@ export const CustomGroupAvatar: FC<CustomGroupAvatarProps> = ({
     updateColor(css);
   };
 
+  const rgbToHex = (rgb: string) => {
+    const result = rgb.match(/\d+/g);
+    if (!result) return "";    
+    return result
+      .slice(0, 3)
+      .map((num) => parseInt(num).toString(16).padStart(2, "0"))
+      .join("");
+  };
+
   const handleSaveChanges = () => {
-    setColor(color);
+    setColor(rgbToHex(color));
     setChars(`${chars.length > 0 ? chars : 'AAA'}`);
     setIsOpenPopup();
   };
@@ -76,7 +85,7 @@ export const CustomGroupAvatar: FC<CustomGroupAvatarProps> = ({
               onChange={handleInputChange}
             />
             <div className={styles.colorPickerContainer}>
-              <label className={styles.label}>Цвет:</label>
+              <label className={styles.label} htmlFor="colorPicker">Цвет:</label>
               <ColorPicker
                 defaultValue={color}
                 onChange={handleColorChange}
