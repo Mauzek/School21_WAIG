@@ -1,12 +1,11 @@
 import { FC } from 'react'
 import { GroupCardListMain } from '../../components/GroupCardListMain/GroupCardListMain';
 import styles from './Home.module.css'
-import { useStore } from '../../store/app-store';
-import { getJWT, getUser } from '../../API/api-utils';
+import { User } from '../../types';
 
 export type Group = {
   id: string,
-  ownerID: string,
+  creator: User,
   name: string,
   chars: string,
   description: string,
@@ -231,29 +230,15 @@ const groupsData: Group[] = [
 
 
 const HomePage: FC = () => {
-  // Группируем данные по типам
   const groupedByType = groupsData.reduce((acc, group) => {
-    // Перебираем все типы группы
     group.type.forEach((type:string) => {
       if (!acc[type]) {
-        acc[type] = []; // Инициализируем массив для нового типа
+        acc[type] = []; 
       }
-      acc[type].push(group); // Добавляем группу в массив соответствующего типа
+      acc[type].push(group); 
     });
     return acc;
-  }, {} as Record<string, Group[]>); // Указываем тип для аккамулятора
-//! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-//   const {user} = useStore();
-//   console.log(user);
-// let jwt:(string|null) = getJWT();
-// if (jwt){
-//   console.log(user.username);
-//   // const CurrentUser = getUser(user.username,jwt);
-//   // console.error(CurrentUser);
-// }else{
-//   console.error("пипяо");
-// }
-//! - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  }, {} as Record<string, Group[]>); 
 
   return (
     <main className={styles.home_page__container}>

@@ -5,7 +5,7 @@ import loginSvg from "../../assets/images/login.svg";
 import PasswordHidden from "../../assets/icons/password_hidden.svg";
 import PasswordVisible from "../../assets/icons/password_visible.svg";
 import { endpoints } from "../../API/config";
-import { isResponseOk, authorize, setJWT } from "../../API/api-utils";
+import { isResponseOk, authorize, setJWT, setUsername } from "../../API/api-utils";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../store/app-store";
 
@@ -19,20 +19,17 @@ export default function AuthPage() {
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAuthData({ ...authData, [e.target.name]: e.target.value });
   };
-const {updateUserStore} = useStore();
+const {updateUserStore,setToken} = useStore();
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userData: (Response | Error) = await authorize(authData);
     if (isResponseOk(userData)) {
-      setJWT(userData.token); console.log("%c Успешный вход!", 'color:#44eb99');
-      // console.log(userData.token);
+      setJWT(userData.token); console.log("%c Успешный вход!", 'color:#44eb99',userData.token);
+      setToken(userData.token);
+    setUsername(authData.username);
       updateUserStore({username:`${authData.username}`}); 
-      const {user} = useStore();
-      console.log(user);
       navigate('/home');
-    } else {
-      console.log("no");
-    }
+    } 
   };
 
 

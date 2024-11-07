@@ -20,7 +20,6 @@ export const FriendCard: FC<FriendCardProps> = ({ name, username, avatar }) => {
 
   const removeFriend = () => {
     setIsOpenPopup(false);
-    console.log(`${username} был удален`);
   };
 
   return (

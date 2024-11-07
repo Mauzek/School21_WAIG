@@ -4,7 +4,7 @@ import { avatars } from "../assets/images/avatars/avatars";
 
 interface StoreState {
   isAuth: boolean;
-  user: User;
+  user: User | null;
   token: string;
   setAvatar: (avatarId: keyof typeof avatars) => void;
   setMainInfo: (
@@ -17,42 +17,17 @@ interface StoreState {
     description: string
   ) => void;
   updateUserStore: (updatedUser: any) => void;
+  setToken: (newToken: string) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
   isAuth: true,
-  user: {
-    id: "1",
-    username: "mauzek",
-    birthday: "1999/05/01",
-    description: "Парень симпотяга по жизни бродяга",
-    email: "artemilliy@gmail.com",
-    firstname: "Артём",
-    lastname: "Иллий",
-    patronymic: "Андреевич",
-    gender: "Male",
-    isAdmin: true,
-    tgName: "tralebys",
-    profileImageId: "stitch",
-    age: 24
-    // id: "",
-    // username: "",
-    // birthday: "",
-    // description: "",
-    // email: "",
-    // firstName: "",
-    // lastName: "",
-    // patronymic: "",
-    // gender: "",
-    // isAdmin: true,
-    // tgName: "",
-    // profileImageId: "",
-  },
+  user: null,
   token:
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXV6ZWsiLCJleHAiOjE3MzA5MDk3MDV9.vMVYjjjEsE_aD0_TWrfceWthSGjzvVrKPbkrwBfCD3ZBbv7qZT0JaiAhVYLJlGLksXXyhC8YFQ8LODmkkN5uAQ",
+    "",
   setAvatar: (avatarId) =>
     set((state) => ({
-      user: { ...state.user, profileImageId: avatarId },
+      user: state.user&&{ ...state.user, profileImageId: avatarId },
     })),
   setMainInfo: (
     firstName,
@@ -64,7 +39,7 @@ export const useStore = create<StoreState>((set) => ({
     description
   ) => {
     set((state) => ({
-      user: {
+      user:state.user&& {
         ...state.user,
         firstName: firstName,
         lastName: lastName,
@@ -80,4 +55,5 @@ export const useStore = create<StoreState>((set) => ({
     set((state) => ({
       user: {  ...state.user ,...updatedUser},
     })),
+    setToken: (newToken) => set({ token: newToken })
 }));

@@ -37,7 +37,6 @@ export const GroupCardGroups: FC<GroupCardGroupsProps> = ({
 
   const removeFriend = () => {
     setIsOpenPopup(false);
-    console.log(`${name} был удален`);
   };
   return (
     <article className={styles.groupCard}>

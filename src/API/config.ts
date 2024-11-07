@@ -22,7 +22,7 @@ export const endpoints = {
   //Admin Endpoints
   adminGetAllUsers: `${BASE_API}/admin/users`, //get
   adminGetAllGroups: `${BASE_API}/admin/groups`, //get
-  adminGetAllInterests: `${BASE_API}/admin/Interest`, //get
+  adminGetAllInterests: `${BASE_API}/admin/interests`, //get
   adminAddInterest: (interestName:string, interestColor:string) => `${BASE_API}/admin/interest?name=${interestName}&color=${interestColor}`, // post http://localhost:8080/admin/interest?name={interestName}&color={interestColor}
   deleteInterestByName: (interestName: string) => `${BASE_API}/admin/interest/delete?interestName=${interestName}`, //delete http://localhost:8080/admin/interest/delete?interestName={interestName}
   deleteGroupById: (groupId: string) => `${BASE_API}/admin/group/${groupId}`, //delete http://localhost:8080/admin/group/{id}

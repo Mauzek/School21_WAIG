@@ -49,22 +49,22 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
   const [selectedInterests, setSelectedInterests] = useState<Interests[]>(
     userInterests || []
   );
-  
+
   const navigate = useNavigate();
-  const {username} = useParams();
+  const { username } = useParams();
 
   const [availableInterests, setAvailableInterests] = useState<Interests[]>(
     userInterests
       ? DataTags.filter(
-          (interest) => !userInterests.some((tag) => tag.name === interest.name)
-        )
+        (interest) => !userInterests.some((tag) => tag.name === interest.name)
+      )
       : DataTags
   );
 
   const formatDate = (date: Date | string) => {
     const d = new Date(date);
     const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, "0"); 
+    const month = String(d.getMonth() + 1).padStart(2, "0");
     const day = String(d.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
@@ -75,7 +75,7 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
     patronymic,
     tgName,
     gender,
-    birthday: formatDate(birthday), 
+    birthday: formatDate(birthday),
     description,
   });
 
@@ -97,20 +97,21 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
   const handleSaveChanges = async () => {
     const { firstname, lastname, patronymic, tgName, gender, birthday } =
       formData;
-    console.log(formData);
     if (firstname && lastname && patronymic && tgName && gender && birthday) {
       try {
-        await updateUserInfo(user.username, token, formData);
-        setMainInfo(
-          formData.firstname,
-          formData.lastname,
-          formData.patronymic,
-          formData.gender,
-          formData.tgName,
-          formData.birthday,
-          formData.description
-        );
-        navigate(`/Profile/${username}`)
+        if (user) {
+          await updateUserInfo(user.username, token, formData);
+          setMainInfo(
+            formData.firstname,
+            formData.lastname,
+            formData.patronymic,
+            formData.gender,
+            formData.tgName,
+            formData.birthday,
+            formData.description
+          );
+          navigate(`/Profile/${username}`)
+        }
       } catch (error) {
         console.error("Ошибка при сохранении изменений:", error);
       }

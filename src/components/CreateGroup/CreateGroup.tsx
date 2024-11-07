@@ -38,27 +38,23 @@ export const CreateGroup: FC = () => {
   const [description, setDescription] = useState<string>("");
 
   const navigate = useNavigate();
-
   const togglePopup = () => {
     setIsOpenPopup((prev) => !prev);
   };
-
   const handleCancelCreateGroup = () => {
     navigate(-1);
   };
-
-
-
   const handleCreateGroup = () => {
-    const groupData = {
-      chars,
-      name,
-      color,
-      description,
-      interests: selectedInterests,
-    };
-    console.log(groupData)
-    createGroup(user.username, token, groupData);
+    if (user) {
+      const groupData = {
+        chars,
+        name,
+        color,
+        description,
+        interests: selectedInterests,
+      };
+      createGroup(user.username, token, groupData);
+    }
   };
 
   const addInterest = (interest: { name: string; color: string }) => {

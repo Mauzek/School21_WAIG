@@ -39,6 +39,65 @@ const createGroup = async (userLogin: string, token: string, data: CreateGroupDa
   }
 };
 
+const createInterest = async (token: string, data: Interests) => {
+  try {
+    const response = await axios.post(endpoints.adminAddInterest(data.name,data.color),{},{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteGroupById = async (token:string,groupId:string) => {
+  try{
+    const response = await axios.delete(endpoints.deleteGroupById(groupId), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+
+}catch (error) {
+  console.error("Ошибка удаления группы:", error);
+  throw error;
+}};
+
+const deleteInterest = async (token:string,interestName:string) => {
+  try{
+    const response = await axios.delete(endpoints.deleteInterestByName(interestName), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+
+}catch (error) {
+  console.error("Ошибка при удалении интереса:", error);
+  throw error;
+}};
+
+const deleteUser = async (token:string,username:string) => {
+  try{
+    const response = await axios.delete(endpoints.deleteUserByLogin(username), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+
+}catch (error) {
+  console.error("Ошибка при обновлении информации о пользователе:", error);
+  throw error;
+}};
+
 const getAllGroups = async (token: string) => {
   try {
     const response = await axios.get(endpoints.adminGetAllGroups, {
@@ -50,6 +109,21 @@ const getAllGroups = async (token: string) => {
     return response.data;
   } catch (error) {
     console.error("Ошибка при обновлении информации о пользователе:", error);
+    throw error;
+  }
+};
+
+const getAllInterests = async (token: string) => {
+  try {
+    const response = await axios.get(endpoints.adminGetAllInterests, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении данных пользователя:", error);
     throw error;
   }
 };
@@ -77,7 +151,6 @@ const getFriendship = async (userLogin: string, token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Ошибка при обновлении информации о пользователе:", error);
@@ -153,7 +226,7 @@ const getUserInterests = async (
 interface UserDataFromServer {
   id: string;
   age: number;
-  birthday: string;
+  birthDay: string;
   description: string | null;
   email: string;
   firstname: string;
@@ -170,7 +243,7 @@ const normalizeUserData = (user: UserDataFromServer): User => {
   return {
     id: user.id ?? "",
     username: user.username,
-    birthday: user.birthday ? new Date(user.birthday) : "",
+    birthday: user.birthDay ? new Date(user.birthDay).toLocaleDateString('en-US') : "",
     description: user.description ?? "",
     email: user.email,
     firstname: user.firstname,
@@ -264,6 +337,19 @@ const removeJWT = () => {
   localStorage.removeItem('jwt')
 }
 
+const setUsername = (username: string) => {
+  document.cookie = `username=${username}`
+  localStorage.setItem('username', username)
+}
+
+const getUsername = () => {
+  if (document.cookie === '') {
+    return localStorage.getItem('username')
+  }
+  const username = document.cookie.split(';').find((item) => item.includes('username'))
+  return username ? username.split('=')[1] : null
+}
+
 export const isResponseOk = (response: Response | Error): response is Response => {
   return !(response instanceof Error);
 };
@@ -271,7 +357,12 @@ export const isResponseOk = (response: Response | Error): response is Response =
 export {
   authorize,
   createGroup,
+  createInterest,
+  deleteGroupById,
+  deleteUser,
+  deleteInterest,
   getAllGroups,
+  getAllInterests,
   getAllUsers,
   getFriendship,
   getGroupById,
@@ -282,5 +373,7 @@ export {
   updateUserSecurity,
   setJWT,
   getJWT,
-  removeJWT
+  removeJWT,
+  setUsername,
+  getUsername
 };

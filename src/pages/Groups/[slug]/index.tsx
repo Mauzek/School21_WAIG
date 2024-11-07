@@ -92,10 +92,12 @@ const GroupsPage = () => {
   useEffect(()=>{
     const FetchAllGroup = async () => {
       try {
+        if (user){
         const responseAllGroups = await getAllGroups(token);
         setGroups(responseAllGroups || []);
         const responseCreatedGroups = await getUserCreatedGroups(user.username, token);
         setCreatedGroups(responseCreatedGroups || []);
+      }
       } catch (error) {
         console.error("Ошибка при загрузке списка друзей:", error);
       }

@@ -6,6 +6,8 @@ import { Interests, User } from "../../../types";
 import { avatars } from "../../../assets/images/avatars/avatars";
 import { useStore } from "../../../store/app-store";
 import { ChooseProfileAvatar } from "../ChooseProfileAvatar/ChooseProfileAvatar";
+import { removeJWT, setUsername } from "../../../API/api-utils";
+import { useNavigate } from "react-router-dom";
 interface ProfileInfoProps {
   userData: User;
   userInterests: Interests[];
@@ -15,6 +17,7 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
   userData,
   userInterests,
 }) => {
+  const navigate = useNavigate();
   const { user } = useStore();
   const fullName = `${userData.firstname} ${userData.lastname} ${userData.patronymic}`;
   const avatarID = userData.profileImageId as keyof typeof avatars;
@@ -23,10 +26,17 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
     userData.birthday instanceof Date
       ? userData.birthday.toLocaleDateString()
       : userData.birthday;
+      const handleExit = () => {
+          document.cookie = 'jwt=; Max-Age=-1;'
+          document.cookie = 'username=; Max-Age=-1;'
+          navigate("/auth")
+      };
+
+
   return (
     <>
       <div className={styles.info__block}>
-        {Avatar(userData.username, avatarID, user)}
+        {user&&Avatar(userData.username, avatarID, user)}
         <div className={styles.information}>
           <h2 className={styles.Names}>{fullName}</h2>
           <p className={styles.info__text}>{formattedBirthday} <span className={styles.age}>({userData.age})</span></p>
@@ -63,14 +73,14 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
       <div className={styles.interests__description}>
         <InterestsList interests={userInterests} />
         <div className={styles.buttons__container}>
-          {userData.username === user.username && (
-            <button className={styles.exit__button}>Выход</button>
-          )}
-          {userData.username !== user.username && isFriend && (
+          {user&&(userData.username === user.username && (
+            <button className={styles.exit__button} onClick={handleExit}>Выход</button>
+          ))}
+          {user&&(userData.username !== user.username && isFriend && (
             <button className={styles.addFriend__button}>
               Добавить в друзья
             </button>
-          )}
+          ))}
         </div>
       </div>
     </>

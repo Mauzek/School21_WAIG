@@ -28,7 +28,6 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
   const handleInvite = () => {};
 
   const handleLeaveGroup = () => {
-    console.log("Покинул группу " + groupInfo.name);
     setIsOpenPopup((prev) => !prev);
     navigate("/Groups/All");
   };
