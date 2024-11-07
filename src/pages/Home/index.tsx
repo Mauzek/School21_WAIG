@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { GroupCardListMain } from '../../components/GroupCardListMain/GroupCardListMain';
 import styles from './Home.module.css'
-import { useStore } from '../../store/app-store';
-import { getJWT, getUser } from '../../API/api-utils';
+// import { useStore } from '../../store/app-store';
+// import { getJWT, getUser } from '../../API/api-utils';
 
 export type Group = {
   id: string,

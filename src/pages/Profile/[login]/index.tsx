@@ -14,25 +14,12 @@ const ProfilePage: FC = () => {
   const { user, token } = useStore();
 
   const [userData, setUserData] = useState<User | null>(user || null);
-  const [userInterests, setUserInterests] = useState<Interests[]>([
-    { name: "музыка", color: "00C91E" },
-    { name: "спорт", color: "AB2810" },
-    { name: "чтение", color: "0099BB" },
-    { name: "общение", color: "FFFA5A" },
-    { name: "гейминг", color: "DF5B71" },
-    { name: "рисование", color: "9C0B9E" },
-    { name: "монтаж", color: "7CAB3B" },
-    { name: "отдых", color: "161D9B" },
-    { name: "математика", color: "793929" },
-    { name: "физика", color: "217340" },
-    { name: "обучение", color: "BA8D46" },
-    { name: "правильноепитание", color: "EB9A93" },
-  ]);
+  const [userInterests, setUserInterests] = useState<Interests[]>([]);
 
   
   useEffect(() => {
     const fetchUserData = async () => {
-      if (username && username !== user.username) {
+      if (username && username !== user?.username) {
         try {
           const fetchedUserData = await getUser(username, token);
           const fetchedUserInterests = await getUserInterests(username, token);
@@ -44,8 +31,10 @@ const ProfilePage: FC = () => {
       } else {
         setUserData(user);
         try {
-          const fetchedUserInterests = await getUserInterests(user.username, token);
-          setUserInterests(fetchedUserInterests);
+          if(user?.username){
+            const fetchedUserInterests = await getUserInterests(user.username, token);
+            setUserInterests(fetchedUserInterests);
+          }
         } catch (error) {
           console.error("Ошибка при загрузке интересов:", error);
         }
@@ -59,7 +48,7 @@ const ProfilePage: FC = () => {
     location.pathname === `/Profile/${username}/Privacy` ||
     location.pathname === `/Profile/${username}/Edit`;
 
-  if (isAuthorizedUserPage && user.username !== username) {
+  if (isAuthorizedUserPage && user?.username !== username) {
     return <Navigate to={`/Profile/${username}`} replace />;
   }
 

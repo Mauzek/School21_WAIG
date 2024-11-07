@@ -6,6 +6,8 @@ import { Interests, User } from "../../../types";
 import { avatars } from "../../../assets/images/avatars/avatars";
 import { useStore } from "../../../store/app-store";
 import { ChooseProfileAvatar } from "../ChooseProfileAvatar/ChooseProfileAvatar";
+import { logoutUser } from "../../../API/api-utils";
+import { useNavigate } from "react-router-dom";
 interface ProfileInfoProps {
   userData: User;
   userInterests: Interests[];
@@ -23,13 +25,21 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
     userData.birthday instanceof Date
       ? userData.birthday.toLocaleDateString()
       : userData.birthday;
+    const navigate = useNavigate();
+    const handleLogoutUser = () => {
+      logoutUser();
+      navigate("/auth");
+    }
   return (
     <>
       <div className={styles.info__block}>
-        {Avatar(userData.username, avatarID, user)}
+        {user && Avatar(userData.username, avatarID, user)}
         <div className={styles.information}>
           <h2 className={styles.Names}>{fullName}</h2>
-          <p className={styles.info__text}>{formattedBirthday} <span className={styles.age}>({userData.age})</span></p>
+          <p className={styles.info__text}>
+            {formattedBirthday}{" "}
+            <span className={styles.age}>({userData.age})</span>
+          </p>
           <a
             className={`${styles.info__link} ${styles.info__text}`}
             href={`https://t.me/${userData.tgName}`}
@@ -63,10 +73,10 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
       <div className={styles.interests__description}>
         <InterestsList interests={userInterests} />
         <div className={styles.buttons__container}>
-          {userData.username === user.username && (
-            <button className={styles.exit__button}>Выход</button>
+          {userData.username === user?.username && (
+            <button onClick={handleLogoutUser} className={styles.exit__button}>Выход</button>
           )}
-          {userData.username !== user.username && isFriend && (
+          {userData.username !== user?.username && isFriend && (
             <button className={styles.addFriend__button}>
               Добавить в друзья
             </button>

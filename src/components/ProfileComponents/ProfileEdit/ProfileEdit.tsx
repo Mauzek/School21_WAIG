@@ -1,9 +1,9 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./ProfileEdit.module.css";
 import { useStore } from "../../../store/app-store";
 import { ChooseInterests } from "../../CreateGroup/ChooseInterests/ChooseInterests";
 import { Interests } from "../../../types";
-import { updateUserInfo } from "../../../API/api-utils";
+import { getAllInterests, updateUserInfo} from "../../../API/api-utils";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface ProfileEditProps {
@@ -16,23 +16,6 @@ interface ProfileEditProps {
   description: string;
   userInterests: Interests[];
 }
-
-const DataTags = [
-  { name: "программирование", color: "B472EE" },
-  { name: "сериалы", color: "F18100" },
-  { name: "музыка", color: "00C91E" },
-  { name: "спорт", color: "AB2810" },
-  { name: "чтение", color: "0099BB" },
-  { name: "общение", color: "FFFA5A" },
-  { name: "гейминг", color: "DF5B71" },
-  { name: "рисование", color: "9C0B9E" },
-  { name: "монтаж", color: "7CAB3B" },
-  { name: "отдых", color: "161D9B" },
-  { name: "математика", color: "793929" },
-  { name: "физика", color: "217340" },
-  { name: "обучение", color: "BA8D46" },
-  { name: "правильноепитание", color: "EB9A93" },
-];
 
 const MAX_DESCRIPTION_LENGTH = 600;
 
@@ -49,22 +32,37 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
   const [selectedInterests, setSelectedInterests] = useState<Interests[]>(
     userInterests || []
   );
-  
-  const navigate = useNavigate();
-  const {username} = useParams();
 
-  const [availableInterests, setAvailableInterests] = useState<Interests[]>(
-    userInterests
-      ? DataTags.filter(
-          (interest) => !userInterests.some((tag) => tag.name === interest.name)
-        )
-      : DataTags
-  );
+  const navigate = useNavigate();
+  const { username } = useParams();
+
+  const [availableInterests, setAvailableInterests] = useState<Interests[]>([]);
+
+  useEffect(() => {
+    const fetchInterestsData = async () => {
+      try {
+        const responseData = await getAllInterests(token);
+        if (responseData) {
+          setAvailableInterests(
+            responseData.filter(
+              (interest: Interests) =>
+                !userInterests.some(
+                  (userInterest) => userInterest.name === interest.name
+                )
+            )
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchInterestsData();
+  }, []);
 
   const formatDate = (date: Date | string) => {
     const d = new Date(date);
     const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, "0"); 
+    const month = String(d.getMonth() + 1).padStart(2, "0");
     const day = String(d.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
@@ -75,8 +73,9 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
     patronymic,
     tgName,
     gender,
-    birthday: formatDate(birthday), 
+    birthDay: formatDate(birthday),
     description,
+    interests: selectedInterests
   });
 
   const { setMainInfo, user, token } = useStore();
@@ -89,28 +88,47 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
       patronymic,
       tgName,
       gender,
-      birthday: formattedBirthday,
+      birthDay: formattedBirthday,
       description,
+      interests: selectedInterests
     });
   };
 
   const handleSaveChanges = async () => {
-    const { firstname, lastname, patronymic, tgName, gender, birthday } =
-      formData;
-    console.log(formData);
-    if (firstname && lastname && patronymic && tgName && gender && birthday) {
+    const { firstname, lastname, patronymic, tgName, gender, birthDay, description, interests } = formData;
+    
+    console.log("Сохранение изменений:", formData); 
+  
+    if (firstname && lastname && patronymic && tgName && gender && birthday && interests) {
       try {
-        await updateUserInfo(user.username, token, formData);
+        if (user) {
+          const dataToSend = {
+            firstname,
+            lastname,
+            patronymic,
+            tgName,
+            gender,
+            birthDay,
+            description,
+            interests: selectedInterests,
+          };
+  
+          console.log("Отправляемые данные:", dataToSend);
+          
+          await updateUserInfo(user.username, token, dataToSend); 
+        }
+  
         setMainInfo(
-          formData.firstname,
-          formData.lastname,
-          formData.patronymic,
-          formData.gender,
-          formData.tgName,
-          formData.birthday,
-          formData.description
+          firstname,
+          lastname,
+          patronymic,
+          gender,
+          tgName,
+          birthday,
+          description
         );
-        navigate(`/Profile/${username}`)
+  
+        navigate(`/Profile/${username}`);
       } catch (error) {
         console.error("Ошибка при сохранении изменений:", error);
       }
@@ -150,7 +168,7 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
           <input
             className={styles.parametr__input}
             value={formData.lastname}
-            onChange={(e) => handleChange("lastName", e.target.value)}
+            onChange={(e) => handleChange("lastname", e.target.value)}
           />
         </li>
         <li>
@@ -158,7 +176,7 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
           <input
             className={styles.parametr__input}
             value={formData.firstname}
-            onChange={(e) => handleChange("firstName", e.target.value)}
+            onChange={(e) => handleChange("firstname", e.target.value)}
           />
         </li>
         <li>
@@ -206,8 +224,8 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
           <input
             type="date"
             className={`${styles.parametr__input} ${styles.input__date}`}
-            value={formData.birthday}
-            onChange={(e) => handleChange("birthday", e.target.value)}
+            value={formData.birthDay}
+            onChange={(e) => handleChange("birthDay", e.target.value)}
           />
         </li>
       </ul>

@@ -21,15 +21,17 @@ const FriendsPage = () => {
   useEffect(() => {
     const fetchFriendship = async () => {
       try {
-        const response = await getFriendship(user.username, token);
-        setFriends(response || []);
+        if (user?.username) {
+          const response = await getFriendship(user.username, token);
+          setFriends(response || []);
+        }
       } catch (error) {
         console.error("Ошибка при загрузке списка друзей:", error);
       }
     };
 
     fetchFriendship();
-  }, [user.username, token]);
+  }, [user?.username, token]);
 
   return (
     <main className={styles.friends_main__container}>

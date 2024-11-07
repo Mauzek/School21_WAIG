@@ -1,37 +1,45 @@
-import { FC } from "react";
-import { Header } from "../Header/Header";
-import { useStore } from "../../store/app-store";
-import { Outlet, useLocation } from "react-router-dom";
-// import { useEffect } from "react";
-// import { getJWT, getUser, isResponseOk } from "../../API/api-utils";
-// import { User } from "../../types";
+  import { FC } from "react";
+  import { Header } from "../Header/Header";
+  import { useStore } from "../../store/app-store";
+  import { Outlet, useLocation } from "react-router-dom";
+  import { useEffect } from "react";
+  import {
+    getJWT,
+    getUser,
+    getUsername,
+  } from "../../API/api-utils";
 
-const Layout: FC = () => {
-  // const { updateUserStore } = useStore();
-  const location = useLocation();
+  const Layout: FC = () => {
+    const location = useLocation();
+    const { updateUserStore, user, setToken } = useStore();
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const token = getJWT();
-  //     if (token) {
-  //       try {
-  //         const totaluser = await getUser('admin3', token);
-  //         updateUserStore(totaluser);
-  //       } catch (error) {
-  //         console.error("Ошибка при получении пользователя:", error);
-  //       }
-  //     }
-  //   };
+    useEffect(() => {
+      const fetchUser = async () => {
+        const token = getJWT();
+        const username = getUsername();
+        if (token) {
+          try {
+            const totaluser = username && await getUser(username, token);
+            updateUserStore(totaluser);
+            setToken(token)
 
-  //   fetchUser(); 
-  // }, []);
-  const { user } = useStore();
-  return (
-    <>
-      {(location.pathname !== '/Auth' && location.pathname !== '/auth') && <Header user={user} />}
-      <Outlet />
-    </>
-  );
-};
+          } catch (error) {
+            console.error("Ошибка при получении пользователя:", error);
+          }
+        }
+      };
 
-export default Layout;
+      fetchUser(); 
+    }, []);
+
+    return (
+      <>
+        {user &&
+          location.pathname !== "/Auth" &&
+          location.pathname !== "/auth" && <Header user={user} />}
+        <Outlet />
+      </>
+    );
+  };
+
+  export default Layout;

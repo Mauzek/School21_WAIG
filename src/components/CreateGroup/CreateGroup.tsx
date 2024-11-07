@@ -1,31 +1,15 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import styles from "./CreateGroup.module.css";
 import { CustomGroupAvatar } from "./CustomGroupAvatar/CustomGroupAvatar";
 import EditAvatar from "../../assets/icons/edit_avatar_icon.svg";
 import { useNavigate } from "react-router-dom";
 import { ChooseInterests } from "./ChooseInterests/ChooseInterests";
 import { Interests } from "../../types";
-import { createGroup } from "../../API/api-utils";
+import { createGroup, getAllInterests } from "../../API/api-utils";
 import { useStore } from "../../store/app-store";
 
-const DataTags = [
-  { name: "программирование", color: "B472EE" },
-  { name: "сериалы", color: "F18100" },
-  { name: "музыка", color: "00C91E" },
-  { name: "спорт", color: "AB2810" },
-  { name: "чтение", color: "0099BB" },
-  { name: "общение", color: "FFFA5A" },
-  { name: "гейминг", color: "DF5B71" },
-  { name: "рисование", color: "9C0B9E" },
-  { name: "монтаж", color: "7CAB3B" },
-  { name: "отдых", color: "161D9B" },
-  { name: "математика", color: "793929" },
-  { name: "физика", color: "217340" },
-  { name: "обучение", color: "BA8D46" },
-  { name: "правильноепитание", color: "EB9A93" },
-];
 
-const MAX_DESCRIPTION_LENGTH = 300;
+const MAX_DESCRIPTION_LENGTH = 250;
 
 export const CreateGroup: FC = () => {
   const { user, token } = useStore();
@@ -33,11 +17,32 @@ export const CreateGroup: FC = () => {
   const [chars, setChars] = useState<string>("AAA");
   const [color, setColor] = useState<string>("#E17575");
   const [name, setName] = useState<string>('');
-  const [availableInterests, setAvailableInterests] = useState(DataTags);
+  const [availableInterests, setAvailableInterests] = useState<Interests[]>([]);
   const [selectedInterests, setSelectedInterests] = useState<Interests[]>([]);
   const [description, setDescription] = useState<string>("");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchInterestsData = async () => {
+      try {
+        const responseData = await getAllInterests(token);
+        if (responseData) {
+          setAvailableInterests(
+            responseData.filter(
+              (interest: Interests) =>
+                !selectedInterests.some(
+                  (userInterest) => userInterest.name === interest.name
+                )
+            )
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchInterestsData();
+  }, []);
 
   const togglePopup = () => {
     setIsOpenPopup((prev) => !prev);
@@ -46,8 +51,6 @@ export const CreateGroup: FC = () => {
   const handleCancelCreateGroup = () => {
     navigate(-1);
   };
-
-
 
   const handleCreateGroup = () => {
     const groupData = {
@@ -58,7 +61,7 @@ export const CreateGroup: FC = () => {
       interests: selectedInterests,
     };
     console.log(groupData)
-    createGroup(user.username, token, groupData);
+    if (user) createGroup(user.username, token, groupData);
   };
 
   const addInterest = (interest: { name: string; color: string }) => {

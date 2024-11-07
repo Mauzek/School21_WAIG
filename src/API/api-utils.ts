@@ -16,6 +16,46 @@ const authorize = async (data: { username: string; password: string }) => {
   }
 };
 
+interface registrationData {
+  username: string;
+  birthDay: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  patronymic?: string;
+  gender: string;
+  tgName: string;
+  password: string;
+}
+
+const registration = async (data: registrationData) => {
+  try {
+    const response = await axios.post(endpoints.registration, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении данных пользователя:", error);
+    throw error;
+  }
+}
+
+const confirmUserEmail = async (code: string) => {
+  try {
+    const response = await axios.get(endpoints.confirmEmail(code), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении данных пользователя:", error);
+    throw error;
+  }
+}
+
 interface CreateGroupData {
   chars: string,
   name: string,
@@ -41,7 +81,7 @@ const createGroup = async (userLogin: string, token: string, data: CreateGroupDa
 
 const getAllGroups = async (token: string) => {
   try {
-    const response = await axios.get(endpoints.adminGetAllGroups, {
+    const response = await axios.get(endpoints.getAllGroups, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -68,6 +108,22 @@ const getAllUsers = async (token: string) => {
     throw error;
   }
 };
+
+const getAllInterests = async (token: string) => {
+  try{
+    const response = await axios.get(endpoints.adminGetAllInterests, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  }catch(error){
+    console.error("Ошибка при получении всех интересов:", error);
+    throw error;
+  }
+}
 
 const getFriendship = async (userLogin: string, token: string) => {
   try {
@@ -127,7 +183,7 @@ const getUserCreatedGroups = async (userLogin: string, token: string) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Ошибка при обновлении информации о пользователе:", error);
+    console.error("Ошибка при получении созданных групп:", error);
     throw error;
   }
 };
@@ -191,7 +247,7 @@ interface UpdateUserInfoData {
   gender: string;
   tgName: string;
   description?: string;
-  birthday: string;
+  birthDay: string;
 };
 
 const updateUserInfo = async (
@@ -231,8 +287,8 @@ const updateUserSecurity = async (
         updateData.newUsername,
         updateData.newPassword,
         updateData.newEmail
-      ),
-      {
+      ),{},
+      { 
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -251,6 +307,19 @@ const setJWT = (jwt: string) => {
   localStorage.setItem('jwt', jwt)
 }
 
+const setUsername = (username: string) => {
+  document.cookie = `username=${username}`
+  localStorage.setItem('username', username)
+}
+
+const getUsername = () => {
+  if (document.cookie === '') {
+    return localStorage.getItem('username')
+  }
+  const username = document.cookie.split(';').find((item) => item.includes('username'))
+  return username ? username.split('=')[1] : null
+}
+
 const getJWT = () => {
   if (document.cookie === '') {
     return localStorage.getItem('jwt')
@@ -259,20 +328,23 @@ const getJWT = () => {
   return jwt ? jwt.split('=')[1] : null
 }
 
-const removeJWT = () => {
-  document.cookie = 'jwt=;'
-  localStorage.removeItem('jwt')
-}
-
 export const isResponseOk = (response: Response | Error): response is Response => {
   return !(response instanceof Error);
 };
+
+const logoutUser = () =>{
+  document.cookie = 'jwt=; Max-Age=-1;'
+  document.cookie = 'username=; Max-Age=-1;'
+  localStorage.removeItem('jwt');
+  localStorage.removeItem('username');
+}
 
 export {
   authorize,
   createGroup,
   getAllGroups,
   getAllUsers,
+  getAllInterests,
   getFriendship,
   getGroupById,
   getUser,
@@ -281,6 +353,10 @@ export {
   updateUserInfo,
   updateUserSecurity,
   setJWT,
+  setUsername,
   getJWT,
-  removeJWT
+  getUsername,
+  logoutUser,
+  registration,
+  confirmUserEmail
 };

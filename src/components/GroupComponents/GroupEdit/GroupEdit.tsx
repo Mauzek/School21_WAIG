@@ -77,7 +77,7 @@ export const GroupEdit: FC<GroupEditProps> = ({ groupData, dataTags }) => {
         <div className={styles.avatarSection}>
           <div
             className={styles.avatarPreview}
-            style={{ backgroundColor: color }}
+            style={{ backgroundColor: `#${color}` }}
           >
             <span className={styles.avatarText}>{chars}</span>
             <button

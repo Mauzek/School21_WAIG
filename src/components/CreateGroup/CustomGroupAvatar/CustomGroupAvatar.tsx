@@ -20,7 +20,7 @@ export const CustomGroupAvatar: FC<CustomGroupAvatarProps> = ({
   colorAvatar,
 }) => {
   const [chars, updateChars] = useState(charsAvatar);
-  const [color, updateColor] = useState(colorAvatar);
+  const [color, updateColor] = useState(`#${colorAvatar}`);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value.slice(0, 3);
@@ -69,7 +69,7 @@ export const CustomGroupAvatar: FC<CustomGroupAvatarProps> = ({
         <div className={styles.content}>
           <div
             className={styles.avatarPreview}
-            style={{ backgroundColor: color }}
+            style={{ backgroundColor: `${color}` }}
           >
             <span className={styles.avatarText}>{chars}</span>
           </div>
