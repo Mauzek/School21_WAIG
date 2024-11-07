@@ -17,6 +17,7 @@ export const endpoints = {
   */
   auth: `${BASE_API}/auth/sing-in`, // post (Body) {"username":"john_doe","password":"securePassword123"} //! sing - sign
   refreshToken: `${BASE_API}/auth/refresh`, //post
+  confirmEmail: (code:string) => `${BASE_API}/auth/activate/${code}`,
   getUser: (userLogin: string) => `${BASE_API}/api/user/${userLogin}`, //get //http://localhost:8080/api/user/{login}
 
   //Admin Endpoints
@@ -47,6 +48,8 @@ export const endpoints = {
   fetchGroupsByInterest:   `${BASE_API}/groups/search_interest`, //get //http://localhost:8080/groups/search_interest
   deleteOwnerGroupById: (groupId: string) => `${BASE_API}/groups/${groupId}`, //delete http://localhost:8080/groups/{groupID} Вроде удаляются только если токен хедера соответсвтует токену создателя группы
   getGroupById: (groupId: string) => `${BASE_API}/groups/${groupId}`,
+  getAllGroups: `${BASE_API}/groups`, //get //http://localhost:8080/groups
+
 
   //User Endpoints
   getUserCreatedGroups: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/groups/created`, //get

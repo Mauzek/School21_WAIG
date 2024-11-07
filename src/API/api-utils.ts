@@ -16,6 +16,46 @@ const authorize = async (data: { username: string; password: string }) => {
   }
 };
 
+interface registrationData {
+  username: string;
+  birthDay: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  patronymic?: string;
+  gender: string;
+  tgName: string;
+  password: string;
+}
+
+const registration = async (data: registrationData) => {
+  try {
+    const response = await axios.post(endpoints.registration, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении данных пользователя:", error);
+    throw error;
+  }
+}
+
+const confirmUserEmail = async (code: string) => {
+  try {
+    const response = await axios.get(endpoints.confirmEmail(code), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении данных пользователя:", error);
+    throw error;
+  }
+}
+
 interface CreateGroupData {
   chars: string,
   name: string,
@@ -100,7 +140,7 @@ const deleteUser = async (token:string,username:string) => {
 
 const getAllGroups = async (token: string) => {
   try {
-    const response = await axios.get(endpoints.adminGetAllGroups, {
+    const response = await axios.get(endpoints.getAllGroups, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -114,19 +154,20 @@ const getAllGroups = async (token: string) => {
 };
 
 const getAllInterests = async (token: string) => {
-  try {
+  try{
     const response = await axios.get(endpoints.adminGetAllInterests, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(response.data);
     return response.data;
-  } catch (error) {
-    console.error("Ошибка при получении данных пользователя:", error);
+  }catch(error){
+    console.error("Ошибка при получении всех интересов:", error);
     throw error;
   }
-};
+}
 
 const getAllUsers = async (token: string) => {
   try {
@@ -200,7 +241,7 @@ const getUserCreatedGroups = async (userLogin: string, token: string) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Ошибка при обновлении информации о пользователе:", error);
+    console.error("Ошибка при получении созданных групп:", error);
     throw error;
   }
 };
@@ -264,7 +305,7 @@ interface UpdateUserInfoData {
   gender: string;
   tgName: string;
   description?: string;
-  birthday: string;
+  birthDay: string;
 };
 
 const updateUserInfo = async (
@@ -304,8 +345,8 @@ const updateUserSecurity = async (
         updateData.newUsername,
         updateData.newPassword,
         updateData.newEmail
-      ),
-      {
+      ),{},
+      { 
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -354,6 +395,13 @@ export const isResponseOk = (response: Response | Error): response is Response =
   return !(response instanceof Error);
 };
 
+const logoutUser = () =>{
+  document.cookie = 'jwt=; Max-Age=-1;'
+  document.cookie = 'username=; Max-Age=-1;'
+  localStorage.removeItem('jwt');
+  localStorage.removeItem('username');
+}
+
 export {
   authorize,
   createGroup,
@@ -369,11 +417,14 @@ export {
   getUser,
   getUserCreatedGroups,
   getUserInterests,
+  registration,
   updateUserInfo,
   updateUserSecurity,
   setJWT,
   getJWT,
   removeJWT,
   setUsername,
-  getUsername
+  getUsername,
+  logoutUser,
+  confirmUserEmail
 };

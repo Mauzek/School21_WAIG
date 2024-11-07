@@ -1,8 +1,6 @@
-import { FC  } from "react";
+import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./NavMenu.module.css";
-// import imgClose from "../../../assets/icons/close_popup.svg";
-// import imgHam from "../../../assets/icons/hamburger.svg";
 
 interface NavMenuProps {
   menuItems: { label: string; path: string }[];
@@ -10,26 +8,11 @@ interface NavMenuProps {
 
 export const NavMenu: FC<NavMenuProps> = ({ menuItems }) => {
   const location = useLocation();
-
   const isActive = (path: string) => location.pathname.startsWith(path);
-  // const [IsNavActive,setIsNavActive] = useState<boolean>(false);
-// function handleNav() {setIsNavActive(!IsNavActive)}; 
   return (
-  
-  
     <nav className={styles.navbar__container} >
-  {/* <button onClick={handleNav} className={styles.button__nav__opener}>
-
-    <img src={imgHam}/>
-  </button> */}
-      {/* <ul className={styles.navbar__menu} style={IsNavActive?{display:"block"}:{}}> */}
-      <ul className={styles.navbar__menu}>
+      <ul className={styles.navbar__menu} >
         <li className={styles.button__nav__close}>
-          
-{/* <button onClick={handleNav} style={{width:"24px",height:"24px",background:"#1D2633",border:0,}}>
-<img src={imgClose}/>
-
-</button> */}
         </li>
         {menuItems.map((item) => (
           <li
@@ -38,8 +21,7 @@ export const NavMenu: FC<NavMenuProps> = ({ menuItems }) => {
               isActive(item.path) ? styles.active : ""
             }`}
           >
-            {/* <Link to={item.path} aria-label={item.label} onClick={handleNav}> */}
-            <Link to={item.path} aria-label={item.label}>
+            <Link to={item.path} aria-label={item.label} >
               {item.label}
             </Link>
           </li>

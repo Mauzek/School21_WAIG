@@ -7,6 +7,7 @@ import { avatars } from "../../../assets/images/avatars/avatars";
 import { useStore } from "../../../store/app-store";
 import { ChooseProfileAvatar } from "../ChooseProfileAvatar/ChooseProfileAvatar";
 import { removeJWT, setUsername } from "../../../API/api-utils";
+import { logoutUser } from "../../../API/api-utils";
 import { useNavigate } from "react-router-dom";
 interface ProfileInfoProps {
   userData: User;
@@ -26,20 +27,20 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
     userData.birthday instanceof Date
       ? userData.birthday.toLocaleDateString()
       : userData.birthday;
-      const handleExit = () => {
-          document.cookie = 'jwt=; Max-Age=-1;'
-          document.cookie = 'username=; Max-Age=-1;'
-          navigate("/auth")
-      };
-
-
+    const handleLogoutUser = () => {
+      logoutUser();
+      navigate("/auth");
+    }
   return (
     <>
       <div className={styles.info__block}>
-        {user&&Avatar(userData.username, avatarID, user)}
+        {user && Avatar(userData.username, avatarID, user)}
         <div className={styles.information}>
           <h2 className={styles.Names}>{fullName}</h2>
-          <p className={styles.info__text}>{formattedBirthday} <span className={styles.age}>({userData.age})</span></p>
+          <p className={styles.info__text}>
+            {formattedBirthday}{" "}
+            <span className={styles.age}>({userData.age})</span>
+          </p>
           <a
             className={`${styles.info__link} ${styles.info__text}`}
             href={`https://t.me/${userData.tgName}`}
@@ -69,18 +70,18 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
             {userData.description}
           </p>
         </fieldset>
-      </div>
+        </div>
       <div className={styles.interests__description}>
         <InterestsList interests={userInterests} />
         <div className={styles.buttons__container}>
-          {user&&(userData.username === user.username && (
-            <button className={styles.exit__button} onClick={handleExit}>Выход</button>
-          ))}
-          {user&&(userData.username !== user.username && isFriend && (
+          {userData.username === user?.username && (
+            <button onClick={handleLogoutUser} className={styles.exit__button}>Выход</button>
+          )}
+          {userData.username !== user?.username && isFriend && (
             <button className={styles.addFriend__button}>
               Добавить в друзья
             </button>
-          ))}
+          )}
         </div>
       </div>
     </>

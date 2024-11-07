@@ -1,3 +1,4 @@
+
 import { create } from "zustand";
 import { User } from "../types";
 import { avatars } from "../assets/images/avatars/avatars";
@@ -17,17 +18,24 @@ interface StoreState {
     description: string
   ) => void;
   updateUserStore: (updatedUser: any) => void;
-  setToken: (newToken: string) => void;
+  setToken: (token: string) => void;
+  setUser: (userData: User) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
   isAuth: true,
   user: null,
-  token:
-    "",
+  token: "",
+  setUser: (userData) => {
+    set((state) => ({
+      isAuth: true,
+      user: state.user && { ...state.user, ...userData },
+    }));
+  },
+  setToken: (newToken) => set({ token: newToken }),
   setAvatar: (avatarId) =>
     set((state) => ({
-      user: state.user&&{ ...state.user, profileImageId: avatarId },
+      user: state.user &&  { ...state.user, profileImageId: avatarId },
     })),
   setMainInfo: (
     firstName,
@@ -39,7 +47,7 @@ export const useStore = create<StoreState>((set) => ({
     description
   ) => {
     set((state) => ({
-      user:state.user&& {
+      user: state.user &&  {
         ...state.user,
         firstName: firstName,
         lastName: lastName,
@@ -53,7 +61,6 @@ export const useStore = create<StoreState>((set) => ({
   },
   updateUserStore: (updatedUser) =>
     set((state) => ({
-      user: {  ...state.user ,...updatedUser},
+      user: { ...state.user, ...updatedUser },
     })),
-    setToken: (newToken) => set({ token: newToken })
 }));

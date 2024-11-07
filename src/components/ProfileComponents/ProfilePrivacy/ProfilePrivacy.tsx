@@ -2,8 +2,9 @@ import { FC, useState } from "react";
 import styles from "./ProfilePrivacy.module.css";
 import imgOK from "../../../assets/icons/checker.svg";
 import imgBad from "../../../assets/icons/close_popup.svg";
-import { updateUserSecurity } from "../../../API/api-utils";
+import { logoutUser, updateUserSecurity } from "../../../API/api-utils";
 import { useStore } from "../../../store/app-store";
+import { useNavigate } from "react-router-dom";
 
 interface ProfilePrivacyProps {
   email: string;
@@ -18,7 +19,7 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
   const [usernameInput, setUsernameInput] = useState(username);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-
+  const navigate = useNavigate();
   const { user, token } = useStore();
 
   const validateEmail = (value: string) =>
@@ -51,10 +52,12 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
         newPassword: newPassword,
       };
 
-      const response = await updateUserSecurity(user.username, token, updateData);
+      const response = user && await updateUserSecurity(user.username, token, updateData);
 
       if (response) {
         handleUndoChanges(); 
+        logoutUser();
+        navigate("/auth");
       }
     } catch (error) {
       console.error("Ошибка при обновлении информации о пользователе:", error);

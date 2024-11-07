@@ -44,7 +44,7 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
         <div className={styles.header__mainInfo_container}>
           <h2 className={styles.mainInfo__group_title}>{groupInfo.name}</h2>
           <span className={styles.mainInfo__group_count_members}>
-            Участников: {groupInfo.subscribers?.length}
+            Участников: {groupInfo.subscribers?.length + 1}
           </span>
           <p className={styles.mainInfo__group_description}>
             {groupInfo.description}

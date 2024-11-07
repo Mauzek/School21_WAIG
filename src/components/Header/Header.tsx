@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { NavMenu } from "./NavMenu/NavMenu";
 import { HeaderTitle } from "./HeaderTitle/HeaderTitle";
@@ -8,16 +8,37 @@ import LogoIcon from "../../assets/icons/logo.svg";
 import { User } from "../../types";
 import SearchIcon from "../../assets/icons/search_icon.svg";
 import { NoticesPopup } from "../NoticesPopup/NoticesPopup";
+import { getUserCreatedGroups } from "../../API/api-utils";
+import { useStore } from "../../store/app-store";
 
 interface HeaderProps {
   user: User;
 }
 
 export const Header: FC<HeaderProps> = ({ user }) => {
+  const {token} = useStore();
   const { username, id } = useParams<{ username: string; id: string }>();
   const [isNoticesBtnActive, setIsNoticesBtnActive] = useState<boolean>(false);
   const [isSearchBtnActive, setIsSearchBtnActive] = useState<boolean>(false);
   const location = useLocation();
+  const [userGroups, setUserGroups] = useState<any[]>([]);
+
+useEffect(() => {
+  const fetchUserGroups = async () => {
+    try {
+      const groups = await getUserCreatedGroups(user.username, token); // This should return a promise
+      setUserGroups(groups); // Set the groups in state once fetched
+      console.log(userGroups)
+    } catch (error) {
+      console.error("Failed to fetch user groups", error);
+    }
+  };
+
+  if (user.username && token) {
+    fetchUserGroups(); // Fetch the groups if user and token are available
+  }
+}, [user.username, token]); // Re-run when user.username or token changes
+
 
   const mainMenuItems = [
     { label: "Главная", path: "/Home" },
@@ -71,7 +92,7 @@ export const Header: FC<HeaderProps> = ({ user }) => {
       ];
     }
     if (location.pathname.startsWith("/Group/")) {
-      if (id === user.id) {
+      if (userGroups.some((group) => group.id === Number(id))) {
         return [
           { label: "Главная", path: `/Group/${id}/Main` },
           { label: "Участники", path: `/Group/${id}/Members` },
