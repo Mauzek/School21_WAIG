@@ -44,25 +44,29 @@ export const endpoints = {
     }
   */
   addInterestToGroup: (groupId: string) => `${BASE_API}/groups/${groupId}/interests`, //post //http://localhost:8080/groups/{groupId}/interests
-  fetchGroupByPrefixName:  `${BASE_API}/groups/search_name?prefix_name=`, //get //http://localhost:8080/groups/search_name?prefix_name={groupChars} - необязательный 
-  fetchGroupsByInterest:   `${BASE_API}/groups/search_interest`, //get //http://localhost:8080/groups/search_interest
   deleteOwnerGroupById: (groupId: string) => `${BASE_API}/groups/${groupId}`, //delete http://localhost:8080/groups/{groupID} Вроде удаляются только если токен хедера соответсвтует токену создателя группы
-  getGroupById: (groupId: string) => `${BASE_API}/groups/${groupId}`,
+  getGroupById: (groupId: string) => `${BASE_API}/groups/${groupId}`, //get
   getAllGroups: `${BASE_API}/groups`, //get //http://localhost:8080/groups
+  updateGroupInfo: (groupId: number) => `${BASE_API}/groups/${groupId}/update`, //put
+  getGroupsByPrefixName:(groupName: string) => `${BASE_API}/groups/search_name?prefix_name=${groupName}`, //get
+  getGroupsByInterests: `${BASE_API}/groups/search_interest`, //post {body request}
 
 
   //User Endpoints
+  postUserSubscribeToGroup: (userLogin: string, groupId: number) => `${BASE_API}/api/user/${userLogin}/subscribe?groupId=${groupId}`, //post
+  leaveFromGroup: (username: string,groupdId: string) => `${BASE_API}/api/user/${username}/unsubscribe?groupId=${groupdId}`, //delete
   getUserCreatedGroups: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/groups/created`, //get
+  getSubscribedGroups: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/groups`, //get
   uploadProfileImage: (userLogin: string)=> `${BASE_API}/api/user/${userLogin}/profile-image`, //post
   deleteUserInterests: (userLogin:string) => `${BASE_API}/api/user/${userLogin}/interests`, //delete
   getUserInterests: (userLogin:string) => `${BASE_API}/api/user/${userLogin}/interests`, //get
   addUserInterest: (userlogin: string) =>  `${BASE_API}/api/user/${userlogin}/interests`,  //post
   updateSecurityInfo: (userLogin: string, newLogin: string, newPassword: string, newEmail: string) =>  `${BASE_API}/api/user/${userLogin}/security?new_login=${newLogin}&password=${newPassword}&email=${newEmail}`, //put
-  fetchUserByInterests: `${BASE_API}/api/user/search_interest`, //post (get) {body}
-  fetchUserByFullname: (firstName:string, lastName:string, patronymic:string) => `${BASE_API}/api/user/search_name?firstName=${firstName}&lastName=${lastName}&patronymic=${patronymic}`, //get 
-  fetchUserByUsername: `${BASE_API}/api/user/search_username`, //post (get) {body}
+  getUsersByInterests: `${BASE_API}/api/user/search_interest`, //post {body}
+  getUserByFullname: `${BASE_API}/api/user/search_name`, //post {body} 
   deleteOwnerUserByLogin: (userLogin:string) => `${BASE_API}/api/user/${userLogin}`, //delete 
   updateUser: (userLogin:string) => `${BASE_API}/api/user/${userLogin}/update`, //put  
+  setUserProfileImage: (userLogin: string, avatarName: string) => `${BASE_API}/api/user/${userLogin}/profile-image?profileImageId=${avatarName}`, // post
 
   //Friendship
   getFriendship: (userName:string) => `${BASE_API}/friendships/search?login=${userName}`,

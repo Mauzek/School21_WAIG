@@ -15,7 +15,7 @@ export const CreateGroup: FC = () => {
   const { user, token } = useStore();
   const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
   const [chars, setChars] = useState<string>("AAA");
-  const [color, setColor] = useState<string>("#E17575");
+  const [color, setColor] = useState<string>("E17575");
   const [name, setName] = useState<string>('');
   const [availableInterests, setAvailableInterests] = useState<Interests[]>([]);
   const [selectedInterests, setSelectedInterests] = useState<Interests[]>([]);
@@ -59,7 +59,10 @@ export const CreateGroup: FC = () => {
       description,
       interests: selectedInterests,
     };
-    if (user) createGroup(user.username, token, groupData);
+    if (user){
+      createGroup(user.username, token, groupData);
+      navigate('/Groups/Managed')
+    };
   };
 
   const addInterest = (interest: { name: string; color: string }) => {

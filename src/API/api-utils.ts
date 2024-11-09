@@ -79,6 +79,74 @@ const createGroup = async (userLogin: string, token: string, data: CreateGroupDa
   }
 };
 
+interface UpdateGroupData {
+    chars: string,
+    name: string,
+    color: string,
+    description: string,
+    interests?: Interests[],
+}
+
+const editGroupInfo = async (groupId: number ,token: string, data: UpdateGroupData) => {
+  try {
+    const response = await axios.put(endpoints.updateGroupInfo(groupId), data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при обновлении информации о группе:", error);
+    throw error;
+  }
+}
+
+const getUserSubscribedGroups = async (userLogin: string, token: string) => {
+  try {
+    const response = await axios.get(endpoints.getSubscribedGroups(userLogin), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при обновлении информации о группе:", error);
+    throw error;
+  }
+};
+
+const subscribeToGroup = async(userLogin: string, groupId: number, token: string) => {
+  try {
+    const response = await axios.post(endpoints.postUserSubscribeToGroup(userLogin, groupId),{}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при подписывании на группу:", error);
+    throw error;
+  }
+}
+
+const leaveFromGroup = async (username:string,groupId:string,token:string) => {
+  try {
+    const response = await axios.delete(endpoints.leaveFromGroup(username,groupId), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при выходе с группы:", error);
+    throw error;
+  }
+};
+
 const createInterest = async (token: string, data: Interests) => {
   try {
     const response = await axios.post(endpoints.adminAddInterest(data.name,data.color),{},{
@@ -89,6 +157,7 @@ const createInterest = async (token: string, data: Interests) => {
     });
     return response.data;
   } catch (error) {
+    console.error("Ошибка при создании интереса:", error);
     throw error;
   }
 };
@@ -148,10 +217,25 @@ const getAllGroups = async (token: string) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Ошибка при обновлении информации о пользователе:", error);
+    console.error("Ошибка при получении всех групп:", error);
     throw error;
   }
 };
+
+const getGroupByPrefixName = async(groupName: string,token: string) => {
+  try {
+    const response = await axios.get(endpoints.getGroupsByPrefixName(groupName), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Ошибка при получении групп по запросу: ${groupName}`, error);
+    throw error;
+  }
+}
 
 const getAllInterests = async (token: string) => {
   try{
@@ -161,7 +245,6 @@ const getAllInterests = async (token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data);
     return response.data;
   }catch(error){
     console.error("Ошибка при получении всех интересов:", error);
@@ -214,6 +297,29 @@ const getGroupById = async (groupID: string, token: string) => {
   }
 };
 
+interface InterestsProps {
+  name: string
+}
+
+const getGroupsByInterests = async (interests: InterestsProps[], token: string) => {
+  try {
+    const response = await axios.post(
+      endpoints.getGroupsByInterests,
+      interests, 
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении информации о группах по интересам:", error);
+    throw error;
+  }
+};
+
 const getUser = async (login: string, token: string) => {
   try {
     const response = await axios.get(endpoints.getUser(login), {
@@ -230,6 +336,64 @@ const getUser = async (login: string, token: string) => {
     throw error;
   }
 };
+
+interface userFullName{
+  firstName: string,
+  lastName: string,
+  patronymic: string
+}
+
+
+const getUsersByFullName = async (userFullName: userFullName, token: string) => {
+  try {
+    const response = await axios.post(endpoints.getUserByFullname, userFullName, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении данных пользователя:", error);
+    throw error;
+  }
+}
+
+const getUsersByInterests = async(interests: InterestsProps[], token: string) =>{
+  try {
+    const response = await axios.post(
+      endpoints.getUsersByInterests,
+      interests, 
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении информации о группах по интересам:", error);
+    throw error;
+  }
+}
+
+const setUserProfileImage = async(userLogin: string,token: string, avatarName: string) => {
+  try {
+    const response = await axios.post(endpoints.setUserProfileImage(userLogin, avatarName), {}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при установке аватара пользователю:", error);
+    throw error;
+  }
+}
 
 const getUserCreatedGroups = async (userLogin: string, token: string) => {
   try {
@@ -284,7 +448,7 @@ const normalizeUserData = (user: UserDataFromServer): User => {
   return {
     id: user.id ?? "",
     username: user.username,
-    birthday: user.birthDay ? new Date(user.birthDay).toLocaleDateString('en-US') : "",
+    birthday: user.birthDay  ? new Date(user.birthDay).toLocaleDateString('en-US') : "",
     description: user.description ?? "",
     email: user.email,
     firstname: user.firstname,
@@ -361,34 +525,25 @@ const updateUserSecurity = async (
 };
 
 const setJWT = (jwt: string) => {
-  document.cookie = `jwt=${jwt}`
   localStorage.setItem('jwt', jwt)
 }
 
 const getJWT = () => {
-  if (document.cookie === '') {
-    return localStorage.getItem('jwt')
-  }
-  const jwt = document.cookie.split(';').find((item) => item.includes('jwt'))
-  return jwt ? jwt.split('=')[1] : null
+  const jwt = localStorage.getItem('jwt')
+  return jwt 
 }
 
 const removeJWT = () => {
-  document.cookie = 'jwt=;'
   localStorage.removeItem('jwt')
 }
 
 const setUsername = (username: string) => {
-  document.cookie = `username=${username}`
   localStorage.setItem('username', username)
 }
 
 const getUsername = () => {
-  if (document.cookie === '') {
-    return localStorage.getItem('username')
-  }
-  const username = document.cookie.split(';').find((item) => item.includes('username'))
-  return username ? username.split('=')[1] : null
+  const username = localStorage.getItem('username')
+  return username 
 }
 
 export const isResponseOk = (response: Response | Error): response is Response => {
@@ -396,8 +551,6 @@ export const isResponseOk = (response: Response | Error): response is Response =
 };
 
 const logoutUser = () =>{
-  document.cookie = 'jwt=; Max-Age=-1;'
-  document.cookie = 'username=; Max-Age=-1;'
   localStorage.removeItem('jwt');
   localStorage.removeItem('username');
 }
@@ -405,20 +558,29 @@ const logoutUser = () =>{
 export {
   authorize,
   createGroup,
+  editGroupInfo,
   createInterest,
   deleteGroupById,
   deleteUser,
   deleteInterest,
   getAllGroups,
+  getGroupByPrefixName,
   getAllInterests,
   getAllUsers,
   getFriendship,
   getGroupById,
+  getGroupsByInterests,
   getUser,
+  getUsersByFullName,
+  getUsersByInterests,
   getUserCreatedGroups,
   getUserInterests,
+  getUserSubscribedGroups,
+  subscribeToGroup,
+  leaveFromGroup,
   registration,
   updateUserInfo,
+  setUserProfileImage,
   updateUserSecurity,
   setJWT,
   getJWT,

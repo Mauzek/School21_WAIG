@@ -15,6 +15,7 @@ export const Users: FC = () => {
         try {
           setUsers(await getAllUsers(token));
         } catch (error) {
+          console.error(error)
           throw error;
         }
       }

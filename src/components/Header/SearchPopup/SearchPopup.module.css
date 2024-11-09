@@ -1,0 +1,265 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  z-index: 2;
+}
+
+.popup {
+  background-color: #2c384a;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 1360px;
+  width: 100%;
+  margin-top: 100px;
+  max-height: 825px;
+  animation: fadeIn 0.3s;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header__action__container {
+  display: flex;
+  gap: 2em;
+}
+
+.btn_search_interest {
+  width: 30px;
+  height: 30px;
+}
+
+.action__btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 50px;
+  height: 50px;
+  transition: border 0.25s, background-color 0.25s;
+}
+
+.action__btn:active,
+.button_isActive {
+  background-color: #d0a6f4;
+}
+
+.action__btn:hover {
+  border: 1px solid #d0a6f4;
+}
+
+.interests__container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+  overflow-x: auto; 
+  max-width: 100%; 
+  padding: 10px 0;
+}
+
+.interests__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 0.5em;
+  flex-wrap: nowrap; 
+}
+
+.interests__container::-webkit-scrollbar{
+  height: 8px;
+}
+
+.interests__container::-webkit-scrollbar-track{
+  border-radius: 6px;
+    background: #1D2633;
+}
+
+.interests__container::-webkit-scrollbar-thumb{
+  background: #44EB99; 
+  border-radius: 6px; 
+}
+
+.interests__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em 1em;
+  border: 2px solid transparent;
+  background-color: #3c4d64;
+  border-radius: 8px;
+  color: #fff;
+  white-space: nowrap;
+  transition: border 0.25s;
+  cursor: pointer;
+}
+
+.interests__item:hover {
+  border: 2px solid #44EB99;
+}
+
+.selected {
+  border: 2px solid #44EB99;
+  background-color: #2b3b54;
+}
+
+.selected:hover {
+  border: 2px solid #FF4A50;
+}
+
+.interests__color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.member_card__container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+  border-radius: 30px;
+  padding: 16px;
+  background-color: #263040;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.card__link {
+  text-decoration: none;
+  color: inherit;
+  border-radius: 30px;
+}
+
+.member_card__container:hover {
+  background-color: #3E4857;
+}
+
+.avatarContainer {
+  width: 100px;
+  height: 100px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  margin-bottom: 12px;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.info {
+  text-align: center;
+}
+
+.name {
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 600;
+  margin: 0;
+}
+
+.username {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.results__columns {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  overflow: hidden;
+  max-height: 1000px; 
+}
+
+.groups__column__container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  gap: 20px;
+  overflow-y: hidden;
+}
+
+.groups__column {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  max-height: 550px; 
+  overflow-y: auto;
+  padding-right: 5px; 
+}
+
+.groups__column::-webkit-scrollbar{
+  width: 8px;
+}
+
+.groups__column::-webkit-scrollbar-track{
+  border-radius: 6px;
+    background: #1D2633;
+}
+
+.groups__column::-webkit-scrollbar-thumb{
+  background: #44EB99; 
+  border-radius: 6px; 
+}
+
+.users__column__container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  gap: 20px;
+}
+
+.users__column {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  flex-direction: row;
+  width: 100%;
+  max-height: 550px; 
+  overflow-y: auto;
+  padding-right: 5px; 
+}
+
+.users__column::-webkit-scrollbar{
+  width: 8px;
+}
+
+.users__column::-webkit-scrollbar-track{
+  border-radius: 6px;
+    background: #1D2633;
+}
+
+.users__column::-webkit-scrollbar-thumb{
+  background: #44EB99; 
+  border-radius: 6px; 
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

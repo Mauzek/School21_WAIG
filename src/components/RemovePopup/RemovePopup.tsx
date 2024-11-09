@@ -3,7 +3,7 @@ import styles from "./RemovePopup.module.css";
 import ClosePopup from "../../assets/icons/close_popup.svg";
 
 interface RemovePopupProps {
-  type: "friend" | "group";
+  type: "friend" | "group" | "group remove";
   username?: string;
   groupName?: string;
   onConfirm: () => void;
@@ -18,8 +18,8 @@ export const RemovePopup: FC<RemovePopupProps> = ({
   onCancel,
 }) => {
   const isFriend = type === "friend";
-  const title = isFriend ? "удалить этого друга" : "покинуть эту группу";
-  const confirmText = isFriend ? "Да, удалить" : "Да, покинуть";
+  const title = isFriend ? "удалить этого друга" : type === "group remove" ? "удалить эту группу": "покинуть эту группу";
+  const confirmText = isFriend ? "Да, удалить" : type === "group remove" ? "Да, удалить": "Да, покинуть";
 
   return (
     <div className={styles.overlay}>
@@ -40,9 +40,18 @@ export const RemovePopup: FC<RemovePopupProps> = ({
               из вашего списка друзей.
             </p>
           )}
-          {!isFriend && groupName && (
+          {!isFriend && groupName && type === "group" && (
             <p className={styles.info}>
               Вы покидаете сообщество&nbsp;
+              <span className={`${styles.span} ${styles.groupName}`}>
+                {groupName}
+              </span>
+              .
+            </p>
+          )}
+           {!isFriend && groupName && type === "group remove" && (
+            <p className={styles.info}>
+              Вы удаляете сообщество&nbsp;
               <span className={`${styles.span} ${styles.groupName}`}>
                 {groupName}
               </span>

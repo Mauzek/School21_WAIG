@@ -6,6 +6,8 @@ import { Group,} from "../../../types";
 import { RemovePopup } from "../../RemovePopup/RemovePopup";
 import { useNavigate } from "react-router-dom";
 import { InviteFriendToGroup } from "../InviteFriendToGroup/InviteFriendToGroup";
+import { useStore } from "../../../store/app-store";
+import { deleteGroupById } from "../../../API/api-utils";
 
 interface GroupInfoProps {
   groupInfo: Group ;
@@ -16,7 +18,8 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
   const navigate = useNavigate();
   const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
   const [isOpenPopupInvite, setIsOpenPopupInvite] = useState<boolean>(false);
-
+  const membersCount = [groupInfo.creator, ...groupInfo.subscribers];
+  const {user, token} = useStore();
   const togglePopup = () => {
     setIsOpenPopup((prev) => !prev);
   };
@@ -26,6 +29,12 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
   };
 
   const handleInvite = () => {};
+
+  const handleRemoveGroup = () => {
+    deleteGroupById(token, groupInfo.id.toString(),)
+    setIsOpenPopup((prev) => !prev);
+    navigate("/Groups/All");
+  };
 
   const handleLeaveGroup = () => {
     setIsOpenPopup((prev) => !prev);
@@ -44,7 +53,7 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
         <div className={styles.header__mainInfo_container}>
           <h2 className={styles.mainInfo__group_title}>{groupInfo.name}</h2>
           <span className={styles.mainInfo__group_count_members}>
-            Участников: {groupInfo.subscribers?.length + 1}
+            Участников: {membersCount.length}
           </span>
           <p className={styles.mainInfo__group_description}>
             {groupInfo.description}
@@ -65,15 +74,15 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
       </div>
       <div className={styles.footer__buttons_container}>
         <button onClick={togglePopup} className={styles.button__leave_group}>
-          Покинуть группу
+          {user?.username === groupInfo.creator.username ? "Удалить группу" : "Выйти из группы"}
         </button>
       </div>
       {isOpenPopup && (
         <RemovePopup
-          type="group"
+          type="group remove"
           groupName={groupInfo.name}
           onCancel={togglePopup}
-          onConfirm={handleLeaveGroup}
+          onConfirm={user?.username === groupInfo.creator.username ? handleRemoveGroup : handleLeaveGroup}
         />
       )}
       {isOpenPopupInvite && (

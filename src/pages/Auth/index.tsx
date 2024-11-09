@@ -28,7 +28,6 @@ export default function AuthPage() {
     e.preventDefault();
     const userData: Response | Error = await authorize(authData);
     if (isResponseOk(userData)) {
-      console.log(userData);
       setJWT(userData.token);
       console.log("%c Успешный вход!", "color:#44eb99");
       const tokenJWT = getJWT();

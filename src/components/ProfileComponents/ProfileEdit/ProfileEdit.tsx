@@ -59,21 +59,23 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
     fetchInterestsData();
   }, []);
 
-  const formatDate = (date: Date | string) => {
+  const formatDate = (date: Date | string | undefined) => {
+    if (!date) return ""; 
     const d = new Date(date);
+    if (isNaN(d.getTime())) return "";
     const year = d.getFullYear();
     const month = String(d.getMonth() + 1).padStart(2, "0");
     const day = String(d.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
-
+  
   const [formData, setFormData] = useState({
     firstname,
     lastname,
     patronymic,
     tgName,
     gender,
-    birthDay: formatDate(birthday),
+    birthDay: formatDate(birthday), 
     description,
     interests: selectedInterests
   });
@@ -115,7 +117,7 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
   
           console.log("Отправляемые данные:", dataToSend);
           
-          await updateUserInfo(user.username, token, dataToSend); 
+          await updateUserInfo(user.username, token, dataToSend); // Отправка данных на сервер
         }
   
         setMainInfo(

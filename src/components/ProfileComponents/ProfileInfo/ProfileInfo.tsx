@@ -6,8 +6,7 @@ import { Interests, User } from "../../../types";
 import { avatars } from "../../../assets/images/avatars/avatars";
 import { useStore } from "../../../store/app-store";
 import { ChooseProfileAvatar } from "../ChooseProfileAvatar/ChooseProfileAvatar";
-import { removeJWT, setUsername } from "../../../API/api-utils";
-import { logoutUser } from "../../../API/api-utils";
+import { logoutUser, setUserProfileImage } from "../../../API/api-utils";
 import { useNavigate } from "react-router-dom";
 interface ProfileInfoProps {
   userData: User;
@@ -23,14 +22,11 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
   const fullName = `${userData.firstname} ${userData.lastname} ${userData.patronymic}`;
   const avatarID = userData.profileImageId as keyof typeof avatars;
   const isFriend = true;
-  const formattedBirthday =
-    userData.birthday instanceof Date
-      ? userData.birthday.toLocaleDateString()
-      : userData.birthday;
-    const handleLogoutUser = () => {
-      logoutUser();
-      navigate("/auth");
-    }
+  const formattedBirthday = userData.birthday.toString();
+  const handleLogoutUser = () => {
+    logoutUser();
+    navigate("/auth");
+  };
   return (
     <>
       <div className={styles.info__block}>
@@ -70,12 +66,14 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
             {userData.description}
           </p>
         </fieldset>
-        </div>
+      </div>
       <div className={styles.interests__description}>
         <InterestsList interests={userInterests} />
         <div className={styles.buttons__container}>
           {userData.username === user?.username && (
-            <button onClick={handleLogoutUser} className={styles.exit__button}>Выход</button>
+            <button onClick={handleLogoutUser} className={styles.exit__button}>
+              Выход
+            </button>
           )}
           {userData.username !== user?.username && isFriend && (
             <button className={styles.addFriend__button}>
@@ -90,15 +88,16 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
 
 function Avatar(username: string, avatar: keyof typeof avatars, user: User) {
   const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
-  const { setAvatar } = useStore();
+  const { setAvatar, token } = useStore();
 
   const togglePopup = () => {
     setIsOpenPopup((prev) => !prev);
   };
 
   const handleSetAvatar = (newAvatar: keyof typeof avatars) => {
-    setAvatar(newAvatar);
     togglePopup();
+    if(token) setUserProfileImage(username, token, newAvatar);
+    setAvatar(newAvatar);
   };
 
   return (
