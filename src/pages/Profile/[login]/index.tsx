@@ -16,7 +16,7 @@ const ProfilePage: FC = () => {
   const [userData, setUserData] = useState<User | null>(user || null);
   const [userInterests, setUserInterests] = useState<Interests[]>([]);
 
-  
+ 
   useEffect(() => {
     const fetchUserData = async () => {
       if (username && username !== user?.username) {

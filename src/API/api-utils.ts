@@ -16,6 +16,21 @@ const authorize = async (data: { username: string; password: string }) => {
   }
 };
 
+const acceptFriendshipReq = async (login: string, friendLogin: string, token: string) => {
+  try {
+    const response = await axios.post(endpoints.acceptFriendshipReq(login, friendLogin), {}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при принятии запроса в друзья:", error);
+    throw error;
+  }
+};
+
 interface registrationData {
   username: string;
   birthDay: string;
@@ -79,6 +94,21 @@ const createGroup = async (userLogin: string, token: string, data: CreateGroupDa
   }
 };
 
+const declineFriendshipReq = async (login: string, friendLogin: string, token: string) => {
+  try {
+    const response = await axios.post(endpoints.declineFriendshipReq(login, friendLogin), {}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при принятии запроса в друзья:", error);
+    throw error;
+  }
+};
+
 const getAllGroups = async (token: string) => {
   try {
     const response = await axios.get(endpoints.getAllGroups, {
@@ -125,6 +155,22 @@ const getAllInterests = async (token: string) => {
   }
 }
 
+const getAvailableUsersForInvite = async (groupId:string,login:string,token: string) => {
+  try{
+    const response = await axios.get(endpoints.getAvailableUsersForInvite(groupId,login), {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  }catch(error){
+    console.error("Ошибка при получении всех интересов:", error);
+    throw error;
+  }
+}
+
 const getFriendship = async (userLogin: string, token: string) => {
   try {
     const response = await axios.get(endpoints.getFriendship(userLogin), {
@@ -141,6 +187,22 @@ const getFriendship = async (userLogin: string, token: string) => {
   }
 };
 
+const getFriendshipReq = async (userLogin: string, token: string) => {
+  try {
+    const response = await axios.get(endpoints.getFriendshipRequests(userLogin), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении заявок:", error);
+    throw error;
+  }
+};
+
 const getGroupById = async (groupID: string, token: string) => {
   try {
     const response = await axios.get(endpoints.getGroupById(groupID), {
@@ -152,6 +214,21 @@ const getGroupById = async (groupID: string, token: string) => {
     return response.data;
   } catch (error) {
     console.error("Ошибка при обновлении информации о пользователе:", error);
+    throw error;
+  }
+};
+
+const getNotificationsByUsername = async (username: string, token: string) => {
+  try {
+    const response = await axios.get(endpoints.getNotificationsByUsername(username), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при уведомлений:", error);
     throw error;
   }
 };
@@ -206,6 +283,51 @@ const getUserInterests = async (
   }
 };
 
+const getUserSubscribedGroups = async (userLogin: string, token: string) => {
+  try {
+    const response = await axios.get(endpoints.getSubscribedGroups(userLogin), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при обновлении информации о группе:", error);
+    throw error;
+  }
+};
+
+const inviteUserToGroup = async (groupId:string,   fromLogin: string, toLogin: string,  token: string) => {
+  try {
+    const response = await axios.post(endpoints.inviteUserToGroup(groupId, fromLogin, toLogin),{}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка приглашении в группу:", error);
+    throw error;
+  }
+};
+
+const leaveFromGroup = async (username:string,groupId:string,token:string) => {
+  try {
+    const response = await axios.delete(endpoints.leaveFromGroup(username,groupId), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при выходе с группы:", error);
+    throw error;
+  }
+};
+
 interface UserDataFromServer {
   id: string;
   age: number;
@@ -239,6 +361,51 @@ const normalizeUserData = (user: UserDataFromServer): User => {
     age: user.age,
   };
 };
+
+const removeFriendship = async (userLogin:string,friendLogin:string,token:string) => {
+  try {
+    const response = await axios.delete(endpoints.removeFriendship(userLogin,friendLogin), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при удалении друзья:", error);
+    throw error;
+  }
+};
+
+const sendFriendshipRequest = async (userLogin: string, friendLogin: string, token: string) => {
+  try {
+    const response = await axios.post(endpoints.sendFriendshipRequest(userLogin,friendLogin), {}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при добавлении в друзья:", error);
+    throw error;
+  }
+};
+
+const subscribeToGroup = async(userLogin: string, groupId: number, token: string) => {
+  try {
+    const response = await axios.post(endpoints.postUserSubscribeToGroup(userLogin, groupId),{}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при подписывании на группу:", error);
+    throw error;
+  }
+}
 
 interface UpdateUserInfoData {
   firstname: string;
@@ -303,12 +470,12 @@ const updateUserSecurity = async (
 };
 
 const setJWT = (jwt: string) => {
-  document.cookie = `jwt=${jwt}`
+  // document.cookie = `jwt=${jwt}`
   localStorage.setItem('jwt', jwt)
 }
 
 const setUsername = (username: string) => {
-  document.cookie = `username=${username}`
+  // document.cookie = `username=${username}`
   localStorage.setItem('username', username)
 }
 
@@ -316,16 +483,16 @@ const getUsername = () => {
   if (document.cookie === '') {
     return localStorage.getItem('username')
   }
-  const username = document.cookie.split(';').find((item) => item.includes('username'))
-  return username ? username.split('=')[1] : null
+  // const username = document.cookie.split(';').find((item) => item.includes('username'))
+  // return username ? username.split('=')[1] : null
 }
 
 const getJWT = () => {
   if (document.cookie === '') {
     return localStorage.getItem('jwt')
   }
-  const jwt = document.cookie.split(';').find((item) => item.includes('jwt'))
-  return jwt ? jwt.split('=')[1] : null
+  // const jwt = document.cookie.split(';').find((item) => item.includes('jwt'))
+  // return jwt ? jwt.split('=')[1] : null
 }
 
 export const isResponseOk = (response: Response | Error): response is Response => {
@@ -333,23 +500,64 @@ export const isResponseOk = (response: Response | Error): response is Response =
 };
 
 const logoutUser = () =>{
-  document.cookie = 'jwt=; Max-Age=-1;'
-  document.cookie = 'username=; Max-Age=-1;'
+  // document.cookie = 'jwt=; Max-Age=-1;'
+  // document.cookie = 'username=; Max-Age=-1;'
   localStorage.removeItem('jwt');
   localStorage.removeItem('username');
-}
+};
+
+const acceptNotice = async (notificationId: string, token: string) => {
+  try {
+    const response = await axios.post(endpoints.acceptNotification(notificationId), {}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при принятии приглашения:", error);
+    throw error;
+  }
+};
+
+const cancelNotice = async (notificationId: string, token: string) => {
+  try {
+    const response = await axios.post(endpoints.cancelNotification(notificationId), {}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при отклонении приглашения:", error);
+    throw error;
+  }
+};
 
 export {
   authorize,
+  acceptFriendshipReq,
   createGroup,
+  declineFriendshipReq,
   getAllGroups,
   getAllUsers,
   getAllInterests,
+  getAvailableUsersForInvite,
   getFriendship,
+  getFriendshipReq,
   getGroupById,
+  getNotificationsByUsername,
   getUser,
   getUserCreatedGroups,
   getUserInterests,
+  getUserSubscribedGroups,
+  inviteUserToGroup,
+  leaveFromGroup,
+  removeFriendship,
+  sendFriendshipRequest,
+  subscribeToGroup,
   updateUserInfo,
   updateUserSecurity,
   setJWT,
@@ -358,5 +566,8 @@ export {
   getUsername,
   logoutUser,
   registration,
-  confirmUserEmail
+  confirmUserEmail,
+  acceptNotice,
+  cancelNotice,
+
 };

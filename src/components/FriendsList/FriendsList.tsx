@@ -97,9 +97,10 @@ interface FriendsListProps {
     lastname: string;
     profileImageId: string;
   }[];
+  removeFriend: (removeName:string)=>void
 }
 
-export const FriendsList: FC<FriendsListProps> = ({ friends }) => {
+export const FriendsList: FC<FriendsListProps> = ({ friends,removeFriend }) => {
   return (
     <section className={styles.friend_list__container}>
       {friends.map((friend, index) => {
@@ -111,6 +112,7 @@ export const FriendsList: FC<FriendsListProps> = ({ friends }) => {
             name={friendName}
             username={friend.username}
             avatar={avatarId}
+            removeFriend={removeFriend}
           />
         );
       })}

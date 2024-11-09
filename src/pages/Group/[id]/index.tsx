@@ -25,7 +25,7 @@ const GroupPage = () => {
           const response = await getGroupById(id, token);
           setGroupData(response);
           setInterestsData(response.interests);
-          setMembersData(response.subscribers);
+          setMembersData([response.creator, ...response.subscribers]);
         }
       } catch (error) {
         console.error(error);

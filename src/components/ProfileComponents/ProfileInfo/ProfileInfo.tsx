@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./ProfileInfo.module.css";
 import { InterestsList } from "../../InterestsList/InterestsList";
 import changeImg from "../../../assets/icons/change_img.svg";
@@ -6,7 +6,7 @@ import { Interests, User } from "../../../types";
 import { avatars } from "../../../assets/images/avatars/avatars";
 import { useStore } from "../../../store/app-store";
 import { ChooseProfileAvatar } from "../ChooseProfileAvatar/ChooseProfileAvatar";
-import { logoutUser } from "../../../API/api-utils";
+import { acceptFriendshipReq, declineFriendshipReq, getFriendship, getFriendshipReq, logoutUser, removeFriendship, sendFriendshipRequest } from "../../../API/api-utils";
 import { useNavigate } from "react-router-dom";
 interface ProfileInfoProps {
   userData: User;
@@ -17,19 +17,83 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
   userData,
   userInterests,
 }) => {
-  const { user } = useStore();
+  const { user, token } = useStore();
+  const [isFriend, setIsFriend] = useState<boolean>(false);
+  const [isInvited, setIsInvited] = useState<boolean>(false);
+  const [isInviter, setIsInviter] = useState<boolean>(false);
   const fullName = `${userData.firstname} ${userData.lastname} ${userData.patronymic}`;
   const avatarID = userData.profileImageId as keyof typeof avatars;
-  const isFriend = true;
   const formattedBirthday =
     userData.birthday instanceof Date
       ? userData.birthday.toLocaleDateString()
       : userData.birthday;
-    const navigate = useNavigate();
-    const handleLogoutUser = () => {
-      logoutUser();
-      navigate("/auth");
+  const navigate = useNavigate();
+  const handleLogoutUser = () => {
+    logoutUser();
+    navigate("/auth");
+  }
+
+  
+  useEffect(() => {
+    const fetchFriendShips = async () => {
+      if (user) {
+        const result = await getFriendship(user.username, token);
+        const friendResult = result.some(user => user.username === userData.username);
+        console.log("333",result);
+        console.log("444",userData);
+        console.log("222",friendResult);
+        const friendsReq = await getFriendshipReq(userData.username, token);
+        console.log(friendsReq);
+        setIsInvited(friendsReq.some(item => item.friend.username === userData.username && item.user.username === user.username));
+
+        const friendsReq2 = await getFriendshipReq(user.username, token);
+        //             за 4 смотришь 3         4                                           3
+        console.log("1.2.1", friendsReq2);
+        // setIsInvited(friendsReq.some(item=> item.friend.username===userData.username && item.user.username===user.username));
+        setIsInviter(friendsReq2.some(item => item.friend.username === user.username && item.user.username === userData.username));
+        setIsFriend(friendResult);
+      }
+    };
+    fetchFriendShips();
+  }, [userData])
+
+  const handleAddFriend = async () => {
+    const result = 
+    user && await sendFriendshipRequest(user.username, userData.username, token);
+    if (result.status==="PENDING")
+    setIsInvited(true);
+  };
+
+  const handleRemoveFriendship = async () => {
+   const result=  user && await removeFriendship(user.username, userData.username, token);
+   setIsFriend(false);
+   setIsInvited(false);
+   setIsInviter(false);
+  };
+
+  const handleDeclineRequest = async () => {
+    const result = user && isInviter ? await declineFriendshipReq(user.username, userData.username, token) : await declineFriendshipReq(userData.username, user.username, token);
+    console.log(result);
+    if (result.status === "DECLINED") {
+      setIsInvited(false);
+      setIsInviter(false);
+      setIsFriend(false);
     }
+  };
+
+  const handleAcceptRequest = async () => {
+    const result = user && await acceptFriendshipReq( user.username,userData.username, token);
+    
+    console.log(result);
+    if (result.status==="ACCEPTED")
+    {
+      setIsFriend(true);
+    setIsInvited(false);
+    setIsInviter(false);
+
+    }
+  };
+
   return (
     <>
       <div className={styles.info__block}>
@@ -76,10 +140,26 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
           {userData.username === user?.username && (
             <button onClick={handleLogoutUser} className={styles.exit__button}>Выход</button>
           )}
-          {userData.username !== user?.username && isFriend && (
-            <button className={styles.addFriend__button}>
-              Добавить в друзья
+          {userData.username !== user?.username && (isFriend ? (
+            <button onClick={handleRemoveFriendship} className={styles.exit__button}>
+              Удалить из друзей
+            </button>) : (isInvited ? (<><button className={styles.invited__button} >
+              Отправлено
             </button>
+              <button className={styles.exit__button} onClick={handleDeclineRequest}>
+                Отклонить
+              </button>
+            </>) : (isInviter ?
+              (<><button className={styles.addFriend__button} onClick={handleAcceptRequest}>
+                Принять
+              </button><button className={styles.exit__button} onClick={handleDeclineRequest}>
+                  Отклонить
+                </button></>)
+              : (<button onClick={handleAddFriend} className={styles.addFriend__button} >
+                Добавить в друзья
+              </button>))
+          )
+
           )}
         </div>
       </div>

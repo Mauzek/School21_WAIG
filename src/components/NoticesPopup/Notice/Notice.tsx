@@ -7,6 +7,8 @@ import FriendInvite from "../../../assets/icons/friend_invite.svg";
 import AvatarIcon from "../../../assets/icons/avatar_icon.svg";
 import styles from "./Notice.module.css";
 import { Link } from "react-router-dom";
+import { acceptNotice, cancelNotice } from "../../../API/api-utils";
+import { useStore } from "../../../store/app-store";
 
 type Group = {
     id: number,
@@ -18,16 +20,40 @@ type Group = {
 interface NoticeProps {
   id: number;
   name: string; 
-  groupName?: Group,
+  groupName?: string;
+  groupId:string;
   avatar?: string; 
   isGroupInvite: boolean; 
+  refreshGroups: ()=>void;
+  noticesList: any;
 }
 
 export const Notice: FC<NoticeProps> = ({
   name,
   groupName,
+  groupId,
   isGroupInvite,
+  id,
+  avatar,
+  refreshGroups,
+  noticesList
 }) => {
+  const {token} = useStore();
+  const handleAcceptNotice = async() => {
+    refreshGroups(noticesList=>noticesList.filter(item => item.id !== id));
+    const result = acceptNotice(id.toString(),token);
+    console.log(result);
+  };
+
+  const handleCancelNotice = async() => {
+ const result = cancelNotice(id.toString(),token);
+ refreshGroups(noticesList=>noticesList.filter(item => item.id !== id));
+ console.log(result);
+  };
+
+
+
+
   return (
     <div className={styles.container}>
       <div className={styles.avatarContainer}>
@@ -40,11 +66,11 @@ export const Notice: FC<NoticeProps> = ({
       <div className={styles.textContainer}>
         <Link to={`/Profile/${name}`} className={styles.name}>{name}</Link> 
         {isGroupInvite ? ` приглашает вас в группу ` : ` хочет добавить вас в друзья `}
-        {isGroupInvite && <Link to={`/Group/${groupName?.id}/Main`} className={styles.groupName}>{groupName?.name}</Link>}
+        {isGroupInvite && <Link to={`/Group/${groupId}/Main`} className={styles.groupName}>{groupName}</Link>}
       </div>
 
       <div className={styles.actions}>
-        <button
+        <button onClick={handleAcceptNotice}
           className={`${styles.actionButton} ${styles.acceptButton}`}
           aria-label="Принять"
         >
@@ -54,7 +80,7 @@ export const Notice: FC<NoticeProps> = ({
             className={styles.actionIcon}
           />
         </button>
-        <button
+        <button onClick={handleCancelNotice}
           className={`${styles.actionButton} ${styles.declineButton}`}
           aria-label="Отклонить"
         >

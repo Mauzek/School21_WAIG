@@ -10,7 +10,7 @@ export const Users: FC = () => {
   const { user } = useStore();
   let userData: User;
   let userInterests: Interests[];
-  const [users, setUsers] = useState<User[]>([]); // State for all users
+  const [users, setUsers] = useState<User[]>([]); 
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -19,7 +19,6 @@ export const Users: FC = () => {
         try {
           setUsers(await getAllUsers(token));
           console.log("Fetched users:", users);
-          // You can filter or process users here if needed
         } catch (error) {
           console.error("Error fetching users:", error);
         }
@@ -62,11 +61,11 @@ console.log(users);
 
             return (
 
-              <tr key={userone.id}>
+              <tr key={userone.username}>
                 <td>{userone.id}</td>
                 <td>      <Link to={`/Profile/${userone.username}`} >{userone.username}</Link></td>
-                <td>{userone.firstName}</td>
-                <td>{userone.lastName}</td>
+                <td>{userone.firstname}</td>
+                <td>{userone.lastname}</td>
                 <td>{userone.patronymic}</td>
                 <td>{userone.tgName}</td>
                 <td>{userone.gender}</td>

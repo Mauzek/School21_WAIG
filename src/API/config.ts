@@ -49,6 +49,12 @@ export const endpoints = {
   deleteOwnerGroupById: (groupId: string) => `${BASE_API}/groups/${groupId}`, //delete http://localhost:8080/groups/{groupID} Вроде удаляются только если токен хедера соответсвтует токену создателя группы
   getGroupById: (groupId: string) => `${BASE_API}/groups/${groupId}`,
   getAllGroups: `${BASE_API}/groups`, //get //http://localhost:8080/groups
+  inviteUserToGroup: (groupId: string, fromLogin:string, toLogin:string) => `${BASE_API}/groups/${groupId}/users?from_username=${fromLogin}&to_username=${toLogin}`, //http://localhost:8080/groups/1/users?from_username=Bobo&to_username=Bobo2
+  leaveFromGroup: (username:string,groupdId:string) => `${BASE_API}/api/user/${username}/unsubscribe?groupId=${groupdId}`, //http://localhost:8080/api/user/john2/unsubscribe?groupId=2
+  getSubscribedGroups: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/groups`, //get
+  postUserSubscribeToGroup: (userLogin: string, groupId: number) => `${BASE_API}/api/user/${userLogin}/subscribe?groupId=${groupId}`, //post
+  getAvailableUsersForInvite: (groupId:string,login:string)=>`${BASE_API}/api/notifications/available-invitations?groupId=${groupId}&login=${login}`,// get availableusers http://localhost:8080/api/notifications/available-invitations?groupId=1&login=1
+
 
 
   //User Endpoints
@@ -66,4 +72,16 @@ export const endpoints = {
 
   //Friendship
   getFriendship: (userName:string) => `${BASE_API}/friendships/search?login=${userName}`,
+  sendFriendshipRequest: (login:string,friendLogin:string) => `${BASE_API}/friendships/send?login=${login}&friendLogin=${friendLogin}`,
+  removeFriendship: (login:string, friendLogin:string) => `${BASE_API}/friendships/remove?userName=${login}&friendName=${friendLogin}`,
+  getFriendshipRequests: (login:string)=>`${BASE_API}/friendships/incoming-requests?login=${login}` , //get http://localhost:8080/friendships/incoming-requests?login=ilya
+  declineFriendshipReq: (login:string,friendLogin:string)=> `${BASE_API}/friendships/decline?login=${login}&friendLogin=${friendLogin}`, // post http://localhost:8080/friendships/decline?login=mauzek&friendLogin=boby
+  acceptFriendshipReq: (login:string,friendLogin:string)=> `${BASE_API}/friendships/accept?login=${login}&friendLogin=${friendLogin}`, // post http://localhost:8080/friendships/accept?login=3&friendLogin=ilya
+
+
+  //notifications
+  getNotificationsByUsername: (username:string) => `${BASE_API}/api/notifications?username=${username}`,  // http://localhost:8080/api/notifications?username=3 
+  acceptNotification: (notificationId:string)=> `${BASE_API}/api/notifications/accept?notificationId=${notificationId}`, // http://localhost:8080/api/notifications/accept?notificationId=1
+  cancelNotification: (notificationId:string)=> `${BASE_API}/api/notifications/cancel?notificationId=${notificationId}`, // http://localhost:8080/api/notifications/accept?notificationId=1
+
 };
