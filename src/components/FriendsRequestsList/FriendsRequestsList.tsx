@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { User } from "../../types";
 import { avatars } from "../../assets/images/avatars/avatars";
 import styles from "./FriendsRequestsList.module.css";

@@ -40,7 +40,7 @@ export const Header: FC<HeaderProps> = ({ user }) => {
     if (user.username && token) {
       fetchUserGroups();
     }
-  }, [user.username, token]);
+  }, [user.username, token,id]);
 
   const handleFocus = () => {
     setIsOpenPopup(true);

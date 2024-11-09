@@ -2,44 +2,50 @@ import { FC, useEffect, useState } from "react";
 import styles from "./GroupInfo.module.css";
 import ShareIcon from "../../../assets/icons/share_icon.svg";
 import { InterestsList } from "../../InterestsList/InterestsList";
-import { Group,} from "../../../types";
+import { Group, } from "../../../types";
 import { RemovePopup } from "../../RemovePopup/RemovePopup";
 import { useNavigate } from "react-router-dom";
 import { InviteFriendToGroup } from "../InviteFriendToGroup/InviteFriendToGroup";
-import { getUserSubscribedGroups, inviteUserToGroup, leaveFromGroup, subscribeToGroup } from "../../../API/api-utils";
+import { inviteUserToGroup, leaveFromGroup, subscribeToGroup } from "../../../API/api-utils";
 import { useStore } from "../../../store/app-store";
 import { deleteGroupById } from "../../../API/api-utils";
 
 interface GroupInfoProps {
-  groupInfo: Group ;
-  friends: {firstname: string, lastname: string, profileImageId: string, username: string}[];
+  groupInfo: Group;
+  friends: { firstname: string, lastname: string, profileImageId: string, username: string }[];
 }
 
 export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
-  const [isSubscriber,setIsSubscriber]=useState<boolean>(false);
-  const {user,token} = useStore();
+  const [isSubscriber, setIsSubscriber] = useState<boolean>(false);
+  const { user, token } = useStore();
   const navigate = useNavigate();
   const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
   const [isOpenPopupInvite, setIsOpenPopupInvite] = useState<boolean>(false);
   const membersCount = [groupInfo.creator, ...groupInfo.subscribers];
 
-  useEffect(()=>{
- const fetchSubscribedGroups = async () => {
-  const groupsSubscribed = await getUserSubscribedGroups(user.username,token);
-    console.log("test1.1.7",groupsSubscribed);
-    const result = groupsSubscribed.some(group=>group.id===groupInfo.id);
-    setIsSubscriber(result);
-    console.log(groupInfo.id);
- }
- fetchSubscribedGroups();
-    
-  },[])
+  useEffect(() => {
+    const fetchSubscribedGroups = async () => {
+      // const groupsSubscribed = await getUserSubscribedGroups(user.username, token);
+      const groupsSubscribed= groupInfo.subscribers;
+      console.log("test1.1.7", groupInfo);
 
-const SubscribeOnGroup = () => {
-  subscribeToGroup(user?.username,groupInfo.id,token);
-  console.log(user?.username, groupInfo.id, token);
-  setIsSubscriber(true);
-}
+      if (groupInfo.creator.username === user?.username)
+        setIsSubscriber(true);
+      else {
+        const result = groupsSubscribed.some(elem => elem.username == user.username);
+        setIsSubscriber(result);
+      }
+      console.log(groupInfo.id);
+    }
+    fetchSubscribedGroups();
+
+  }, [])
+
+  const SubscribeOnGroup = () => {
+    subscribeToGroup(user?.username, groupInfo.id, token);
+    console.log(user?.username, groupInfo.id, token);
+    setIsSubscriber(true);
+  }
 
 
 
@@ -51,14 +57,14 @@ const SubscribeOnGroup = () => {
     setIsOpenPopupInvite((prev) => !prev);
   };
 
-  const handleInvite = (invitedFriend:string) => {
-    user&&inviteUserToGroup(groupInfo.id.toString(),user.username,invitedFriend,token);
+  const handleInvite = (invitedFriend: string) => {
+    user && inviteUserToGroup(groupInfo.id.toString(), user.username, invitedFriend, token);
 
   };
 
   const handleLeaveGroup = async () => {
     console.log("Покинул группу " + groupInfo.name);
-    const result = user&& await leaveFromGroup(user?.username,groupInfo.id.toString(),token); 
+    user && await leaveFromGroup(user?.username, groupInfo.id.toString(), token);
   };
   const handleRemoveGroup = () => {
     deleteGroupById(token, groupInfo.id.toString(),)
@@ -104,18 +110,18 @@ const SubscribeOnGroup = () => {
         <InterestsList interests={groupInfo.interests} />
       </div>
       <div className={styles.footer__buttons_container}>
-        {isSubscriber?
+        {isSubscriber ?
           <button onClick={togglePopup} className={styles.button__leave_group}>
-          Покинуть группу
-        </button>:
-        <button onClick={SubscribeOnGroup} className={styles.button__leave_group} style={{backgroundColor:"#44EB99"}}>
-        Вступить
-      </button>
+            {user?.username === groupInfo.creator.username ? "Удалить группу" : "Выйти из группы"}
+          </button> :
+          <button onClick={SubscribeOnGroup} className={styles.button__leave_group} style={{ backgroundColor: "#44EB99" }}>
+            Вступить
+          </button>
         }
       </div>
       {isOpenPopup && (
         <RemovePopup
-          type="group remove"
+          type={user?.username === groupInfo.creator.username ?"group remove":"group"}
           groupName={groupInfo.name}
           onCancel={togglePopup}
           onConfirm={user?.username === groupInfo.creator.username ? handleRemoveGroup : handleLeaveGroup}

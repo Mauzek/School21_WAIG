@@ -31,11 +31,9 @@ export const RequestCard: FC<RequestCardProps> = ({
     console.log(result);
     RelocateReqToFriend(username,firstname,lastname,avatar);
     removeFromState(username);
-
   }
 
   const handleDeclineReq = async () => {
-
     user && await declineFriendshipReq(user?.username, username, token);
     removeFromState(username);
   }
