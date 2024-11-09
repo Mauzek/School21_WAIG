@@ -60,7 +60,6 @@ export const Users: FC = () => {
             return (
 
               <tr key={userone.username}>
-                <td>{userone.id}</td>
                 <td>      <Link to={`/Profile/${userone.username}`} >{userone.username}</Link></td>
                 <td>{userone.firstname}</td>
                 <td>{userone.lastname}</td>
