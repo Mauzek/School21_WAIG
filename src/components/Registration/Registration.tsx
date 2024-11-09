@@ -5,17 +5,19 @@ import regArrow from "../../assets/images/regArrow.svg";
 import sberCat from "../../assets/images/SberCat2.svg";
 import sberKusya from "../../assets/images/SberKusya1.svg";
 import { OTPProps } from "antd/es/input/OTP";
-import { confirmUserEmail, isResponseOk, registration } from "../../API/api-utils";
+import {
+  confirmUserEmail,
+  isResponseOk,
+  registration,
+} from "../../API/api-utils";
 
-interface  RegistrationProps {
+interface RegistrationProps {
   setIsAuther: (value: boolean) => void;
 }
 
-
-
-export const Registration: FC<RegistrationProps> =( {setIsAuther}) => {
+export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [confirmCode, setCofirmCode] = useState<string>('');
+  const [confirmCode, setCofirmCode] = useState<string>("");
   const [formData, setFormData] = useState({
     username: "",
     birthDay: "",
@@ -25,47 +27,55 @@ export const Registration: FC<RegistrationProps> =( {setIsAuther}) => {
     patronymic: "",
     gender: "",
     tgName: "",
-    password: ""
+    password: "",
+    profileImageId: "cristalGreen"
   });
 
-  const onChange: OTPProps['onChange'] = (text) => {
-    console.log('onChange:', text);
-    setCofirmCode(text)
+  const onChange: OTPProps["onChange"] = (text) => {
+    console.log("onChange:", text);
+    setCofirmCode(text);
   };
 
   const sharedProps: OTPProps = {
     onChange,
   };
 
-  // Функция перехода на следующий шаг
   const handleNextStep = () => {
     if (currentStep < 5) setCurrentStep(currentStep + 1);
   };
 
-  // Функция возврата на предыдущий шаг
   const handlePreviousStep = () => {
     setCurrentStep(currentStep - 1);
   };
 
-  // Функция обновления значений полей формы
-const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const { name, value } = e.target;
-  setFormData((prevData) => ({
-    ...prevData,
-    [name]: value,
-  }));
-};
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-if (currentStep === 5) {
-  console.log(formData)
-  registration(formData);
-}
+    if (name === "tgName") {
+      // Only allow letters, numbers, and underscores for Telegram username
+      const tgName = value.replace(/[^a-zA-Z0-9_]/g, "");
+      setFormData((prev) => ({ ...prev, [name]: tgName }));
+    } else if (name === "email") {
+      // Validate email format
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const isValidEmail = emailPattern.test(value);
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+        emailValid: isValidEmail, // Optional: add a field to track validity
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  if (currentStep === 5) {
+    registration(formData);
+  }
 
   const confirmEmail = async () => {
-
-    console.log("Подтвержденный Email:", formData.email + '\n' + confirmCode);
     const response = await confirmUserEmail(confirmCode);
-    if(isResponseOk(response)) setIsAuther(true);
+    if (isResponseOk(response)) setIsAuther(true);
   };
 
   return (
@@ -122,7 +132,8 @@ if (currentStep === 5) {
               <label className={styles.input__label}>Дата рождения</label>
               <div>
                 <input
-                type="date"
+                  className={`${styles.input__birthday}`}
+                  type="date"
                   style={{ border: "0", width: "100%", height: "48px" }}
                   onChange={handleChange}
                   name="birthDay"
@@ -222,6 +233,7 @@ if (currentStep === 5) {
                 <input
                   className={`${styles.input__box}`}
                   name="tgName"
+                  value={formData.tgName}
                   onChange={handleChange}
                 />
               </div>
@@ -232,8 +244,12 @@ if (currentStep === 5) {
                 <input
                   className={`${styles.input__box}`}
                   name="email"
+                  value={formData.email}
                   onChange={handleChange}
                 />
+                {!formData.emailValid && formData.email && (
+                  <p className={styles.error}>Невалидный email</p>
+                )}
               </div>
             </div>
           </div>
@@ -270,10 +286,7 @@ if (currentStep === 5) {
                 Подтверждение пароля
               </label>
               <div>
-                <input
-                  type="password"
-                  className={`${styles.input__box}`}
-                />
+                <input type="password" className={`${styles.input__box}`} />
               </div>
             </div>
           </div>
@@ -330,4 +343,4 @@ if (currentStep === 5) {
       </div>
     </div>
   );
-}
+};

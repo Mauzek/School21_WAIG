@@ -14,7 +14,7 @@ import { useStore } from "./store/app-store";
 
 function App() {
   const { user } = useStore();
-
+  
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

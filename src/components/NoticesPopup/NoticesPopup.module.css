@@ -12,6 +12,7 @@
     transform: translateX(-100%);
     animation-duration: 0.7s;
     animation-fill-mode: forwards;
+    z-index: 1000;
 }
 
 @keyframes slideIn {

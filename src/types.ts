@@ -17,7 +17,7 @@ type User = {
 
 type Group = {
     id: number;
-    creatorId: User;
+    creator: User;
     name: string;
     chars: string;
     color: string;

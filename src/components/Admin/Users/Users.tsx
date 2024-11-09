@@ -1,47 +1,47 @@
 import { FC, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useStore } from "../../../store/app-store";
-import { Interests, User } from "../../../types";
+import { User } from "../../../types";
 import styles from "./Users.module.css";
-import { getAllUsers, getJWT } from "../../../API/api-utils";
+import { getAllUsers, deleteUser } from "../../../API/api-utils";
 
 export const Users: FC = () => {
-  const { username } = useParams<{ username: string }>();
-  const { user } = useStore();
-  let userData: User;
-  let userInterests: Interests[];
+  const { token } = useStore();
   const [users, setUsers] = useState<User[]>([]); 
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const token = getJWT();
       if (token) {
         try {
           setUsers(await getAllUsers(token));
           console.log("Fetched users:", users);
         } catch (error) {
-          console.error("Error fetching users:", error);
+          console.error(error)
+          throw error;
         }
       }
     };
-
     fetchUsers();
   }, []);
-
-  useEffect(()=>{
-console.log(users);
-  },[users])
-
-  if (user.username === username)
-    userData = { ...user };
-
-
+  const handleDeleteUser = async (token: string, username: string): Promise<void> => {
+    if (!token) {
+      console.error("Token is required to delete a user.");
+      return;
+    }
+    try {
+      const result = await deleteUser(token, username);
+      if (result.status == 200) {
+        setUsers(prevUsers => prevUsers.filter(user => user.username !== username));
+      }
+    } catch (error) {
+      console.error(`Error deleting user ${username}:`, error);
+    }
+  };
   return (
     <>
       <table className={styles.users__table}>
         <thead>
           <tr>
-            <th>ID</th>
             <th>Login/Nickname</th>
             <th>Имя</th>
             <th>Фамилия</th>
@@ -54,11 +54,9 @@ console.log(users);
             <th>Описание</th>
             <th></th>
           </tr>
-
         </thead>
         <tbody>
-          {users&&users.map(userone => {
-
+          {users && users.map(userone => {
             return (
 
               <tr key={userone.username}>
@@ -82,7 +80,7 @@ console.log(users);
                     </p>
                   </details> : <>{userone.description}</>}
                 </td>
-                <td> <button>Delete</button></td>
+                <td> <button onClick={() => handleDeleteUser(token, userone.username)}>Delete</button></td>
               </tr>)
           })}
         </tbody>

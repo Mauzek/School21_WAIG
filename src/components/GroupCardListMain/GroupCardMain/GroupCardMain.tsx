@@ -12,7 +12,7 @@ export const GroupCardMain: FC<GroupCardMainProps> = ({ group }) => {
       <div className={styles.group_card__header}>
         <span
           className={styles.group_card__avatar}
-          style={{ backgroundColor: group.color }}
+          style={{ backgroundColor: `#${group.color}` }}
         >
           {group.chars}
         </span>
@@ -21,7 +21,7 @@ export const GroupCardMain: FC<GroupCardMainProps> = ({ group }) => {
       <div className={styles.group_card__body}>
         <p className={styles.group_card__description}>{group.description}</p>
         <span className={styles.group_card__members}>
-          Участники: {group.members.length}
+          Участники: {group.subscribers.length + 1}
         </span>
       </div>
     </article>

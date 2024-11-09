@@ -55,7 +55,6 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
       const response = user && await updateUserSecurity(user.username, token, updateData);
 
       if (response) {
-        console.log("Информация обновлена:", response);
         handleUndoChanges(); 
         logoutUser();
         navigate("/auth");

@@ -8,11 +8,8 @@ interface NavMenuProps {
 
 export const NavMenu: FC<NavMenuProps> = ({ menuItems }) => {
   const location = useLocation();
-
   const isActive = (path: string) => location.pathname.startsWith(path);
   return (
-  
-  
     <nav className={styles.navbar__container} >
       <ul className={styles.navbar__menu} >
         <li className={styles.button__nav__close}>

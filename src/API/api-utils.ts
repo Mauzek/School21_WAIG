@@ -94,6 +94,29 @@ const createGroup = async (userLogin: string, token: string, data: CreateGroupDa
   }
 };
 
+interface UpdateGroupData {
+  chars: string,
+  name: string,
+  color: string,
+  description: string,
+  interests?: Interests[],
+}
+
+const editGroupInfo = async (groupId: number ,token: string, data: UpdateGroupData) => {
+  try {
+    const response = await axios.put(endpoints.updateGroupInfo(groupId), data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при обновлении информации о группе:", error);
+    throw error;
+  }
+}
+
 const declineFriendshipReq = async (login: string, friendLogin: string, token: string) => {
   try {
     const response = await axios.post(endpoints.declineFriendshipReq(login, friendLogin), {}, {
@@ -109,6 +132,81 @@ const declineFriendshipReq = async (login: string, friendLogin: string, token: s
   }
 };
 
+const leaveFromGroup = async (username:string,groupId:string,token:string) => {
+  try {
+    const response = await axios.delete(endpoints.leaveFromGroup(username,groupId), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при выходе с группы:", error);
+    throw error;
+  }
+};
+
+const createInterest = async (token: string, data: Interests) => {
+  try {
+    const response = await axios.post(endpoints.adminAddInterest(data.name,data.color),{},{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при создании интереса:", error);
+    throw error;
+  }
+};
+
+const deleteGroupById = async (token:string,groupId:string) => {
+  try{
+    const response = await axios.delete(endpoints.deleteGroupById(groupId), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+
+}catch (error) {
+  console.error("Ошибка удаления группы:", error);
+  throw error;
+}};
+
+const deleteInterest = async (token:string,interestName:string) => {
+  try{
+    const response = await axios.delete(endpoints.deleteInterestByName(interestName), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+
+}catch (error) {
+  console.error("Ошибка при удалении интереса:", error);
+  throw error;
+}};
+
+const deleteUser = async (token:string,username:string) => {
+  try{
+    const response = await axios.delete(endpoints.deleteUserByLogin(username), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+
+}catch (error) {
+  console.error("Ошибка при обновлении информации о пользователе:", error);
+  throw error;
+}};
+
 const getAllGroups = async (token: string) => {
   try {
     const response = await axios.get(endpoints.getAllGroups, {
@@ -119,10 +217,40 @@ const getAllGroups = async (token: string) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Ошибка при обновлении информации о пользователе:", error);
+    console.error("Ошибка при получении всех групп:", error);
     throw error;
   }
 };
+
+const getGroupByPrefixName = async(groupName: string,token: string) => {
+  try {
+    const response = await axios.get(endpoints.getGroupsByPrefixName(groupName), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Ошибка при получении групп по запросу: ${groupName}`, error);
+    throw error;
+  }
+}
+
+const getAllInterests = async (token: string) => {
+  try{
+    const response = await axios.get(endpoints.adminGetAllInterests, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  }catch(error){
+    console.error("Ошибка при получении всех интересов:", error);
+    throw error;
+  }
+}
 
 const getAllUsers = async (token: string) => {
   try {
@@ -138,22 +266,6 @@ const getAllUsers = async (token: string) => {
     throw error;
   }
 };
-
-const getAllInterests = async (token: string) => {
-  try{
-    const response = await axios.get(endpoints.adminGetAllInterests, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log(response.data);
-    return response.data;
-  }catch(error){
-    console.error("Ошибка при получении всех интересов:", error);
-    throw error;
-  }
-}
 
 const getAvailableUsersForInvite = async (groupId:string,login:string,token: string) => {
   try{
@@ -179,7 +291,6 @@ const getFriendship = async (userLogin: string, token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Ошибка при обновлении информации о пользователе:", error);
@@ -218,6 +329,29 @@ const getGroupById = async (groupID: string, token: string) => {
   }
 };
 
+interface InterestsProps {
+  name: string
+}
+
+const getGroupsByInterests = async (interests: InterestsProps[], token: string) => {
+  try {
+    const response = await axios.post(
+      endpoints.getGroupsByInterests,
+      interests, 
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении информации о группах по интересам:", error);
+    throw error;
+  }
+};
+
 const getNotificationsByUsername = async (username: string, token: string) => {
   try {
     const response = await axios.get(endpoints.getNotificationsByUsername(username), {
@@ -249,6 +383,64 @@ const getUser = async (login: string, token: string) => {
     throw error;
   }
 };
+
+interface userFullName{
+  firstName: string,
+  lastName: string,
+  patronymic: string
+}
+
+
+const getUsersByFullName = async (userFullName: userFullName, token: string) => {
+  try {
+    const response = await axios.post(endpoints.getUserByFullname, userFullName, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении данных пользователя:", error);
+    throw error;
+  }
+}
+
+const getUsersByInterests = async(interests: InterestsProps[], token: string) =>{
+  try {
+    const response = await axios.post(
+      endpoints.getUsersByInterests,
+      interests, 
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении информации о группах по интересам:", error);
+    throw error;
+  }
+}
+
+const setUserProfileImage = async(userLogin: string,token: string, avatarName: string) => {
+  try {
+    const response = await axios.post(endpoints.setUserProfileImage(userLogin, avatarName), {}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при установке аватара пользователю:", error);
+    throw error;
+  }
+}
 
 const getUserCreatedGroups = async (userLogin: string, token: string) => {
   try {
@@ -313,25 +505,12 @@ const inviteUserToGroup = async (groupId:string,   fromLogin: string, toLogin: s
   }
 };
 
-const leaveFromGroup = async (username:string,groupId:string,token:string) => {
-  try {
-    const response = await axios.delete(endpoints.leaveFromGroup(username,groupId), {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Ошибка при выходе с группы:", error);
-    throw error;
-  }
-};
+
 
 interface UserDataFromServer {
   id: string;
   age: number;
-  birthday: string;
+  birthDay: string;
   description: string | null;
   email: string;
   firstname: string;
@@ -348,7 +527,7 @@ const normalizeUserData = (user: UserDataFromServer): User => {
   return {
     id: user.id ?? "",
     username: user.username,
-    birthday: user.birthday ? new Date(user.birthday) : "",
+    birthday: user.birthDay  ? new Date(user.birthDay).toLocaleDateString('en-US') : "",
     description: user.description ?? "",
     email: user.email,
     firstname: user.firstname,
@@ -406,6 +585,7 @@ const subscribeToGroup = async(userLogin: string, groupId: number, token: string
     throw error;
   }
 }
+
 
 interface UpdateUserInfoData {
   firstname: string;
@@ -470,29 +650,23 @@ const updateUserSecurity = async (
 };
 
 const setJWT = (jwt: string) => {
-  // document.cookie = `jwt=${jwt}`
   localStorage.setItem('jwt', jwt)
 }
 
+const removeJWT = () => {
+  localStorage.removeItem('jwt')
+}
+
 const setUsername = (username: string) => {
-  // document.cookie = `username=${username}`
   localStorage.setItem('username', username)
 }
 
 const getUsername = () => {
-  if (document.cookie === '') {
     return localStorage.getItem('username')
-  }
-  // const username = document.cookie.split(';').find((item) => item.includes('username'))
-  // return username ? username.split('=')[1] : null
 }
 
 const getJWT = () => {
-  if (document.cookie === '') {
     return localStorage.getItem('jwt')
-  }
-  // const jwt = document.cookie.split(';').find((item) => item.includes('jwt'))
-  // return jwt ? jwt.split('=')[1] : null
 }
 
 export const isResponseOk = (response: Response | Error): response is Response => {
@@ -500,8 +674,6 @@ export const isResponseOk = (response: Response | Error): response is Response =
 };
 
 const logoutUser = () =>{
-  // document.cookie = 'jwt=; Max-Age=-1;'
-  // document.cookie = 'username=; Max-Age=-1;'
   localStorage.removeItem('jwt');
   localStorage.removeItem('username');
 };
@@ -541,15 +713,24 @@ export {
   acceptFriendshipReq,
   createGroup,
   declineFriendshipReq,
+  editGroupInfo,
+  createInterest,
+  deleteGroupById,
+  deleteUser,
+  deleteInterest,
   getAllGroups,
-  getAllUsers,
+  getGroupByPrefixName,
   getAllInterests,
   getAvailableUsersForInvite,
+  getAllUsers,
   getFriendship,
   getFriendshipReq,
   getGroupById,
   getNotificationsByUsername,
+  getGroupsByInterests,
   getUser,
+  getUsersByFullName,
+  getUsersByInterests,
   getUserCreatedGroups,
   getUserInterests,
   getUserSubscribedGroups,
@@ -558,14 +739,16 @@ export {
   removeFriendship,
   sendFriendshipRequest,
   subscribeToGroup,
+  registration,
   updateUserInfo,
+  setUserProfileImage,
   updateUserSecurity,
   setJWT,
-  setUsername,
   getJWT,
+  removeJWT,
+  setUsername,
   getUsername,
   logoutUser,
-  registration,
   confirmUserEmail,
   acceptNotice,
   cancelNotice,

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { InviteFriendToGroup } from "../InviteFriendToGroup/InviteFriendToGroup";
 import { getUserSubscribedGroups, inviteUserToGroup, leaveFromGroup, subscribeToGroup } from "../../../API/api-utils";
 import { useStore } from "../../../store/app-store";
+import { deleteGroupById } from "../../../API/api-utils";
 
 interface GroupInfoProps {
   groupInfo: Group ;
@@ -58,10 +59,18 @@ const SubscribeOnGroup = () => {
   const handleLeaveGroup = async () => {
     console.log("Покинул группу " + groupInfo.name);
     const result = user&& await leaveFromGroup(user?.username,groupInfo.id.toString(),token); 
+  };
+  const handleRemoveGroup = () => {
+    deleteGroupById(token, groupInfo.id.toString(),)
     setIsOpenPopup((prev) => !prev);
-    console.log(result);
     navigate("/Groups/All");
   };
+
+  // const handleLeaveGroup = () => {
+  //   setIsOpenPopup((prev) => !prev);
+  //   console.log(result);
+  //   navigate("/Groups/All");
+  // };
 
   return (
     <section className={styles.groupInfo__container}>
@@ -106,10 +115,10 @@ const SubscribeOnGroup = () => {
       </div>
       {isOpenPopup && (
         <RemovePopup
-          type="group"
+          type="group remove"
           groupName={groupInfo.name}
           onCancel={togglePopup}
-          onConfirm={handleLeaveGroup}
+          onConfirm={user?.username === groupInfo.creator.username ? handleRemoveGroup : handleLeaveGroup}
         />
       )}
       {isOpenPopupInvite && (

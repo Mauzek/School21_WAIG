@@ -4,7 +4,7 @@
 
 .interest {
     background-color: #1D2633;
-    height: 210px;
+    min-height: 210px;
     border-radius: 30px;
 }
 

@@ -1,9 +1,12 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import styles from "./GroupEdit.module.css";
 import { ChooseInterests } from "../../CreateGroup/ChooseInterests/ChooseInterests";
 import { Group, Interests } from "../../../types";
 import EditAvatar from "../../../assets/icons/edit_avatar_icon.svg";
 import { CustomGroupAvatar } from "../../CreateGroup/CustomGroupAvatar/CustomGroupAvatar";
+import { useNavigate } from "react-router-dom";
+import { editGroupInfo, getAllInterests } from "../../../API/api-utils";
+import { useStore } from "../../../store/app-store";
 
 interface GroupEditProps {
   groupData: Group;
@@ -29,6 +32,29 @@ export const GroupEdit: FC<GroupEditProps> = ({ groupData, dataTags }) => {
         )
       : dataTags
   );
+  const navigate = useNavigate();
+  const { token } = useStore();
+
+  useEffect(() => {
+    const fetchInterestsData = async () => {
+      try {
+        const responseData = await getAllInterests(token);
+        if (responseData) {
+          setAvailableInterests(
+            responseData.filter(
+              (interest: Interests) =>
+                !selectedInterests.some(
+                  (userInterest) => userInterest.name === interest.name
+                )
+            )
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchInterestsData();
+  }, []);
 
   const togglePopup = () => {
     setIsOpenPopup((prev) => !prev);
@@ -42,7 +68,8 @@ export const GroupEdit: FC<GroupEditProps> = ({ groupData, dataTags }) => {
     setSelectedInterests(groupData.interests);
     setAvailableInterests(
       dataTags.filter(
-        (interest) => !groupData.interests.some((tag) => tag.name === interest.name)
+        (interest) =>
+          !groupData.interests.some((tag) => tag.name === interest.name)
       )
     );
   };
@@ -68,6 +95,28 @@ export const GroupEdit: FC<GroupEditProps> = ({ groupData, dataTags }) => {
   const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= MAX_DESCRIPTION_LENGTH) {
       setDescription(e.target.value);
+    }
+  };
+
+  const handleSaveEditGroup = async () => {
+    if (!name || !description || !chars || !color) {
+      alert("Пожалуйста, заполните все обязательные поля.");
+      return;
+    }
+
+    try {
+      const dataToSend = {
+        name,
+        chars,
+        color,
+        description,
+        interests: selectedInterests,
+      };
+      console.log(dataToSend)
+      await editGroupInfo(groupData.id, token, dataToSend);
+      navigate(`/Group/${groupData.id}/Main`);
+    } catch (error) {
+      console.error("Ошибка при сохранении изменений группы:", error);
     }
   };
 
@@ -142,7 +191,9 @@ export const GroupEdit: FC<GroupEditProps> = ({ groupData, dataTags }) => {
         <button onClick={handleCancelEditGroup} className={styles.cancelButton}>
           Отменить
         </button>
-        <button className={styles.createButton}>Сохранить</button>
+        <button onClick={handleSaveEditGroup} className={styles.createButton}>
+          Сохранить
+        </button>
       </footer>
     </section>
   );

@@ -10,42 +10,53 @@ import SearchIcon from "../../assets/icons/search_icon.svg";
 import { NoticesPopup } from "../NoticesPopup/NoticesPopup";
 import { getUserCreatedGroups } from "../../API/api-utils";
 import { useStore } from "../../store/app-store";
+import { SearchPopup } from "./SearchPopup/SearchPopup";
 
 interface HeaderProps {
   user: User;
 }
 
 export const Header: FC<HeaderProps> = ({ user }) => {
-  const {token} = useStore();
+  const { token } = useStore();
   const { username, id } = useParams<{ username: string; id: string }>();
   const [isNoticesBtnActive, setIsNoticesBtnActive] = useState<boolean>(false);
   const [isSearchBtnActive, setIsSearchBtnActive] = useState<boolean>(false);
+  const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const location = useLocation();
   const [userGroups, setUserGroups] = useState<any[]>([]);
 
-useEffect(() => {
-  const fetchUserGroups = async () => {
-    try {
-      const groups = await getUserCreatedGroups(user.username, token); // This should return a promise
-      setUserGroups(groups); // Set the groups in state once fetched
-      console.log(userGroups)
-    } catch (error) {
-      console.error("Failed to fetch user groups", error);
+  useEffect(() => {
+    const fetchUserGroups = async () => {
+      try {
+        const groups = await getUserCreatedGroups(user.username, token);
+        setUserGroups(groups);
+      } catch (error) {
+        console.error("Failed to fetch user groups", error);
+      }
+    };
+
+    if (user.username && token) {
+      fetchUserGroups();
     }
+  }, [user.username, token]);
+
+  const handleFocus = () => {
+    setIsOpenPopup(true);
   };
 
-  if (user.username && token) {
-    fetchUserGroups(); // Fetch the groups if user and token are available
-  }
-}, [user.username, token]); // Re-run when user.username or token changes
-
+  const handleBlur = () => {
+    setIsOpenPopup(false);
+    setInputValue("");
+  };
 
   const mainMenuItems = [
     { label: "Главная", path: "/Home" },
     { label: "Группы", path: "/Groups/" },
     { label: "Друзья", path: "/Friends/" },
     ...(user.isAdmin ? [{ label: "Админ", path: "/Admin" }] : []),
-     ];
+  ];
 
   const getPageTitle = () => {
     if (location.pathname.startsWith("/Home")) return "Интересные группы";
@@ -122,6 +133,17 @@ useEffect(() => {
     }
   };
 
+  const handleSearch = () => {
+    setSearchQuery(inputValue);
+    setIsSearchBtnActive(true);
+  };
+
+  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   const pageTitle = getPageTitle();
   const navMenuItems = getNavMenuItems();
 
@@ -137,14 +159,23 @@ useEffect(() => {
             <NavMenu menuItems={mainMenuItems} />
           ) : (
             <div className={styles.nav__input__container}>
-              <img src={SearchIcon} alt="Поиск" />
-              <input
-                type="search"
-                placeholder="Поиск..."
-                className={styles.searchInput}
-              />
+              <img src={SearchIcon} className={styles.searchInput__icon} alt="Поиск" onClick={handleSearch} />
+            <input
+              type="search"
+              placeholder="Поиск..."
+              value={inputValue}
+              onFocus={handleFocus}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleInputKeyDown}
+              className={styles.searchInput}
+            />
             </div>
           )}
+
+          {isOpenPopup &&  <SearchPopup
+            closePopup={handleBlur}
+            searchRequest={searchQuery} 
+          />}
 
           <HeaderTitle
             pageTitle={pageTitle}

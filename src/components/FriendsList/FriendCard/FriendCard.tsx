@@ -11,18 +11,18 @@ interface FriendCardProps {
   name: string;
   username: string;
   avatar: keyof typeof avatars;
-  removeFriend: (removeName:string)=>void;
+  removeFriend: (removeName: string) => void;
 }
 
-export const FriendCard: FC<FriendCardProps> = ({ name, username, avatar,removeFriend }) => {
+export const FriendCard: FC<FriendCardProps> = ({ name, username, avatar, removeFriend }) => {
   const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
-const {user,token} = useStore();
+  const { user, token } = useStore();
   const handleTogglePopup = () => {
     setIsOpenPopup((prev) => !prev);
   };
 
   const FetchRemoveFriend = async () => {
-await removeFriendship(username,user.username,token);
+    user && await removeFriendship(username, user.username, token);
     setIsOpenPopup(false);
     removeFriend(username);
   };

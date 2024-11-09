@@ -44,7 +44,6 @@ const GroupPage = () => {
         console.error(error);
       }
     };
-
     fetchFriends();
     fetchGroupData();
   }, [id, token, user]);
@@ -56,7 +55,7 @@ const GroupPage = () => {
   if (location.pathname === `/Group/${id}/Edit` && groupData?.creator.username !== user?.username) {
     return <Navigate to={`/Group/${id}/Main`} replace />;
   }
-
+  
   return (
     <main className={styles.groupMain__container}>
       {location.pathname === `/Group/${id}/Main` && groupData && (
