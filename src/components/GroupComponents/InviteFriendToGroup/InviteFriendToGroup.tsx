@@ -7,9 +7,9 @@ import { getAvailableUsersForInvite } from "../../../API/api-utils";
 import { useStore } from "../../../store/app-store";
 
 interface InviteFriendToGroupProps {
-  friends: {firstname: string, lastname: string, profileImageId: string, username: string}[];
+  friends: { firstname: string, lastname: string, profileImageId: string, username: string }[];
   groupName?: string;
-  onConfirm: (friendName:string) => void;
+  onConfirm: (friendName: string) => void;
   onCancel: () => void;
   groupId: string;
 }
@@ -21,22 +21,20 @@ export const InviteFriendToGroup: FC<InviteFriendToGroupProps> = ({
   onCancel,
   groupId
 }) => {
-  const [availableUsers,setAvailableUsers] = useState();
-const {user,token} = useStore();
-  useEffect(()=>{
-const fetchAvailableUsers = async () => {
-  const result = await getAvailableUsersForInvite(groupId,user.username,token);
+  const [availableUsers, setAvailableUsers] = useState();
+  const { user, token } = useStore();
+  useEffect(() => {
+    const fetchAvailableUsers = async () => {
+      const result = await getAvailableUsersForInvite(groupId, user.username, token);
 
-  const commonElements = result.filter(item1 =>
-    friends.some(item2 => item1.username === item2.username)
-);
-setAvailableUsers(commonElements);
-}
- fetchAvailableUsers();
-  },[])
+      const commonElements = result.filter(item1 =>
+        friends.some(item2 => item1.username === item2.username)
+      );
+      setAvailableUsers(commonElements);
+    }
+    fetchAvailableUsers();
+  }, [])
 
-  console.log(friends);
-  
   return (
     <div className={styles.popup_overlay}>
       <div className={styles.popup_container}>
@@ -48,9 +46,8 @@ setAvailableUsers(commonElements);
             <img src={ClosePopup} alt="Закрыть" />
           </button>
         </div>
-
         <div className={styles.popup_friends}>
-          {availableUsers&&availableUsers.map((friend, index) => (
+          {availableUsers && availableUsers.map((friend, index) => (
             <article key={index} className={styles.friend_card}>
               <Link to={`/Profile/${friend.username}`}>
                 <div className={styles.friend_card__avatar_container}>
@@ -71,7 +68,7 @@ setAvailableUsers(commonElements);
               </Link>
               <button
                 className={styles.friend_card__invite_button}
-                onClick={() => {onConfirm(friend.username);setAvailableUsers(availableUsers.filter(item=>item.username!=friend.username))}}
+                onClick={() => { onConfirm(friend.username); setAvailableUsers(availableUsers.filter(item => item.username != friend.username)) }}
               >
                 Пригласить
               </button>

@@ -25,9 +25,7 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
 
   useEffect(() => {
     const fetchSubscribedGroups = async () => {
-      // const groupsSubscribed = await getUserSubscribedGroups(user.username, token);
-      const groupsSubscribed= groupInfo.subscribers;
-      console.log("test1.1.7", groupInfo);
+      const groupsSubscribed = groupInfo.subscribers;
 
       if (groupInfo.creator.username === user?.username)
         setIsSubscriber(true);
@@ -35,7 +33,6 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
         const result = groupsSubscribed.some(elem => elem.username == user.username);
         setIsSubscriber(result);
       }
-      console.log(groupInfo.id);
     }
     fetchSubscribedGroups();
 
@@ -43,11 +40,8 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
 
   const SubscribeOnGroup = () => {
     subscribeToGroup(user?.username, groupInfo.id, token);
-    console.log(user?.username, groupInfo.id, token);
     setIsSubscriber(true);
   }
-
-
 
   const togglePopup = () => {
     setIsOpenPopup((prev) => !prev);
@@ -59,11 +53,9 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
 
   const handleInvite = (invitedFriend: string) => {
     user && inviteUserToGroup(groupInfo.id.toString(), user.username, invitedFriend, token);
-
   };
 
   const handleLeaveGroup = async () => {
-    console.log("Покинул группу " + groupInfo.name);
     user && await leaveFromGroup(user?.username, groupInfo.id.toString(), token);
   };
   const handleRemoveGroup = () => {
@@ -71,12 +63,6 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
     setIsOpenPopup((prev) => !prev);
     navigate("/Groups/All");
   };
-
-  // const handleLeaveGroup = () => {
-  //   setIsOpenPopup((prev) => !prev);
-  //   console.log(result);
-  //   navigate("/Groups/All");
-  // };
 
   return (
     <section className={styles.groupInfo__container}>
@@ -121,7 +107,7 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
       </div>
       {isOpenPopup && (
         <RemovePopup
-          type={user?.username === groupInfo.creator.username ?"group remove":"group"}
+          type={user?.username === groupInfo.creator.username ? "group remove" : "group"}
           groupName={groupInfo.name}
           onCancel={togglePopup}
           onConfirm={user?.username === groupInfo.creator.username ? handleRemoveGroup : handleLeaveGroup}

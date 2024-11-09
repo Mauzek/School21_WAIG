@@ -32,7 +32,6 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
   });
 
   const onChange: OTPProps["onChange"] = (text) => {
-    console.log("onChange:", text);
     setCofirmCode(text);
   };
 
@@ -52,17 +51,15 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
     const { name, value } = e.target;
 
     if (name === "tgName") {
-      // Only allow letters, numbers, and underscores for Telegram username
       const tgName = value.replace(/[^a-zA-Z0-9_]/g, "");
       setFormData((prev) => ({ ...prev, [name]: tgName }));
     } else if (name === "email") {
-      // Validate email format
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       const isValidEmail = emailPattern.test(value);
       setFormData((prev) => ({
         ...prev,
         [name]: value,
-        emailValid: isValidEmail, // Optional: add a field to track validity
+        emailValid: isValidEmail,
       }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));

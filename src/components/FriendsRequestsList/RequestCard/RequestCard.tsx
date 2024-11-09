@@ -6,13 +6,13 @@ import { useStore } from "../../../store/app-store";
 import { acceptFriendshipReq, declineFriendshipReq } from "../../../API/api-utils";
 
 interface RequestCardProps {
-  firstname:string;
-  lastname:string;
+  firstname: string;
+  lastname: string;
   username: string;
   description: string;
   avatar: keyof typeof avatars;
-  removeFromState: (username: string) => void; // Определяем тип функции
-  RelocateReqToFriend: (username: string, firstname: string, lastname: string, profileImageId: string)=> void;
+  removeFromState: (username: string) => void;
+  RelocateReqToFriend: (username: string, firstname: string, lastname: string, profileImageId: string) => void;
 }
 
 export const RequestCard: FC<RequestCardProps> = ({
@@ -26,10 +26,8 @@ export const RequestCard: FC<RequestCardProps> = ({
 }) => {
   const { user, token } = useStore();
   const handleAcceptReq = async () => {
-    console.log(`-${username}-`,`-${user?.username}-`)
-    const result =  await acceptFriendshipReq(user?.username, username, token);
-    console.log(result);
-    RelocateReqToFriend(username,firstname,lastname,avatar);
+    const result = await acceptFriendshipReq(user?.username, username, token);
+    RelocateReqToFriend(username, firstname, lastname, avatar);
     removeFromState(username);
   }
 

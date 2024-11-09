@@ -30,18 +30,14 @@ export const NoticesPopup: FC<NoticeProps> = ({
   isNoticesBtnActive,
   onClickNotices,
 }) => {
-  const [noticesList,setNoticesList] = useState<any>([]);
-  
-  const {user,token} = useStore();
-  useEffect(()=>{
+  const [noticesList, setNoticesList] = useState<any>([]);
+
+  const { user, token } = useStore();
+  useEffect(() => {
     const fetchNotices = async () => {
       const result = await getNotificationsByUsername(user.username, token);
-      const resultFriends = await getFriendshipReq(user?.username,token);
+      const resultFriends = await getFriendshipReq(user?.username, token);
 
-      
-      console.log("1.3.1",resultFriends);
-      console.log(result);      
-    
       const filteredGroupsNot = result.map(item => ({
         id: item.id,
         groupId: item.group.id,
@@ -49,27 +45,25 @@ export const NoticesPopup: FC<NoticeProps> = ({
         inviterUsername: item.inviter.username,
         userAvatar: item.inviter.profileImageId,
         isGroupInvite: true,
-    }));
-    
-    const filteredFriendsNot = resultFriends.map(item => ({
-      id: item.id,
-      inviterUsername: item.user.username,
-      friend: item.friend,
-      userAvatar: item.user.profileImageId,
-      isGroupInvite: false,
-  }));
+      }));
 
-  const filteredNotes = [...filteredFriendsNot,...filteredGroupsNot];
-  setNoticesList(filteredNotes);
-    console.log("belgu",filteredNotes);
+      const filteredFriendsNot = resultFriends.map(item => ({
+        id: item.id,
+        inviterUsername: item.user.username,
+        friend: item.friend,
+        userAvatar: item.user.profileImageId,
+        isGroupInvite: false,
+      }));
+
+      const filteredNotes = [...filteredFriendsNot, ...filteredGroupsNot];
+      setNoticesList(filteredNotes);
     }
     fetchNotices();
-  },[])
+  }, [])
   return (
     <div
-      className={`${styles.popup} ${
-        isNoticesBtnActive ? styles.enter : styles.exit
-      } `}
+      className={`${styles.popup} ${isNoticesBtnActive ? styles.enter : styles.exit
+        } `}
     >
       <div className={styles.header}>
         <span className={styles.title}>Уведомления</span>
@@ -77,12 +71,11 @@ export const NoticesPopup: FC<NoticeProps> = ({
           <img src={CloseIcon} alt="Close" className={styles.closeIcon} />
         </button>
       </div>
-
       <div className={styles.noticesList}>
-        {noticesList&&noticesList.map((notice) => (
+        {noticesList && noticesList.map((notice) => (
           <Notice
             key={notice.id}
-            id = {notice.id}
+            id={notice.id}
             groupId={notice.groupId}
             name={notice.inviterUsername}
             avatar={notice.userAvatar}
@@ -91,12 +84,6 @@ export const NoticesPopup: FC<NoticeProps> = ({
             refreshGroups={setNoticesList}
           />
         ))}
-{/* 
-id: item.id,
-        groupId: item.group.id,
-        groupName: item.group.name,
-        inviterUsername: item.inviter.username,
-        userAvatar: item.inviter.profileImageId, */}
       </div>
     </div>
   );

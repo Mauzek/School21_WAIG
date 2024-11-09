@@ -27,4 +27,3 @@ export const GroupCardMain: FC<GroupCardMainProps> = ({ group }) => {
     </article>
   );
 };
-// собрание каких-то челов, которые собрались и ну изи выиграли этих бездарей вонючих

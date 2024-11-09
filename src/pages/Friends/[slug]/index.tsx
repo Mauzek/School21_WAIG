@@ -24,7 +24,6 @@ const FriendsPage = () => {
 
   const removeFriend = (removeName:string) => {
     setFriends((prevReqs) => prevReqs.filter(element => element.username !== removeName));
-    // console.log("1.4.2",friends.filter(element => element.username !==  "1") )
   };
 
   const RelocateReqToFriend = (username: string, firstname: string, lastname: string, profileImageId: string) => {

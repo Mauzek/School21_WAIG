@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./Auth.module.css";
-import {Registration} from "../../components/Registration/Registration";
+import { Registration } from "../../components/Registration/Registration";
 import loginSvg from "../../assets/images/login.svg";
 import PasswordHidden from "../../assets/icons/password_hidden.svg";
 import PasswordVisible from "../../assets/icons/password_visible.svg";
@@ -28,10 +28,7 @@ export default function AuthPage() {
     e.preventDefault();
     const userData: Response | Error = await authorize(authData);
     if (isResponseOk(userData)) {
-      console.log(userData);
-      
       setJWT(userData.token);
-      console.log("%c Успешный вход!", "color:#44eb99");
       const tokenJWT = getJWT();
       if (tokenJWT) {
         setToken(tokenJWT);
@@ -118,8 +115,6 @@ export default function AuthPage() {
                   <p>Забыли пароль?</p>
                 </div>
                 <hr className={styles.login__hr} />
-                {/* <h5 style={{ textAlign: "left", fontSize: "16px", margin: "24px 0px 8px 0px", fontWeight: "600", lineHeight: "24px" }} > С чего начать изучение? </h5>
-                <span style={{ display: "inline-block", width: "100%", textAlign: "justify", fontSize: "14px" }}>Если вы хотите учиться в школе следующего поколения, перейдите по <a style={{ textDecoration: "none" , color:"var(--linkBlue)"}} href="#"> ссылке на School21</a></span> */}
               </form>
             </div>
           ) : (

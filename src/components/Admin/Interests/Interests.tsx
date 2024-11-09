@@ -11,9 +11,6 @@ import { Interests as Interest } from "../../../types";
 export const Interests: FC = () => {
   const { token } = useStore();
   const [createdInterest, setCreatedInterest] = useState<Interest>({ name: "", color: "000000" })
-  // const handleColorChange = (color: string) => {
-  //   setCreatedInterest(prev => ({ ...prev, color })); // Обновляем цвет в состоянии
-  // };
   const [allInterests, setAllInterests] = useState<Interest[]>();
   useEffect(() => {
     const fetchData = async () => {

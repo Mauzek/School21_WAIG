@@ -53,7 +53,6 @@ const HomePage: FC = () => {
   return (
     <main className={styles.home_page__container}>
       {Object.entries(groupedByInterest).map(([interestName, groups]) => {
-        // Сортировка групп по количеству подписчиков
         const sortedGroups = groups.sort(
           (a, b) => (b.subscribers.length+1 || 0) - (a.subscribers.length+1 || 0)
         );

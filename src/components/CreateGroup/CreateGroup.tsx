@@ -60,7 +60,6 @@ export const CreateGroup: FC = () => {
       description,
       interests: selectedInterests,
     };
-    console.log(groupData)
     if (user) {
       createGroup(user.username, token, groupData);
       navigate('/Groups/Managed')

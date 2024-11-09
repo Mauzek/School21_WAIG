@@ -102,7 +102,7 @@ interface UpdateGroupData {
   interests?: Interests[],
 }
 
-const editGroupInfo = async (groupId: number ,token: string, data: UpdateGroupData) => {
+const editGroupInfo = async (groupId: number, token: string, data: UpdateGroupData) => {
   try {
     const response = await axios.put(endpoints.updateGroupInfo(groupId), data, {
       headers: {
@@ -132,9 +132,9 @@ const declineFriendshipReq = async (login: string, friendLogin: string, token: s
   }
 };
 
-const leaveFromGroup = async (username:string,groupId:string,token:string) => {
+const leaveFromGroup = async (username: string, groupId: string, token: string) => {
   try {
-    const response = await axios.delete(endpoints.leaveFromGroup(username,groupId), {
+    const response = await axios.delete(endpoints.leaveFromGroup(username, groupId), {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -149,7 +149,7 @@ const leaveFromGroup = async (username:string,groupId:string,token:string) => {
 
 const createInterest = async (token: string, data: Interests) => {
   try {
-    const response = await axios.post(endpoints.adminAddInterest(data.name,data.color),{},{
+    const response = await axios.post(endpoints.adminAddInterest(data.name, data.color), {}, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -162,8 +162,8 @@ const createInterest = async (token: string, data: Interests) => {
   }
 };
 
-const deleteGroupById = async (token:string,groupId:string) => {
-  try{
+const deleteGroupById = async (token: string, groupId: string) => {
+  try {
     const response = await axios.delete(endpoints.deleteGroupById(groupId), {
       headers: {
         "Content-Type": "application/json",
@@ -172,13 +172,14 @@ const deleteGroupById = async (token:string,groupId:string) => {
     });
     return response;
 
-}catch (error) {
-  console.error("Ошибка удаления группы:", error);
-  throw error;
-}};
+  } catch (error) {
+    console.error("Ошибка удаления группы:", error);
+    throw error;
+  }
+};
 
-const deleteInterest = async (token:string,interestName:string) => {
-  try{
+const deleteInterest = async (token: string, interestName: string) => {
+  try {
     const response = await axios.delete(endpoints.deleteInterestByName(interestName), {
       headers: {
         "Content-Type": "application/json",
@@ -187,13 +188,14 @@ const deleteInterest = async (token:string,interestName:string) => {
     });
     return response;
 
-}catch (error) {
-  console.error("Ошибка при удалении интереса:", error);
-  throw error;
-}};
+  } catch (error) {
+    console.error("Ошибка при удалении интереса:", error);
+    throw error;
+  }
+};
 
-const deleteUser = async (token:string,username:string) => {
-  try{
+const deleteUser = async (token: string, username: string) => {
+  try {
     const response = await axios.delete(endpoints.deleteUserByLogin(username), {
       headers: {
         "Content-Type": "application/json",
@@ -202,10 +204,11 @@ const deleteUser = async (token:string,username:string) => {
     });
     return response;
 
-}catch (error) {
-  console.error("Ошибка при обновлении информации о пользователе:", error);
-  throw error;
-}};
+  } catch (error) {
+    console.error("Ошибка при обновлении информации о пользователе:", error);
+    throw error;
+  }
+};
 
 const getAllGroups = async (token: string) => {
   try {
@@ -222,7 +225,7 @@ const getAllGroups = async (token: string) => {
   }
 };
 
-const getGroupByPrefixName = async(groupName: string,token: string) => {
+const getGroupByPrefixName = async (groupName: string, token: string) => {
   try {
     const response = await axios.get(endpoints.getGroupsByPrefixName(groupName), {
       headers: {
@@ -238,7 +241,7 @@ const getGroupByPrefixName = async(groupName: string,token: string) => {
 }
 
 const getAllInterests = async (token: string) => {
-  try{
+  try {
     const response = await axios.get(endpoints.adminGetAllInterests, {
       headers: {
         'Content-Type': 'application/json',
@@ -246,7 +249,7 @@ const getAllInterests = async (token: string) => {
       },
     });
     return response.data;
-  }catch(error){
+  } catch (error) {
     console.error("Ошибка при получении всех интересов:", error);
     throw error;
   }
@@ -267,17 +270,16 @@ const getAllUsers = async (token: string) => {
   }
 };
 
-const getAvailableUsersForInvite = async (groupId:string,login:string,token: string) => {
-  try{
-    const response = await axios.get(endpoints.getAvailableUsersForInvite(groupId,login), {
+const getAvailableUsersForInvite = async (groupId: string, login: string, token: string) => {
+  try {
+    const response = await axios.get(endpoints.getAvailableUsersForInvite(groupId, login), {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data);
     return response.data;
-  }catch(error){
+  } catch (error) {
     console.error("Ошибка при получении всех интересов:", error);
     throw error;
   }
@@ -306,7 +308,6 @@ const getFriendshipReq = async (userLogin: string, token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Ошибка при получении заявок:", error);
@@ -337,7 +338,7 @@ const getGroupsByInterests = async (interests: InterestsProps[], token: string) 
   try {
     const response = await axios.post(
       endpoints.getGroupsByInterests,
-      interests, 
+      interests,
       {
         headers: {
           "Content-Type": "application/json",
@@ -384,7 +385,7 @@ const getUser = async (login: string, token: string) => {
   }
 };
 
-interface userFullName{
+interface userFullName {
   firstName: string,
   lastName: string,
   patronymic: string
@@ -407,11 +408,11 @@ const getUsersByFullName = async (userFullName: userFullName, token: string) => 
   }
 }
 
-const getUsersByInterests = async(interests: InterestsProps[], token: string) =>{
+const getUsersByInterests = async (interests: InterestsProps[], token: string) => {
   try {
     const response = await axios.post(
       endpoints.getUsersByInterests,
-      interests, 
+      interests,
       {
         headers: {
           "Content-Type": "application/json",
@@ -426,7 +427,7 @@ const getUsersByInterests = async(interests: InterestsProps[], token: string) =>
   }
 }
 
-const setUserProfileImage = async(userLogin: string,token: string, avatarName: string) => {
+const setUserProfileImage = async (userLogin: string, token: string, avatarName: string) => {
   try {
     const response = await axios.post(endpoints.setUserProfileImage(userLogin, avatarName), {}, {
       headers: {
@@ -490,9 +491,9 @@ const getUserSubscribedGroups = async (userLogin: string, token: string) => {
   }
 };
 
-const inviteUserToGroup = async (groupId:string,   fromLogin: string, toLogin: string,  token: string) => {
+const inviteUserToGroup = async (groupId: string, fromLogin: string, toLogin: string, token: string) => {
   try {
-    const response = await axios.post(endpoints.inviteUserToGroup(groupId, fromLogin, toLogin),{}, {
+    const response = await axios.post(endpoints.inviteUserToGroup(groupId, fromLogin, toLogin), {}, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -527,7 +528,7 @@ const normalizeUserData = (user: UserDataFromServer): User => {
   return {
     id: user.id ?? "",
     username: user.username,
-    birthday: user.birthDay  ? new Date(user.birthDay).toLocaleDateString('en-US') : "",
+    birthday: user.birthDay ? new Date(user.birthDay).toLocaleDateString('en-US') : "",
     description: user.description ?? "",
     email: user.email,
     firstname: user.firstname,
@@ -541,9 +542,9 @@ const normalizeUserData = (user: UserDataFromServer): User => {
   };
 };
 
-const removeFriendship = async (userLogin:string,friendLogin:string,token:string) => {
+const removeFriendship = async (userLogin: string, friendLogin: string, token: string) => {
   try {
-    const response = await axios.delete(endpoints.removeFriendship(userLogin,friendLogin), {
+    const response = await axios.delete(endpoints.removeFriendship(userLogin, friendLogin), {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -558,7 +559,7 @@ const removeFriendship = async (userLogin:string,friendLogin:string,token:string
 
 const sendFriendshipRequest = async (userLogin: string, friendLogin: string, token: string) => {
   try {
-    const response = await axios.post(endpoints.sendFriendshipRequest(userLogin,friendLogin), {}, {
+    const response = await axios.post(endpoints.sendFriendshipRequest(userLogin, friendLogin), {}, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -571,9 +572,9 @@ const sendFriendshipRequest = async (userLogin: string, friendLogin: string, tok
   }
 };
 
-const subscribeToGroup = async(userLogin: string, groupId: number, token: string) => {
+const subscribeToGroup = async (userLogin: string, groupId: number, token: string) => {
   try {
-    const response = await axios.post(endpoints.postUserSubscribeToGroup(userLogin, groupId),{}, {
+    const response = await axios.post(endpoints.postUserSubscribeToGroup(userLogin, groupId), {}, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -634,8 +635,8 @@ const updateUserSecurity = async (
         updateData.newUsername,
         updateData.newPassword,
         updateData.newEmail
-      ),{},
-      { 
+      ), {},
+      {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -662,18 +663,18 @@ const setUsername = (username: string) => {
 }
 
 const getUsername = () => {
-    return localStorage.getItem('username')
+  return localStorage.getItem('username')
 }
 
 const getJWT = () => {
-    return localStorage.getItem('jwt')
+  return localStorage.getItem('jwt')
 }
 
 export const isResponseOk = (response: Response | Error): response is Response => {
   return !(response instanceof Error);
 };
 
-const logoutUser = () =>{
+const logoutUser = () => {
   localStorage.removeItem('jwt');
   localStorage.removeItem('username');
 };
@@ -752,5 +753,4 @@ export {
   confirmUserEmail,
   acceptNotice,
   cancelNotice,
-
 };

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useStore } from "../../../store/app-store";
 import { User } from "../../../types";
 import styles from "./Users.module.css";
@@ -7,14 +7,13 @@ import { getAllUsers, deleteUser } from "../../../API/api-utils";
 
 export const Users: FC = () => {
   const { token } = useStore();
-  const [users, setUsers] = useState<User[]>([]); 
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       if (token) {
         try {
           setUsers(await getAllUsers(token));
-          console.log("Fetched users:", users);
         } catch (error) {
           console.error(error)
           throw error;

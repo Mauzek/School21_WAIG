@@ -1,4 +1,3 @@
-// FriendCard.tsx
 import { FC, useState } from "react";
 import styles from "./FriendCard.module.css";
 import { RemovePopup } from "../../RemovePopup/RemovePopup";

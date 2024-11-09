@@ -3,7 +3,7 @@ import styles from "./ProfileEdit.module.css";
 import { useStore } from "../../../store/app-store";
 import { ChooseInterests } from "../../CreateGroup/ChooseInterests/ChooseInterests";
 import { Interests } from "../../../types";
-import { getAllInterests, updateUserInfo} from "../../../API/api-utils";
+import { getAllInterests, updateUserInfo } from "../../../API/api-utils";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface ProfileEditProps {
@@ -60,7 +60,7 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
   }, []);
 
   const formatDate = (date: Date | string | undefined) => {
-    if (!date) return ""; 
+    if (!date) return "";
     const d = new Date(date);
     if (isNaN(d.getTime())) return "";
     const year = d.getFullYear();
@@ -68,14 +68,14 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
     const day = String(d.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
-  
+
   const [formData, setFormData] = useState({
     firstname,
     lastname,
     patronymic,
     tgName,
     gender,
-    birthDay: formatDate(birthday), 
+    birthDay: formatDate(birthday),
     description,
     interests: selectedInterests
   });
@@ -98,9 +98,7 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
 
   const handleSaveChanges = async () => {
     const { firstname, lastname, patronymic, tgName, gender, birthDay, description, interests } = formData;
-    
-    console.log("Сохранение изменений:", formData); 
-  
+
     if (firstname && lastname && patronymic && tgName && gender && birthday && interests) {
       try {
         if (user) {
@@ -114,12 +112,9 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
             description,
             interests: selectedInterests,
           };
-  
-          console.log("Отправляемые данные:", dataToSend);
-          
-          await updateUserInfo(user.username, token, dataToSend); // Отправка данных на сервер
+
+          await updateUserInfo(user.username, token, dataToSend);
         }
-  
         setMainInfo(
           firstname,
           lastname,
@@ -129,7 +124,6 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
           birthday,
           description
         );
-  
         navigate(`/Profile/${username}`);
       } catch (error) {
         console.error("Ошибка при сохранении изменений:", error);
@@ -163,7 +157,6 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
   return (
     <div className={styles.edit__container}>
       <h2 className={styles.edit__title}>Редактирование профиля</h2>
-
       <ul className={styles.list__parametrs}>
         <li>
           Фамилия:
@@ -231,7 +224,6 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
           />
         </li>
       </ul>
-
       <div>
         <div className={styles.about__me__container}>
           <div className={styles.about__me__title}>
