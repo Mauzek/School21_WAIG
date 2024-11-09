@@ -1,37 +1,25 @@
 import { FC, useEffect, useState } from "react";
-import { getAllGroups, getAllInterests, getAllUsers } from "../../../API/api-utils";
+import { statistics } from "../../../API/api-utils";
 import { useStore } from "../../../store/app-store";
 
 type StatisticData = {
-  UsersCount: number,
-  GroupsCount: number,
-  InterestCount: number
+  userCount: number,
+  groupCount: number,
+  interestCount: number
 }
 
 export const Statistic: FC = () => {
   const { token } = useStore();
-  const [statisticData, setStatisticData] = useState<StatisticData>({ UsersCount: 0, GroupsCount: 0, InterestCount: 0 });
-
+  const [statisticData, setStatisticData] = useState<StatisticData>();
   useEffect(() => {
     const fetchData = async () => {
-
-      const [users, groups, interests] = await Promise.all([
-        getAllUsers(token),
-        getAllGroups(token),
-        getAllInterests(token),
-      ]);
-      setStatisticData({
-        UsersCount: users.length,
-        GroupsCount: groups.length,
-        InterestCount: interests.length,
-      });
+      setStatisticData(await statistics(token));
     }
     fetchData();
-
   }, []);
   return (<>
-    <p>Всего пользователей: {statisticData&&statisticData.UsersCount}</p>
-    <p>Всего групп: {statisticData&&statisticData.GroupsCount}</p>
-    <p>Всего интересов: {statisticData&&statisticData.InterestCount}</p>
+    <p>Всего пользователей: {statisticData && statisticData.userCount}</p>
+    <p>Всего групп: {statisticData && statisticData.groupCount}</p>
+    <p>Всего интересов: {statisticData && statisticData.interestCount}</p>
   </>);
 }

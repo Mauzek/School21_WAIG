@@ -9,8 +9,6 @@ const AdminPage = () => {
   const location = useLocation();
   return (
     <main className={styles.admin__container}>
-      <h2>Admin Page</h2>
-      <p>{location.pathname}</p>
 {location.pathname=="/Admin/Users"&&<Users/>}
 {location.pathname=="/Admin/Groups"&&<Groups/>}
 {location.pathname=="/Admin/Interests"&&<Interests/>}

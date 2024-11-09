@@ -85,4 +85,6 @@ export const endpoints = {
   acceptNotification: (notificationId: string) => `${BASE_API}/api/notifications/accept?notificationId=${notificationId}`, // http://localhost:8080/api/notifications/accept?notificationId=1
   cancelNotification: (notificationId: string) => `${BASE_API}/api/notifications/cancel?notificationId=${notificationId}`, // http://localhost:8080/api/notifications/accept?notificationId=1
 
+  //stat
+  statistics: `${BASE_API}/statistics` // get
 };

@@ -572,6 +572,22 @@ const sendFriendshipRequest = async (userLogin: string, friendLogin: string, tok
   }
 };
 
+const statistics = async (token: string) => {
+  try {
+    const response = await axios.get(endpoints.statistics, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении статистики:", error);
+    throw error;
+  }
+};
+
 const subscribeToGroup = async (userLogin: string, groupId: number, token: string) => {
   try {
     const response = await axios.post(endpoints.postUserSubscribeToGroup(userLogin, groupId), {}, {
@@ -740,6 +756,7 @@ export {
   removeFriendship,
   sendFriendshipRequest,
   subscribeToGroup,
+  statistics,
   registration,
   updateUserInfo,
   setUserProfileImage,
