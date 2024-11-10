@@ -1,50 +1,41 @@
-# React + TypeScript + Vite
+# WAIG
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Логотип проекта]()
 
-Currently, two official plugins are available:
+## Описание
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**`WAIG`** — это платформа, которая позволит по никам получать информацию об учащихся, что делает процесс обучения более удобным и позволяет сократить время, необходимое на поиск участников, которые задействованы в проверках, построенная на `...`. Здесь можно просматривать группы по интересам, вступать в них, а также вести списки друзей. Используются современные библиотеки для создания приятного интерфейса и удобного взаимодействия с пользователем.
 
-## Expanding the ESLint configuration
+## Используемые библиотеки
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Для работы проекта применяются следующие библиотеки:
 
-- Configure the top-level `parserOptions` property like this:
+- **`ant-design`**: набор иконок и элементы интерфейса.
+- **`zustand`**: библиотека для управления состоянием.
+- **`axios`**: работа с HTTP-запросами к API.
+- **`Typescript`**: ...
+- **`React Vite`**: ...
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Страницы
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+В проекте представлены следующие страницы:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- **`RU...` (ENG...)**: ...
+- **`RU...` (ENG...)**: ...
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## API
+
+**Endpoint**: `/...`
+**Endpoint**: `/...`
+**Endpoint**: `/...`
+
+---
+## Скриншоты
+#### **`Страница ...`**
+>![Страница ...]() 
+
+#### **`Страница ...`**
+>![Страница ...]() 
+----
+
+

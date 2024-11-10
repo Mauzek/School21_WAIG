@@ -1,4 +1,3 @@
-// GroupCardListMain.tsx
 import { FC, useState } from 'react';
 import { Group } from '../../pages/Home';
 import HidingArrow from '../../assets/icons/hiding_arrow_group_card_list.svg'
@@ -32,7 +31,7 @@ export const GroupCardListMain: FC<GroupCardListMainProps> = ({ label, groups })
             <div
                 className={`${styles.group_list__cards} ${isExpanded ? styles.expanded : styles.collapsed}`}
             >
-                {groups.slice(0, 6).map((group) => ( // Ограничение до 6 групп
+                {groups.slice(0, 6).map((group) => ( 
                     <Link to={`/Group/${group.id}/Main`} key={group.id}>
                         <GroupCardMain group={group} />
                     </Link>

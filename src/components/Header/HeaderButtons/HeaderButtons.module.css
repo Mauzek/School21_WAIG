@@ -33,7 +33,16 @@
 .avatar{
     height: 35px;
     width: 35px;
+    background-color: #fff;
+    border-radius: 50%;
 }
 .active {
     background-color: #b472ee;
 }
+
+
+/* @media (max-width: 600px) {
+    .button__container{
+        flex-direction: column;
+    }
+} */

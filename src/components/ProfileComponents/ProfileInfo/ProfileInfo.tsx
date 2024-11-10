@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./ProfileInfo.module.css";
 import { InterestsList } from "../../InterestsList/InterestsList";
 import changeImg from "../../../assets/icons/change_img.svg";
@@ -6,7 +6,9 @@ import { Interests, User } from "../../../types";
 import { avatars } from "../../../assets/images/avatars/avatars";
 import { useStore } from "../../../store/app-store";
 import { ChooseProfileAvatar } from "../ChooseProfileAvatar/ChooseProfileAvatar";
-
+import { acceptFriendshipReq, declineFriendshipReq, getFriendship, getFriendshipReq, removeFriendship, sendFriendshipRequest } from "../../../API/api-utils";
+import { logoutUser, setUserProfileImage } from "../../../API/api-utils";
+import { useNavigate } from "react-router-dom";
 interface ProfileInfoProps {
   userData: User;
   userInterests: Interests[];
@@ -16,22 +18,81 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
   userData,
   userInterests,
 }) => {
-  const { user } = useStore();
-  const fullName = `${userData.firstName} ${userData.lastName} ${userData.patronymic}`;
+  const { user, token } = useStore();
+  const [isFriend, setIsFriend] = useState<boolean>(false);
+  const [isInvited, setIsInvited] = useState<boolean>(false);
+  const [isInviter, setIsInviter] = useState<boolean>(false);
+  const fullName = `${userData.firstname} ${userData.lastname} ${userData.patronymic}`;
   const avatarID = userData.profileImageId as keyof typeof avatars;
-  const isFriend = true;
   const formattedBirthday =
     userData.birthday instanceof Date
       ? userData.birthday.toLocaleDateString()
       : userData.birthday;
+  const navigate = useNavigate();
+  const handleLogoutUser = () => {
+    logoutUser();
+    navigate("/auth");
+  }
 
+
+  useEffect(() => {
+    const fetchFriendShips = async () => {
+      if (user) {
+        const result = await getFriendship(user.username, token);
+        const friendResult = result.some(user => user.username === userData.username);
+        const friendsReq = await getFriendshipReq(userData.username, token);
+        setIsInvited(friendsReq.some(item => item.friend.username === userData.username && item.user.username === user.username));
+
+        const friendsReq2 = await getFriendshipReq(user.username, token);
+        setIsInviter(friendsReq2.some(item => item.friend.username === user.username && item.user.username === userData.username));
+        setIsFriend(friendResult);
+      }
+    };
+    fetchFriendShips();
+  }, [userData])
+
+  const handleAddFriend = async () => {
+    const result =
+      user && await sendFriendshipRequest(user.username, userData.username, token);
+    if (result.status === "PENDING")
+      setIsInvited(true);
+  };
+
+  const handleRemoveFriendship = async () => {
+    const result = user && await removeFriendship(user.username, userData.username, token);
+    setIsFriend(false);
+    setIsInvited(false);
+    setIsInviter(false);
+  };
+
+  const handleDeclineRequest = async () => {
+    const result = user && isInviter ? await declineFriendshipReq(user.username, userData.username, token) : await declineFriendshipReq(userData.username, user.username, token);
+    if (result.status === "DECLINED") {
+      setIsInvited(false);
+      setIsInviter(false);
+      setIsFriend(false);
+    }
+  };
+
+  const handleAcceptRequest = async () => {
+    const result = user && await acceptFriendshipReq(user.username, userData.username, token);
+
+    if (result.status === "ACCEPTED") {
+      setIsFriend(true);
+      setIsInvited(false);
+      setIsInviter(false);
+    }
+  };
   return (
     <>
       <div className={styles.info__block}>
-        {Avatar(userData.username, avatarID, user)}
+        {user && Avatar(userData.username, avatarID, user)}
         <div className={styles.information}>
           <h2 className={styles.Names}>{fullName}</h2>
-          <p className={styles.info__text}>{formattedBirthday}</p>
+          <p className={styles.info__text}>
+            {formattedBirthday}{" "}
+            <span className={styles.age}>({userData.age})</span>
+          </p>
           <a
             className={`${styles.info__link} ${styles.info__text}`}
             href={`https://t.me/${userData.tgName}`}
@@ -42,12 +103,12 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
           <p className={styles.info__text}>{userData.email}</p>
           <p
             style={
-              userData.gender === "Ж"
+              userData.gender === "Female"
                 ? { color: "#FF547F" }
                 : { color: "#008BFF" }
             }
           >
-            {userData.gender === "Ж" ? "жен" : "муж"}.
+            {userData.gender === "Female" ? "жен" : "муж"}.
           </p>
         </div>
         <fieldset className={styles.profile__description}>
@@ -65,13 +126,30 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
       <div className={styles.interests__description}>
         <InterestsList interests={userInterests} />
         <div className={styles.buttons__container}>
-          {userData.username === user.username && (
-            <button className={styles.exit__button}>Выход</button>
-          )}
-          {userData.username !== user.username && isFriend && (
-            <button className={styles.addFriend__button}>
-              Добавить в друзья
+          {userData.username === user?.username && (
+            <button onClick={handleLogoutUser} className={styles.exit__button}>
+              Выход
             </button>
+          )}
+          {userData.username !== user?.username && (isFriend ? (
+            <button onClick={handleRemoveFriendship} className={styles.exit__button}>
+              Удалить из друзей
+            </button>) : (isInvited ? (<><button className={styles.invited__button} >
+              Отправлено
+            </button>
+              <button className={styles.exit__button} onClick={handleDeclineRequest}>
+                Отклонить
+              </button>
+            </>) : (isInviter ?
+              (<><button className={styles.addFriend__button} onClick={handleAcceptRequest}>
+                Принять
+              </button><button className={styles.exit__button} onClick={handleDeclineRequest}>
+                  Отклонить
+                </button></>)
+              : (<button onClick={handleAddFriend} className={styles.addFriend__button} >
+                Добавить в друзья
+              </button>))
+          )
           )}
         </div>
       </div>
@@ -81,17 +159,17 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
 
 function Avatar(username: string, avatar: keyof typeof avatars, user: User) {
   const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
-  const { setAvatar } = useStore();
+  const { setAvatar, token } = useStore();
 
   const togglePopup = () => {
     setIsOpenPopup((prev) => !prev);
   };
 
   const handleSetAvatar = (newAvatar: keyof typeof avatars) => {
+    togglePopup();
+    if (token) setUserProfileImage(username, token, newAvatar);
     setAvatar(newAvatar);
-    togglePopup(); 
   };
-
   return (
     <div>
       <div className={styles.avatar__container}>

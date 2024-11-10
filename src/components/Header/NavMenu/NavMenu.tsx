@@ -8,12 +8,12 @@ interface NavMenuProps {
 
 export const NavMenu: FC<NavMenuProps> = ({ menuItems }) => {
   const location = useLocation();
-
   const isActive = (path: string) => location.pathname.startsWith(path);
-
   return (
-    <nav className={styles.navbar__container}>
-      <ul className={styles.navbar__menu}>
+    <nav className={styles.navbar__container} >
+      <ul className={styles.navbar__menu} >
+        <li className={styles.button__nav__close}>
+        </li>
         {menuItems.map((item) => (
           <li
             key={item.path}
@@ -21,7 +21,7 @@ export const NavMenu: FC<NavMenuProps> = ({ menuItems }) => {
               isActive(item.path) ? styles.active : ""
             }`}
           >
-            <Link to={item.path} aria-label={item.label}>
+            <Link to={item.path} aria-label={item.label} >
               {item.label}
             </Link>
           </li>

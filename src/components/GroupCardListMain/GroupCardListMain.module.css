@@ -13,6 +13,7 @@
 
 .group_list__label {
   font-size: 2em;
+  text-transform: capitalize;
   font-weight: 600;
   color: #FFF;
   text-shadow: 1px 1px 2px #000;

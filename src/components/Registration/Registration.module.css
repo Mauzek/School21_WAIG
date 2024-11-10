@@ -1,5 +1,3 @@
-
-
 .input__container {
  color: black;
  cursor: text;
@@ -18,6 +16,52 @@
  border: 1px solid rgb(174, 187, 202);
  border-radius: 8px;
  max-width: 330px;
+}
+
+.input__birthday {
+    margin-top: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #000;
+    color-scheme: dark;
+}
+
+.input__birthday[type='date'] {
+    color: #000;
+}
+
+.error{
+    text-align: center;
+    color: red;
+    font-size: 12px;
+}
+
+.input__birthday[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(1); 
+    opacity: 0.7;
+}
+
+.button__accept_email{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(174, 187, 202);
+    border-radius: 8px;
+    color: #000;
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    transition: background-color 0.3s, border 0.3s;
+}
+
+.button__accept_email:hover{
+    background-color:rgb(174, 187, 202);
+    border: 1px solid rgb(174, 187, 202);
+}
+
+.button__accept_email:disabled{
+    background-color: #61605e;
+    border: #61605e;
+    cursor:not-allowed;
 }
 
 .input::before {
@@ -106,26 +150,31 @@
  align-content: center;
 }
 
-.auth__title{
-    font-size: 32px; 
+.reg__title{
+font-family: 'SB Sans Display';
+    font-size: 18px; 
 text-align : center ;
+margin-bottom: 10px;
 }
 
-.auth__hello{
+.reg__hello{
    padding-bottom:10px; 
    text-align: center;
-   font-size: 24px;
+   font-size: 16px;
 }
+
+.auth__asd1 {
+    left: 0px;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    padding: 0px 56px;
+  }
 
 
 input[type="radio"]:checked+label {
  background-image: linear-gradient(to bottom, #61605e, #a4a4a2);
 }
-
-
-
-
-
 
 label[id="male"]:hover,
 label[id="female"]:hover {
@@ -153,7 +202,7 @@ label[id="female"] {
     height: 100%; */
 }
 
-.auth__container {
+.reg__container {
  display: flex;
  flex-direction: column;
 }
@@ -184,7 +233,6 @@ input[type="radio"]:checked {
 
 }
 
-
 label[id="male"] {
  background-color: transparent;
  transition: 1s ease;
@@ -203,7 +251,6 @@ label[id="male"]:hover {
 }
 
 label[id="female"] {
-
  margin-left: -1px;
  right: 0;
  background-color: transparent;
@@ -235,7 +282,6 @@ label[id="female2"]:hover~label[id="female"] {
  background-repeat: no-repeat;
 }
 
-
 .Gender__img {
  width: 50%;
  position: relative;
@@ -252,12 +298,20 @@ label[id="female2"]:hover~label[id="female"] {
 }
 
 .step__button {
- background: none;
- border: 0;
+    justify-self: center;
+    align-self: center;
+    background: none;
+    height: 54px;
+    padding: 3px 10px 0 10px;
+    border: 0;
+    border-radius: 50%;
+    transition: background-color 0.3s;
 }
 
 .step__button:hover {
- border: 0;
+    border: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
 }
 
 .step__container {
@@ -281,18 +335,29 @@ label[id="female2"]:hover~label[id="female"] {
  height: 100%;
 }
 
+.emailAccept__container{
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+}
+
+.lable_email_accept{
+    display: flex;
+    max-width: 300px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 
 .form__container__left{
  transform: translateX(-150%);
-
 }
 
 .form__container__part{
-transition: 1s ease;
-display: flex;
+    transition: 1s ease;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    /* transform: translateX(15%); */
     width: 100%;
     left: 0;
     position: absolute;
@@ -300,5 +365,15 @@ display: flex;
 
 .form__container__right{
  transform: translateX(150%);
+}
+
+@media (max-width: 600px){
+    .input {
+        width: 280px;
+    }
+}
+
+@media (max-width: 1200px){
+    
 
 }

@@ -1,0 +1,167 @@
+.create__menu {
+    height: 400px;
+    width: 600px;
+    background-color: #263040;
+    border-radius: 30px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.table__container {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: 600px 600px;
+    grid-template-rows: 400px 1fr;
+}
+
+.change__menu {
+    grid-column: 1;
+    grid-row: 2;
+    height: 400px;
+    width: 600px;
+    background-color: #263040;
+    border-radius: 30px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.search__menu {
+    grid-row: span 2;
+    grid-column: 2;
+    min-height: 815px;
+    background-color: #263040;
+    border-radius: 30px;
+    border: 0;
+    padding: 20px;
+}
+
+.tools__list__title {
+    font-size: 24px;
+}
+
+.tools__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    list-style-type: none;
+}
+
+.colorPicker__tool>div {
+    color: #fff;
+
+}
+
+.name__input {
+    padding:  0px 15px;
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    border: 0;
+    background-color: #1D2633;
+    margin-left: 15px;
+}
+
+.interest__input {
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    border: 0;
+    background-color: #1D2633;
+    margin-left: 15px;
+}
+
+.buttons__activity__container {
+    display: flex;
+    flex-direction: row;
+    gap:15px;
+}
+
+.tool__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.button__activity {
+    height: 43px;
+    width: 250px;
+    border-radius: 15px;
+    border: 0;
+}
+
+.button__clear {
+    background-color: #36C5F0;
+}
+
+.button__create {
+    background-color: #44EB99;
+    color:#000
+}
+
+.colorPicker__tool {
+    margin-left: 15px;
+    background-color: #fff;
+}
+
+.search__input__container {
+    display: flex;
+    align-items: center;
+}
+
+.interests__container__all {
+    width: 100%;
+}
+
+.input__container {
+    display: flex;
+    text-wrap: nowrap;
+    align-items: center;
+}
+
+.interests__table{margin: 15px;
+    border-collapse: collapse;
+      border-spacing: 0;
+    }
+    
+    .table__titles>th{
+        background-color: #404040;
+        width: max-content;
+        padding: 5px 15px;
+        border: 2px solid black;
+    }
+    
+    
+    .interests__table>tbody>tr>td{
+        background-color: #363636;
+        border: 1px solid black;
+        vertical-align: top;
+        padding: 5px 15px;
+    }
+        .interests__table>tbody>tr{
+        border: 1px solid black;
+    }
+
+
+    .table__titles{
+        border: 1px solid black;
+        
+    }
+
+    .color__print{
+
+        height: 30px ;
+        width: 30px;
+        border-radius: 50%;
+        border: 0;
+    }
+
+    .color__print__value{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+    }

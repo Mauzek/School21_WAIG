@@ -3,7 +3,7 @@ import styles from "./HeaderButtons.module.css";
 import { Link } from "react-router-dom";
 import NoticesIcon from "../../../assets/icons/notifications_icon.svg";
 import SearchIcon from "../../../assets/icons/search_icon.svg";
-import ProfileIcon from "../../../assets/icons/avatar_icon.svg";
+import { avatars } from "../../../assets/images/avatars/avatars";
 
 interface HeaderButtonsProps {
   isNoticesActive: boolean;
@@ -11,6 +11,8 @@ interface HeaderButtonsProps {
   onClickNotices: () => void;
   onClickSearch: () => void;
   userLogin: string;
+  userAvatar:  string;
+
 }
 
 export const HeaderButtons: FC<HeaderButtonsProps> = ({
@@ -19,6 +21,7 @@ export const HeaderButtons: FC<HeaderButtonsProps> = ({
   onClickNotices,
   onClickSearch,
   userLogin,
+  userAvatar
 }) => {
   return (
     <div className={styles.button__container}>
@@ -45,7 +48,7 @@ export const HeaderButtons: FC<HeaderButtonsProps> = ({
         className={styles.button}
         aria-label="Профиль"
       >
-        <img src={ProfileIcon} className={`${styles.button__item} ${styles.avatar}`} alt="Профиль" />
+        <img src={avatars[userAvatar as keyof typeof avatars]} className={`${styles.button__item} ${styles.avatar}`} alt="Профиль" />
       </Link>
     </div>
   );

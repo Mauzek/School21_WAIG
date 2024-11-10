@@ -4,25 +4,26 @@ type User = {
     birthday: Date | string;
     description: string;
     email: string;
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
     patronymic: string;
     gender: string;
     isAdmin: boolean;
     profileImageId: string;
     tgName: string;
+    age?: number
 };
 
 
 type Group = {
     id: number;
-    creatorId: number;
+    creator: User;
     name: string;
     chars: string;
     color: string;
     description: string;
-    membersCount: number;
-    tags: Interests[]
+    interests: Interests[]
+    subscribers: User[]
 };
 
 type Interests = {

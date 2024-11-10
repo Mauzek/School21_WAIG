@@ -27,13 +27,13 @@ export const ChooseInterests: FC<ChooseInterestsProps> = ({
           <ul className={styles.itemsList}>
             {selectedInterests.map((interest) => (
               <li
-              className={`${styles.list__item} ${styles.removeInterest}`}
+                className={`${styles.list__item} ${styles.removeInterest}`}
                 key={interest.name}
                 onClick={() => removeInterest(interest)}
               >
                 <span
                   className={styles.colorCircle}
-                  style={{ backgroundColor: interest.color }}
+                  style={{ backgroundColor: `#${interest.color}` }}
                 ></span>
                 <span className={styles.interestText}>{interest.name}</span>
               </li>
@@ -53,7 +53,7 @@ export const ChooseInterests: FC<ChooseInterestsProps> = ({
               >
                 <span
                   className={styles.colorCircle}
-                  style={{ backgroundColor: interest.color }}
+                  style={{ backgroundColor: `#${interest.color}` }}
                 ></span>
                 <span className={styles.interestText}>{interest.name}</span>
               </li>

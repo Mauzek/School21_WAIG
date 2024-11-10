@@ -10,13 +10,14 @@
     min-width: 40em;
     height: 10.625em;
     transition: background-color 0.3s;
+    position: relative;
 }
 
-.groupCard:hover{
+.groupCard:hover {
     background-color: #3E4857;
 }
 
-.groupCard_link{
+.groupCard_link {
     display: flex;
     align-items: center;
     width: 100%;
@@ -60,6 +61,7 @@
 .groupCard__description {
     font-size: 14px;
     color: #e0e0e0;
+    word-break: break-all;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -108,6 +110,17 @@
     display: flex;
     align-items: end;
     margin-top: 8px;
+    min-width: 35px;
+}
+
+.groupCard__creatorText {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 14px;
+    color: #44EB99;
+    align-self: center;
+    font-weight: bold;
 }
 
 .groupCard__addButton {
@@ -124,11 +137,11 @@
     transition: background-color 0.3s;
 }
 
-.groupCard__addButton:hover{
+.groupCard__addButton:hover {
     background-color: rgba(68, 235, 153, 0.6);
 }
 
-.groupCard__wasAdd{
+.groupCard__wasAdd {
     background-color: #8191A2;
 }
 

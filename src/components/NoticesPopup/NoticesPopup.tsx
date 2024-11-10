@@ -1,7 +1,9 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import CloseIcon from "../../assets/icons/close_popup.svg";
 import { Notice } from "./Notice/Notice.tsx";
 import styles from "./NoticesPopup.module.css";
+import { getFriendshipReq, getNotificationsByUsername } from "../../API/api-utils.ts";
+import { useStore } from "../../store/app-store.tsx";
 
 type Group = {
   id: number,
@@ -24,56 +26,44 @@ interface NoticeProps {
   onClickNotices: () => void;
 }
 
-const mockNotices: Notice[] = [
-  {
-    id: 1,
-    name: "regxtk",
-    avatarUrl: "https://example.com/avatar1.png",
-    isGroupInvite: true,
-    group: {
-      id: 1,
-      ownerID: 2,
-      name: "C# все дела",
-      chars: "C#",
-      description: ""
-    },
-  },
-  {
-    id: 2,
-    name: "regxtk",
-    avatarUrl: "https://example.com/avatar2.png",
-    isGroupInvite: false,
-  },
-  {
-    id: 3,
-    name: "bomjara",
-    avatarUrl: "https://example.com/avatar2.png",
-    isGroupInvite: false,
-  },
-  {
-    id: 4,
-    name: "regxtk",
-    avatarUrl: "https://example.com/avatar2.png",
-    isGroupInvite: true,
-    group: {
-      id: 2,
-      ownerID:1,
-      name: "Таверна",
-      chars: "WW",
-      description: ""
-    },
-  },
-];
-
 export const NoticesPopup: FC<NoticeProps> = ({
   isNoticesBtnActive,
   onClickNotices,
 }) => {
+  const [noticesList, setNoticesList] = useState<any>([]);
+
+  const { user, token } = useStore();
+  useEffect(() => {
+    const fetchNotices = async () => {
+      const result = await getNotificationsByUsername(user.username, token);
+      const resultFriends = await getFriendshipReq(user?.username, token);
+
+      const filteredGroupsNot = result.map(item => ({
+        id: item.id,
+        groupId: item.group.id,
+        groupNameq: item.group.name,
+        inviterUsername: item.inviter.username,
+        userAvatar: item.inviter.profileImageId,
+        isGroupInvite: true,
+      }));
+
+      const filteredFriendsNot = resultFriends.map(item => ({
+        id: item.id,
+        inviterUsername: item.user.username,
+        friend: item.friend,
+        userAvatar: item.user.profileImageId,
+        isGroupInvite: false,
+      }));
+
+      const filteredNotes = [...filteredFriendsNot, ...filteredGroupsNot];
+      setNoticesList(filteredNotes);
+    }
+    fetchNotices();
+  }, [])
   return (
     <div
-      className={`${styles.popup} ${
-        isNoticesBtnActive ? styles.enter : styles.exit
-      } `}
+      className={`${styles.popup} ${isNoticesBtnActive ? styles.enter : styles.exit
+        } `}
     >
       <div className={styles.header}>
         <span className={styles.title}>Уведомления</span>
@@ -81,16 +71,17 @@ export const NoticesPopup: FC<NoticeProps> = ({
           <img src={CloseIcon} alt="Close" className={styles.closeIcon} />
         </button>
       </div>
-
       <div className={styles.noticesList}>
-        {mockNotices.map((notice) => (
+        {noticesList && noticesList.map((notice) => (
           <Notice
             key={notice.id}
             id={notice.id}
-            name={notice.name}
-            avatar={notice.avatarUrl}
+            groupId={notice.groupId}
+            name={notice.inviterUsername}
+            avatar={notice.userAvatar}
             isGroupInvite={notice.isGroupInvite}
-            groupName={notice.group}
+            groupName={notice.groupNameq}
+            refreshGroups={setNoticesList}
           />
         ))}
       </div>
