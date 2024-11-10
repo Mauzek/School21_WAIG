@@ -57,6 +57,8 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
 
   const handleLeaveGroup = async () => {
     user && await leaveFromGroup(user?.username, groupInfo.id.toString(), token);
+    setIsOpenPopup((prev) => !prev);
+    navigate("/Groups/All");
   };
   const handleRemoveGroup = () => {
     deleteGroupById(token, groupInfo.id.toString(),)

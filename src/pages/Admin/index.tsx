@@ -1,18 +1,18 @@
-import { useLocation,} from 'react-router-dom';
-import { Users } from '../../components/Admin/Users/Users';
-import { Groups } from '../../components/Admin/Groups/Groups';
-import styles from "./Admin.module.css"
-import { Interests } from '../../components/Admin/Interests/Interests';
-import { Statistic } from '../../components/Admin/Statistic/Statistic';
+import { useLocation } from "react-router-dom";
+import { Users } from "../../components/Admin/Users/Users";
+import { Groups } from "../../components/Admin/Groups/Groups";
+import styles from "./Admin.module.css";
+import { Interests } from "../../components/Admin/Interests/Interests";
+import { Statistic } from "../../components/Admin/Statistic/Statistic";
 
 const AdminPage = () => {
   const location = useLocation();
   return (
     <main className={styles.admin__container}>
-{location.pathname=="/Admin/Users"&&<Users/>}
-{location.pathname=="/Admin/Groups"&&<Groups/>}
-{location.pathname=="/Admin/Interests"&&<Interests/>}
-{location.pathname=="/Admin/Statistic"&&<Statistic/>}
+      {location.pathname == "/Admin/Users" && <Users />}
+      {location.pathname == "/Admin/Groups" && <Groups />}
+      {location.pathname == "/Admin/Interests" && <Interests />}
+      {location.pathname == "/Admin/Statistic" && <Statistic />}
     </main>
   );
 };
