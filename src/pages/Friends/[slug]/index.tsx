@@ -5,6 +5,7 @@ import { FriendsRequestsList } from "../../../components/FriendsRequestsList/Fri
 import { useEffect, useState } from "react";
 import { getFriendship, getFriendshipReq } from "../../../API/api-utils";
 import { useStore } from "../../../store/app-store";
+import DataNotFound from "../../../components/DataNotFound/DataNotFound";
 
 const FriendsPage = () => {
   const location = useLocation();
@@ -52,10 +53,23 @@ const FriendsPage = () => {
 
   return (
     <main className={styles.friends_main__container}>
-      {location.pathname === "/Friends/All" && (
-        <FriendsList friends={friends} removeFriend={removeFriend}/>
-      )}
-      {location.pathname === "/Friends/Requests" && <FriendsRequestsList friendsReq={friendsReq} removeFromState={removeFromState} RelocateReqToFriend={RelocateReqToFriend}/>}
+      {location.pathname === "/Friends/All" &&
+        (friends.length > 0 ? (
+          <FriendsList friends={friends} removeFriend={removeFriend} />
+        ) : (
+          <DataNotFound size="medium" />
+        ))}
+
+      {location.pathname === "/Friends/Requests" &&
+        (friendsReq.length > 0 ? (
+          <FriendsRequestsList
+            friendsReq={friendsReq}
+            removeFromState={removeFromState}
+            RelocateReqToFriend={RelocateReqToFriend}
+          />
+        ) : (
+          <DataNotFound size="medium" />
+        ))}
     </main>
   );
 };

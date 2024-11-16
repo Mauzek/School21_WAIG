@@ -16,6 +16,7 @@ import { useStore } from "../../../store/app-store";
 import { avatars } from "../../../assets/images/avatars/avatars";
 import { GroupCardGroups } from "../../GroupCardListGroups/GroupCardGroups/GroupCardGroups";
 import { Link } from "react-router-dom";
+import DataNotFound from "../../DataNotFound/DataNotFound";
 
 interface SearchPopupProps {
   closePopup: () => void;
@@ -175,7 +176,10 @@ export const SearchPopup: FC<SearchPopupProps> = ({
         </div>
         <div className={styles.content__container}>
           <div className={styles.results__columns}>
-            <div className={styles.groups__column__container} style={activeButton === "person" ? { display: "none" } : {}}>
+            <div
+              className={styles.groups__column__container}
+              style={activeButton === "person" ? { display: "none" } : {}}
+            >
               {activeButton !== "person" && <h3>Группы</h3>}
               <div className={styles.groups__column}>
                 {groupResults.length > 0 ? (
@@ -195,9 +199,9 @@ export const SearchPopup: FC<SearchPopupProps> = ({
                       )}
                     />
                   ))
-                ) : activeButton === "interests" ? (
-                  <p className={styles.noResults}>Нет групп с такими интересами</p>
-                ) : null}
+                ) : (
+                  <DataNotFound />
+                )}
               </div>
             </div>
             <div
@@ -230,11 +234,9 @@ export const SearchPopup: FC<SearchPopupProps> = ({
                       </article>
                     </Link>
                   ))
-                ) : activeButton === "interests" ? (
-                  <p className={styles.noResults}>
-                    Нет пользователей с такими интересами
-                  </p>
-                ) : null}
+                ) : (
+                  <DataNotFound />
+                )}
               </div>
             </div>
           </div>

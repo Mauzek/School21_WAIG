@@ -4,6 +4,7 @@ import styles from "./Home.module.css";
 import { Interests } from "../../types";
 import { getAllGroups } from "../../API/api-utils";
 import { useStore } from "../../store/app-store";
+import DataNotFound from "../../components/DataNotFound/DataNotFound";
 
 export type Group = {
   id: string;
@@ -38,7 +39,7 @@ const HomePage: FC = () => {
     fetchAllGroups();
   }, [token]);
 
-  if (groupsData.length === 0) return <><h1>Loading...</h1></>; 
+  if (groupsData.length === 0) return <DataNotFound size="large"/>; 
 
   const groupedByInterest = groupsData.reduce((acc, group) => {
     group.interests.forEach((interest) => {

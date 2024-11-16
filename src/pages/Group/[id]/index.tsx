@@ -1,4 +1,4 @@
-import { Navigate, useLocation, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { GroupInfo } from "../../../components/GroupComponents/GroupInfo/GroupInfo";
 import { GroupMembers } from "../../../components/GroupComponents/GroupMembers/GroupMembers";
 import { GroupEdit } from "../../../components/GroupComponents/GroupEdit/GroupEdit";
@@ -17,6 +17,7 @@ const GroupPage = () => {
   const [friends, setFriends] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchGroupData = async () => {
@@ -48,8 +49,12 @@ const GroupPage = () => {
     fetchGroupData();
   }, [id, token, user]);
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if (!groupData && !loading) {
+    navigate('/*')
+  }
+
+  if(loading){
+    return <div>Loading...</div>
   }
 
   if (location.pathname === `/Group/${id}/Edit` && groupData?.creator.username !== user?.username) {
