@@ -9,8 +9,8 @@ interface StoreState {
   token: string;
   setAvatar: (avatarId: keyof typeof avatars) => void;
   setMainInfo: (
-    firstName: string,
-    lastName: string,
+    firstname: string,
+    lastname: string,
     patronymic: string,
     gender: string,
     tgName: string,
@@ -38,8 +38,8 @@ export const useStore = create<StoreState>((set) => ({
       user: state.user &&  { ...state.user, profileImageId: avatarId },
     })),
   setMainInfo: (
-    firstName,
-    lastName,
+    firstname,
+    lastname,
     patronymic,
     gender,
     tgName,
@@ -49,8 +49,8 @@ export const useStore = create<StoreState>((set) => ({
     set((state) => ({
       user: state.user &&  {
         ...state.user,
-        firstName: firstName,
-        lastName: lastName,
+        firstname: firstname,
+        lastname: lastname,
         patronymic: patronymic,
         gender: gender,
         tgName: tgName,

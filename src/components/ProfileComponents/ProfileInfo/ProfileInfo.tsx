@@ -60,9 +60,11 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
 
   const handleRemoveFriendship = async () => {
     const result = user && await removeFriendship(user.username, userData.username, token);
-    setIsFriend(false);
-    setIsInvited(false);
-    setIsInviter(false);
+    if(result){
+      setIsFriend(false);
+      setIsInvited(false);
+      setIsInviter(false);
+    }
   };
 
   const handleDeclineRequest = async () => {
@@ -83,6 +85,7 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
       setIsInviter(false);
     }
   };
+
   return (
     <>
       <div className={styles.info__block}>

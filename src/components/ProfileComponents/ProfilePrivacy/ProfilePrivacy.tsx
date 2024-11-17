@@ -15,44 +15,41 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
   email,
   username,
 }) => {
-  const [emailInput, setEmailInput] = useState(email);
   const [usernameInput, setUsernameInput] = useState(username);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const navigate = useNavigate();
   const { user, token } = useStore();
 
-  const validateEmail = (value: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   const isFieldValid = (value: string) =>
     value.trim() !== "" && value.trim().length >= 4;
 
-  const getInputStatus = (value: string, isEmail = false) => {
-    const isValid = isEmail ? validateEmail(value) : isFieldValid(value);
+  const getInputStatus = (value: string) => {
+    const isValid = isFieldValid(value);
     return isValid ? imgOK : imgBad;
   };
 
-  const getInputClass = (value: string, isEmail = false) => {
-    const isValid = isEmail ? validateEmail(value) : isFieldValid(value);
+  const getInputClass = (value: string) => {
+    const isValid = isFieldValid(value);
     return isValid ? styles.status__green : styles.status__red;
   };
 
   const handleUndoChanges = () => {
     setNewPassword("");
     setOldPassword("");
-    setEmailInput(email);
     setUsernameInput(username);
   };
 
   const handleSaveChanges = async () => {
     try {
+      if(!user) return;
       const updateData = {
-        newEmail: emailInput,
+        newEmail: email,
         newUsername: usernameInput,
         newPassword: newPassword,
       };
 
-      const response = user && await updateUserSecurity(user.username, token, updateData);
+      const response = await updateUserSecurity(user.username, token, updateData);
 
       if (response) {
         handleUndoChanges(); 
@@ -68,29 +65,6 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
     <>
       <h2 className={styles.privacy__title}>Изменение конфиденциальности</h2>
       <ul className={styles.privacy__container}>
-        <li>
-          <label htmlFor="emailInput">Изменить почту:</label>
-          <input
-            id="emailInput"
-            type="email"
-            placeholder={email}
-            value={emailInput}
-            onChange={(e) => setEmailInput(e.target.value)}
-            className={getInputClass(emailInput, true)}
-          />
-          <div
-            className={`${styles.privacy__input__status} ${getInputClass(
-              emailInput,
-              true
-            )}`}
-          >
-            <img
-              className={styles.imgResult}
-              src={getInputStatus(emailInput, true)}
-              alt="status"
-            />
-          </div>
-        </li>
         <li>
           <label htmlFor="usernameInput">Изменить ник/логин:</label>
           <input
