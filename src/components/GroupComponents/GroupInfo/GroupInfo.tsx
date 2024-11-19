@@ -39,7 +39,8 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
   }, [])
 
   const SubscribeOnGroup = () => {
-    subscribeToGroup(user?.username, groupInfo.id, token);
+    if(!user) return;
+    subscribeToGroup(user.username, groupInfo.id, token);
     setIsSubscriber(true);
   }
 
@@ -52,14 +53,17 @@ export const GroupInfo: FC<GroupInfoProps> = ({ groupInfo, friends }) => {
   };
 
   const handleInvite = (invitedFriend: string) => {
-    user && inviteUserToGroup(groupInfo.id.toString(), user.username, invitedFriend, token);
+    if(!user) return;
+    inviteUserToGroup(groupInfo.id.toString(), user.username, invitedFriend, token);
   };
 
   const handleLeaveGroup = async () => {
-    user && await leaveFromGroup(user?.username, groupInfo.id.toString(), token);
+    if(!user) return;
+    await leaveFromGroup(user.username, groupInfo.id.toString(), token);
     setIsOpenPopup((prev) => !prev);
     navigate("/Groups/All");
   };
+  
   const handleRemoveGroup = () => {
     deleteGroupById(token, groupInfo.id.toString(),)
     setIsOpenPopup((prev) => !prev);
