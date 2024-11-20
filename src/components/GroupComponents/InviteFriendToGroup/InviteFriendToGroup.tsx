@@ -60,7 +60,7 @@ export const InviteFriendToGroup: FC<InviteFriendToGroupProps> = ({
           {availableUsers && availableUsers.length > 0 ? (
             availableUsers.map((friend, index) => (
               <article key={index} className={styles.friend_card}>
-                <Link to={`/Profile/${friend.username}`}>
+                <Link to={`/Profile/${friend.username}`} className={styles.friend_card__main_container}>
                   <div className={styles.friend_card__avatar_container}>
                     <img
                       className={styles.friend_card__avatar}

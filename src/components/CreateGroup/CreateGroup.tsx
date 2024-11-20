@@ -60,11 +60,18 @@ export const CreateGroup: FC = () => {
       description,
       interests: selectedInterests,
     };
+  
+    if (!groupData.name || !groupData.name.trim()) {
+      alert("Название группы не может быть пустым.");
+      return;
+    }
+  
     if (user) {
       createGroup(user.username, token, groupData);
-      navigate('/Groups/Managed')
+      navigate('/Groups/Managed');
     }
   };
+  
 
   const addInterest = (interest: { name: string; color: string }) => {
     setAvailableInterests((prev) =>

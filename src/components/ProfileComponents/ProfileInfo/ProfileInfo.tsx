@@ -9,6 +9,7 @@ import { ChooseProfileAvatar } from "../ChooseProfileAvatar/ChooseProfileAvatar"
 import { acceptFriendshipReq, declineFriendshipReq, getFriendship, getFriendshipReq, removeFriendship, sendFriendshipRequest } from "../../../API/api-utils";
 import { logoutUser, setUserProfileImage } from "../../../API/api-utils";
 import { useNavigate } from "react-router-dom";
+import { RemovePopup } from "../../RemovePopup/RemovePopup";
 interface ProfileInfoProps {
   userData: User;
   userInterests: Interests[];
@@ -22,6 +23,7 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
   const [isFriend, setIsFriend] = useState<boolean>(false);
   const [isInvited, setIsInvited] = useState<boolean>(false);
   const [isInviter, setIsInviter] = useState<boolean>(false);
+  const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false)
   const fullName = `${userData.firstname} ${userData.lastname} ${userData.patronymic}`;
   const avatarID = userData.profileImageId as keyof typeof avatars;
   const formattedBirthday =
@@ -34,12 +36,11 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
     navigate("/auth");
   }
 
-
   useEffect(() => {
     const fetchFriendShips = async () => {
       if (user) {
-        const result = await getFriendship(user.username, token);
-        const friendResult = result.some(user => user.username === userData.username);
+        const result = await getFriendship(user.username,0,100, token);
+        const friendResult = result.content.some(user => user.username === userData.username);
         const friendsReq = await getFriendshipReq(userData.username, token);
         setIsInvited(friendsReq.some(item => item.friend.username === userData.username && item.user.username === user.username));
 
@@ -64,8 +65,13 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
       setIsFriend(false);
       setIsInvited(false);
       setIsInviter(false);
+      setIsOpenPopup(false);
     }
   };
+
+  const togglePopup = async () => {
+    setIsOpenPopup((prev) => !prev);
+  }
 
   const handleDeclineRequest = async () => {
     const result = user && isInviter ? await declineFriendshipReq(user.username, userData.username, token) : await declineFriendshipReq(userData.username, user.username, token);
@@ -135,7 +141,7 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
             </button>
           )}
           {userData.username !== user?.username && (isFriend ? (
-            <button onClick={handleRemoveFriendship} className={styles.exit__button}>
+            <button onClick={togglePopup} className={styles.exit__button}>
               Удалить из друзей
             </button>) : (isInvited ? (<><button className={styles.invited__button} >
               Отправлено
@@ -154,6 +160,7 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
               </button>))
           )
           )}
+          {isOpenPopup && <RemovePopup type="friend" username={userData.username} onConfirm={handleRemoveFriendship} onCancel={togglePopup}/>}
         </div>
       </div>
     </>

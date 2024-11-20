@@ -46,10 +46,10 @@ export const endpoints = {
   addInterestToGroup: (groupId: string) => `${BASE_API}/groups/${groupId}/interests`, //post //http://localhost:8080/groups/{groupId}/interests
   deleteOwnerGroupById: (groupId: string) => `${BASE_API}/groups/${groupId}`, //delete http://localhost:8080/groups/{groupID} Вроде удаляются только если токен хедера соответсвтует токену создателя группы
   getGroupById: (groupId: string) => `${BASE_API}/groups/${groupId}`, //get
-  getAllGroups: `${BASE_API}/groups`, //get //http://localhost:8080/groups
+  getAllGroups: (page: number, elements: number) => `${BASE_API}/groups?page=${page}&size=${elements}`, //get //http://localhost:8080/groups
   inviteUserToGroup: (groupId: string, fromLogin: string, toLogin: string) => `${BASE_API}/groups/${groupId}/users?from_username=${fromLogin}&to_username=${toLogin}`, //http://localhost:8080/groups/1/users?from_username=Bobo&to_username=Bobo2
   getAvailableUsersForInvite: (groupId: string, login: string) => `${BASE_API}/api/notifications/available-invitations?groupId=${groupId}&login=${login}`,// get availableusers http://localhost:8080/api/notifications/available-invitations?groupId=1&login=1
-
+  getTopGroupsByInterests: `${BASE_API}/groups/top-by-interest`,
   updateGroupInfo: (groupId: number) => `${BASE_API}/groups/${groupId}/update`, //put
   getGroupsByPrefixName: (groupName: string) => `${BASE_API}/groups/search_name?prefix_name=${groupName}`, //get
   getGroupsByInterests: `${BASE_API}/groups/search_interest`, //post {body request}
@@ -58,8 +58,8 @@ export const endpoints = {
   //User Endpoints
   postUserSubscribeToGroup: (userLogin: string, groupId: number) => `${BASE_API}/api/user/${userLogin}/subscribe?groupId=${groupId}`, //post
   leaveFromGroup: (username: string, groupdId: string) => `${BASE_API}/api/user/${username}/unsubscribe?groupId=${groupdId}`, //delete
-  getUserCreatedGroups: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/groups/created`, //get
-  getSubscribedGroups: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/groups`, //get
+  getUserCreatedGroups: (userLogin: string, page: number, elements: number) => `${BASE_API}/api/user/${userLogin}/groups/created?page=${page}&size=${elements}`, //get
+  getSubscribedGroups: (userLogin: string, page: number, elements: number) => `${BASE_API}/api/user/${userLogin}/groups?page=${page}&size=${elements}`, //get
   uploadProfileImage: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/profile-image`, //post
   deleteUserInterests: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/interests`, //delete
   getUserInterests: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/interests`, //get
@@ -72,7 +72,7 @@ export const endpoints = {
   setUserProfileImage: (userLogin: string, avatarName: string) => `${BASE_API}/api/user/${userLogin}/profile-image?profileImageId=${avatarName}`, // post
 
   //Friendship
-  getFriendship: (userName: string) => `${BASE_API}/friendships/search?login=${userName}`,
+  getFriendship: (userName: string, page: number, elements: number) => `${BASE_API}/friendships/search?login=${userName}&page=${page}&size=${elements}`,
   sendFriendshipRequest: (login: string, friendLogin: string) => `${BASE_API}/friendships/send?login=${login}&friendLogin=${friendLogin}`,
   removeFriendship: (login: string, friendLogin: string) => `${BASE_API}/friendships/remove?userName=${login}&friendName=${friendLogin}`,
   getFriendshipRequests: (login: string) => `${BASE_API}/friendships/incoming-requests?login=${login}`, //get http://localhost:8080/friendships/incoming-requests?login=ilya

@@ -210,9 +210,9 @@ const deleteUser = async (token: string, username: string) => {
   }
 };
 
-const getAllGroups = async (token: string) => {
+const getAllGroups = async (page: number, elements: number ,token: string) => {
   try {
-    const response = await axios.get(endpoints.getAllGroups, {
+    const response = await axios.get(endpoints.getAllGroups(page, elements), {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -236,6 +236,21 @@ const getGroupByPrefixName = async (groupName: string, token: string) => {
     return response.data;
   } catch (error) {
     console.error(`Ошибка при получении групп по запросу: ${groupName}`, error);
+    throw error;
+  }
+}
+
+const getTopGroupsByInterests = async(token: string) => {
+  try {
+    const response = await axios.get(endpoints.getTopGroupsByInterests, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении групп по интересам:", error);
     throw error;
   }
 }
@@ -285,9 +300,9 @@ const getAvailableUsersForInvite = async (groupId: string, login: string, token:
   }
 }
 
-const getFriendship = async (userLogin: string, token: string) => {
+const getFriendship = async (userLogin: string, page: number, elements: number, token: string) => {
   try {
-    const response = await axios.get(endpoints.getFriendship(userLogin), {
+    const response = await axios.get(endpoints.getFriendship(userLogin, page, elements), {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -443,9 +458,9 @@ const setUserProfileImage = async (userLogin: string, token: string, avatarName:
   }
 }
 
-const getUserCreatedGroups = async (userLogin: string, token: string) => {
+const getUserCreatedGroups = async (userLogin: string, page: number, elements: number, token: string) => {
   try {
-    const response = await axios.get(endpoints.getUserCreatedGroups(userLogin), {
+    const response = await axios.get(endpoints.getUserCreatedGroups(userLogin, page, elements), {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -476,9 +491,9 @@ const getUserInterests = async (
   }
 };
 
-const getUserSubscribedGroups = async (userLogin: string, token: string) => {
+const getUserSubscribedGroups = async (userLogin: string, page: number, elements: number, token: string) => {
   try {
-    const response = await axios.get(endpoints.getSubscribedGroups(userLogin), {
+    const response = await axios.get(endpoints.getSubscribedGroups(userLogin, page, elements), {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -737,6 +752,7 @@ export {
   deleteInterest,
   getAllGroups,
   getGroupByPrefixName,
+  getTopGroupsByInterests,
   getAllInterests,
   getAvailableUsersForInvite,
   getAllUsers,

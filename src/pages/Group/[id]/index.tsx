@@ -30,8 +30,8 @@ const GroupPage = () => {
           setMembersData([groupResponse.creator, ...groupResponse.subscribers]);
         }
         if (user?.username) {
-          const friendsResponse = await getFriendship(user.username, token);
-          setFriends(friendsResponse);
+          const friendsResponse = await getFriendship(user.username,0, 100, token);
+          setFriends(friendsResponse.content);
         }
       } catch (error) {
         console.error(error);
@@ -44,7 +44,7 @@ const GroupPage = () => {
 
     const timeout = setTimeout(() => {
       setRedirectTimeout(true);
-    }, 2000);
+    }, 300);
 
     return () => clearTimeout(timeout);
   }, [id, token, user]);
