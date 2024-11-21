@@ -83,10 +83,8 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
       <div>
         <div className={styles.form__container}>
           <div
-            style={{ width: "100%", position: "absolute" }}
-            className={`${styles.form__container__part} ${
-              currentStep > 1 ? styles.form__container__left : ""
-            }`}
+            className={`${styles.form__container__part} ${currentStep > 1 ? styles.form__container__left : ""
+              }`}
           >
             <div className={`${styles.input} `}>
               <label className={styles.input__label}>Фамилия</label>
@@ -120,10 +118,8 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
             </div>
           </div>
           <div
-            style={{ width: "100%" }}
-            className={`${styles.form__container__part} ${
-              currentStep > 2 ? styles.form__container__left : ""
-            } ${currentStep < 2 ? styles.form__container__right : ""}`}
+            className={`${styles.form__container__part} ${currentStep > 2 ? styles.form__container__left : ""
+              } ${currentStep < 2 ? styles.form__container__right : ""}`}
           >
             <div className={`${styles.input} `}>
               <label className={styles.input__label}>Дата рождения</label>
@@ -131,7 +127,6 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
                 <input
                   className={`${styles.input__birthday}`}
                   type="date"
-                  style={{ border: "0", width: "100%", height: "48px" }}
                   onChange={handleChange}
                   name="birthDay"
                 />
@@ -139,32 +134,16 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
             </div>
             <div className={`${styles.input} ${styles.Gender__container}`}>
               <label className={styles.input__label}>Пол</label>
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-                  height: "100%",
-                }}
+              <div className={styles.main__gender__container}
+
               >
                 <div
-                  style={{
-                    borderBottomLeftRadius: "8px",
-                    borderTopLeftRadius: "8px",
-                  }}
-                  className={styles.Gender__img}
+                  className={`${styles.Gender__img} ${styles.gender__img__male}`}
                 >
                   <label
                     htmlFor="male"
                     id="male2"
-                    style={{
-                      zIndex: "1000",
-                      position: "absolute",
-                      width: "100%",
-                      height: "100%",
-                      bottom: "0",
-                      right: "0",
-                    }}
+                    className={styles.gender__label}
                   />
                   <input
                     type="radio"
@@ -177,32 +156,12 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
                   <label htmlFor="male" id="male" />
                   <img src={sberCat} className={styles.Male__img} />
                 </div>
-                <hr
-                  style={{
-                    background: "black",
-                    color: "black",
-                    width: "1px",
-                    border: "0",
-                  }}
-                />
-                <div
-                  style={{
-                    borderBottomRightRadius: "8px",
-                    borderTopRightRadius: "8px",
-                  }}
-                  className={styles.Gender__img}
-                >
+                <hr className={styles.gender__container__separator} />
+                <div className={`${styles.Gender__img} ${styles.gender__img__female}`}                >
                   <label
                     htmlFor="female"
                     id="female2"
-                    style={{
-                      zIndex: "1000",
-                      position: "absolute",
-                      width: "100%",
-                      height: "100%",
-                      bottom: "0",
-                      right: "0",
-                    }}
+                    className={styles.gender__label}
                   />
                   <input
                     style={{ display: "none" }}
@@ -219,10 +178,8 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
             </div>
           </div>
           <div
-            style={{ width: "100%" }}
-            className={`${styles.form__container__part} ${
-              currentStep > 3 ? styles.form__container__left : ""
-            } ${currentStep < 3 ? styles.form__container__right : ""}`}
+            className={`${styles.form__container__part} ${currentStep > 3 ? styles.form__container__left : ""
+              } ${currentStep < 3 ? styles.form__container__right : ""}`}
           >
             <div className={`${styles.input} `}>
               <label className={styles.input__label}>Ник telegram</label>
@@ -252,9 +209,8 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
           </div>
           <div
             style={{ width: "100%" }}
-            className={`${styles.form__container__part} ${
-              currentStep > 4 ? styles.form__container__left : ""
-            } ${currentStep < 4 ? styles.form__container__right : ""}`}
+            className={`${styles.form__container__part} ${currentStep > 4 ? styles.form__container__left : ""
+              } ${currentStep < 4 ? styles.form__container__right : ""}`}
           >
             <div className={`${styles.input} `}>
               <label className={styles.input__label}>Ник на платформе</label>
@@ -266,7 +222,6 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
                 />
               </div>
             </div>
-
             <div className={`${styles.input} `}>
               <label className={styles.input__label}>Пароль</label>
               <div>
@@ -288,11 +243,9 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
             </div>
           </div>
           <div
-            className={` ${styles.emailAccept__container} ${
-              styles.form__container__part
-            }  ${currentStep > 5 ? styles.form__container__left : ""} ${
-              currentStep < 5 ? styles.form__container__right : ""
-            }`}
+            className={` ${styles.emailAccept__container} ${styles.form__container__part
+              }  ${currentStep > 5 ? styles.form__container__left : ""} ${currentStep < 5 ? styles.form__container__right : ""
+              }`}
           >
             <label className={`${styles.lable_email_accept}`}>
               Вам отправлено письмо с кодом на почту. Введите его в поле ниже.
@@ -304,11 +257,10 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
             <button
               onClick={confirmEmail}
               disabled={!confirmCode}
-              className={`${styles.button__accept_email} ${
-                currentStep === 5
-                  ? styles.input__active
-                  : styles.input__inactive
-              }`}
+              className={`${styles.button__accept_email} ${currentStep === 5
+                ? styles.input__active
+                : styles.input__inactive
+                }`}
             >
               Подтвердить
             </button>
@@ -318,9 +270,8 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
       <div className={styles.step__container}>
         <div>
           <button
-            className={`${styles.step__button}  ${
-              currentStep !== 1 ? styles.input__active : styles.input__inactive
-            }`}
+            className={`${styles.step__button}  ${currentStep !== 1 ? styles.input__active : styles.input__inactive
+              }`}
             style={{ transform: "scale(-1,1)" }}
             onClick={handlePreviousStep}
           >
@@ -329,9 +280,8 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
         </div>
         <div>
           <button
-            className={`${styles.step__button} ${
-              currentStep !== 5 ? styles.input__active : styles.input__inactive
-            }`}
+            className={`${styles.step__button} ${currentStep !== 5 ? styles.input__active : styles.input__inactive
+              }`}
             onClick={handleNextStep}
           >
             <img src={regArrow} />

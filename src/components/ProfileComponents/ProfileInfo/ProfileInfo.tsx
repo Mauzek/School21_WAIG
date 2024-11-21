@@ -39,7 +39,7 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
     const fetchFriendShips = async () => {
       if (user) {
         const result = await getFriendship(user.username, token);
-        const friendResult = result.some(user => user.username === userData.username);
+        const friendResult = result.content.some(user => user.username === userData.username);
         const friendsReq = await getFriendshipReq(userData.username, token);
         setIsInvited(friendsReq.some(item => item.friend.username === userData.username && item.user.username === user.username));
 
@@ -112,7 +112,7 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
           </p>
         </div>
         <fieldset className={styles.profile__description}>
-          <legend style={{}} className={styles.profile_description__title}>
+          <legend className={styles.profile_description__title}>
             О Себе
           </legend>
           <p

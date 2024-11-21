@@ -165,3 +165,11 @@
         align-items: center;
         gap: 15px;
     }
+
+    .static__colorpicker {
+        display: flex;
+        /* flex-direction: row; */
+        width: 110px;
+        /* align-items: start; */
+        justify-content: start;
+    }

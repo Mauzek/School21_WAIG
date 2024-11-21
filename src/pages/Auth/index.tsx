@@ -46,14 +46,7 @@ export default function AuthPage() {
 
   return (
     <main className={styles.auth__centre}>
-      <div
-        className={isAuther ? styles.auth : styles.reg}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className={`${isAuther ? styles.auth : styles.reg} ${styles.main__container}`}              >
         <div className={styles.auth__asd1}>
           {isAuther ? (
             <div className={styles.auth__container}>
@@ -74,14 +67,10 @@ export default function AuthPage() {
                     ></input>
                   </div>
                 </div>
-                <div className={styles.input} style={{ display: "flex" }}>
+                <div className={`${styles.input} ${styles.password__box__flex}`}>
                   <label
                     htmlFor="password"
-                    style={{
-                      height: "48px",
-                      width: "100%",
-                    }}
-                  >
+                    className={styles.password__label}>
                     <div>
                       <input
                         id="password"
@@ -109,10 +98,10 @@ export default function AuthPage() {
                     {" "}
                     <div>Войти</div>
                     <div className={styles.login__Button__arrow}>
-                      <img src={loginSvg}></img>
+                      <img src={loginSvg} />
                     </div>
                   </button>
-                  <p>Забыли пароль?</p>
+                  <p className={styles.forgot__password}>Забыли пароль?</p>
                 </div>
                 <hr className={styles.login__hr} />
               </form>

@@ -3,11 +3,28 @@
   cursor: text;
 }
 
+.main__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.password__box__flex {
+  display: flex;
+}
+
+.password__label {
+
+  height: 48px;
+  width: 100%;
+}
+
 .input__container::before {
   content: " ";
 }
 
 .input {
+  height: 48px;
   width: 100%;
   color: currentColor;
   position: relative;
@@ -163,6 +180,11 @@
   border: 0;
   font-weight: 400;
   border-radius: 8px;
+  cursor: pointer;
+}
+
+.login__Button:hover {
+  filter: brightness(0.85);
 }
 
 .login__Button__arrow {
@@ -180,11 +202,14 @@
   color: var(--green);
   font-size: 14px;
   width: 100%;
-
 }
 
 .login__Button>div {
   font-size: 14px;
+}
+
+.forgot__password {
+  cursor: pointer;
 }
 
 .login__hr {
@@ -222,7 +247,71 @@
   font-size: 14px;
   font-weight: 400;
   text-align: justify;
+}
 
+.popup__back {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.7;
+}
+
+.popup__container {
+  z-index: 100;
+  background: linear-gradient(47.28deg, rgb(134, 27, 227) -13.58%, rgb(68, 235, 153) 150.46%);
+  position: absolute;
+  width: 448px;
+  height: 330px;
+  left: 50%;
+  top: 50%;
+  /* translate: -50px -50px; */
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  animation: fadeIn 0.3s;
+}
+
+.lable_email_accept {
+  display: flex;
+  max-width: 300px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.button__accept_email {
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+  color: #000;
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s, border 0.3s;
+
+  border: 1px solid rgb(174, 187, 202);
+  border: 0;
+  color: black;
+  background-color: var(--green);
+}
+
+.button__accept_email:hover:not(:disabled) {
+  /* background-color:rgb(174, 187, 202);
+  border: 1px solid rgb(174, 187, 202); */
+  /* filter: brightness(0.85); */
+  background-color: var(--green-hover);
+}
+
+.button__accept_email:disabled {
+  background-color: #61605e;
+  border: #61605e;
+  cursor: not-allowed;
 }
 
 .passwordBox__visibility {
@@ -249,6 +338,17 @@
     position: absolute;
     content: url("../../../src/assets/images/greenLine.svg");}   */
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translate(-50%, -50%);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
 
 @media (max-width: 1200px) {
   .auth__asd1 {
@@ -261,7 +361,6 @@
 
 }
 
-
 @media (max-width: 600px) {
 
   .input {
@@ -272,11 +371,10 @@
 
     padding: 24px;
     width: 328px;
-          height: 472px;
+    height: 472px;
   }
 
-  .reg{
+  .reg {
     margin: 0px 24px;
   }
-
 }

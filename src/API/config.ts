@@ -28,6 +28,7 @@ export const endpoints = {
   deleteInterestByName: (interestName: string) => `${BASE_API}/admin/interest/delete?interestName=${interestName}`, //delete http://localhost:8080/admin/interest/delete?interestName={interestName}
   deleteGroupById: (groupId: string) => `${BASE_API}/admin/group/${groupId}`, //delete http://localhost:8080/admin/group/{id}
   deleteUserByLogin: (userLogin: string) => `${BASE_API}/admin/user/delete?login=${userLogin}`, //delete http://localhost:8080/admin/user/delete?login={userLogin}
+  updateInterest: (interestName:string, color:string) => `${BASE_API}/interests/update?interestName=${interestName}&color=${color}`,
 
   //Group Endpoints
   createGroup: (userLogin: string) => `${BASE_API}/groups/${userLogin}/create`, //post //http://localhost:8080/groups/{userLogin}/create
@@ -46,7 +47,7 @@ export const endpoints = {
   addInterestToGroup: (groupId: string) => `${BASE_API}/groups/${groupId}/interests`, //post //http://localhost:8080/groups/{groupId}/interests
   deleteOwnerGroupById: (groupId: string) => `${BASE_API}/groups/${groupId}`, //delete http://localhost:8080/groups/{groupID} Вроде удаляются только если токен хедера соответсвтует токену создателя группы
   getGroupById: (groupId: string) => `${BASE_API}/groups/${groupId}`, //get
-  getAllGroups: `${BASE_API}/groups`, //get //http://localhost:8080/groups
+  getAllGroups: (page: number, elements: number) => `${BASE_API}/groups?page=${page}&size=${elements}`, //get //http://localhost:8080/groups
   inviteUserToGroup: (groupId: string, fromLogin: string, toLogin: string) => `${BASE_API}/groups/${groupId}/users?from_username=${fromLogin}&to_username=${toLogin}`, //http://localhost:8080/groups/1/users?from_username=Bobo&to_username=Bobo2
   getAvailableUsersForInvite: (groupId: string, login: string) => `${BASE_API}/api/notifications/available-invitations?groupId=${groupId}&login=${login}`,// get availableusers http://localhost:8080/api/notifications/available-invitations?groupId=1&login=1
 
@@ -58,8 +59,8 @@ export const endpoints = {
   //User Endpoints
   postUserSubscribeToGroup: (userLogin: string, groupId: number) => `${BASE_API}/api/user/${userLogin}/subscribe?groupId=${groupId}`, //post
   leaveFromGroup: (username: string, groupdId: string) => `${BASE_API}/api/user/${username}/unsubscribe?groupId=${groupdId}`, //delete
-  getUserCreatedGroups: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/groups/created`, //get
-  getSubscribedGroups: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/groups`, //get
+  getUserCreatedGroups: (userLogin: string, page: number, elements: number) => `${BASE_API}/api/user/${userLogin}/groups/created?page=${page}&size=${elements}`, //get
+  getSubscribedGroups: (userLogin: string, page: number, elements: number) => `${BASE_API}/api/user/${userLogin}/groups?page=${page}&size=${elements}`, //get
   uploadProfileImage: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/profile-image`, //post
   deleteUserInterests: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/interests`, //delete
   getUserInterests: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/interests`, //get

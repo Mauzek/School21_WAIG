@@ -73,7 +73,7 @@ export const Groups: FC = () => {
               <tr key={groupsData.id}>
                 <td>{groupsData.id}</td>
                 <td>
-                  <div style={{ display: "flex", flexDirection: "row", gap: "15px" }}>
+                  <div className={styles.color__container}>
                     <div className={styles.color__print} style={{ background: `#${groupsData.color}` }} />
                     <p>
                       {groupsData.color}
