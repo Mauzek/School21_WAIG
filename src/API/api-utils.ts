@@ -81,6 +81,9 @@ const deleteInterest = (token: string, interestName: string) =>
 const deleteUser = (token: string, username: string) =>
   axiosRequest('delete', endpoints.deleteUserByLogin(username), token);
 
+const getAdminAllGroups = (token:string) => 
+  axiosRequest('get',endpoints.adminGetAllGroups,token);
+
 const getAllGroups = (page: number, elements: number, token: string) =>
   axiosRequest('get', endpoints.getAllGroups(page, elements), token);
 
@@ -265,6 +268,7 @@ export {
   deleteGroupById,
   deleteUser,
   deleteInterest,
+  getAdminAllGroups,
   getAllGroups,
   getGroupByPrefixName,
   getTopGroupsByInterests,
