@@ -41,8 +41,9 @@ export const CustomGroupAvatar: FC<CustomGroupAvatarProps> = ({
   };
 
   const handleSaveChanges = () => {
-    setColor(rgbToHex(color));
-    setChars(`${chars.length > 0 ? chars : 'AAA'}`);
+    const hexColor = color.startsWith("#") ? color.slice(1) : rgbToHex(color);
+    setColor(hexColor || colorAvatar);
+    setChars(chars.length > 0 ? chars : "AAA"); 
     setIsOpenPopup();
   };
 

@@ -16,16 +16,22 @@ const GroupPage = () => {
   const [membersData, setMembersData] = useState<User[]>([]);
   const [friends, setFriends] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [redirectTimeout, setRedirectTimeout] = useState(false);
+
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    const fetchGroupData = async () => {
+    const fetchData = async () => {
       try {
         if (id) {
-          const response = await getGroupById(id, token);
-          setGroupData(response);
-          setInterestsData(response.interests);
-          setMembersData([response.creator, ...response.subscribers]);
+          const groupResponse = await getGroupById(id, token);
+          setGroupData(groupResponse);
+          setInterestsData(groupResponse.interests);
+          setMembersData([groupResponse.creator, ...groupResponse.subscribers]);
+        }
+        if (user?.username) {
+          const friendsResponse = await getFriendship(user.username,0, 100, token);
+          setFriends(friendsResponse.content);
         }
       } catch (error) {
         console.error(error);
@@ -34,28 +40,38 @@ const GroupPage = () => {
       }
     };
 
-    const fetchFriends = async () => {
-      try {
-        if (user?.username) {
-          const response = await getFriendship(user.username, token);
-          setFriends(response);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchFriends();
-    fetchGroupData();
+    fetchData();
+
+    const timeout = setTimeout(() => {
+      setRedirectTimeout(true);
+    }, 300);
+
+    return () => clearTimeout(timeout);
   }, [id, token, user]);
+
+  const handleGroupDataChange = (updatedData: Partial<Group>) => {
+    setGroupData((prev) => (prev ? { ...prev, ...updatedData } : null));
+  };
+
+  const handleInterestsChange = (updatedInterests: Interests[]) => {
+    setInterestsData(updatedInterests);
+  };
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (location.pathname === `/Group/${id}/Edit` && groupData?.creator.username !== user?.username) {
+  if (!groupData && redirectTimeout) {
+    return <Navigate to="/NotFound404" replace />;
+  }
+
+  if (
+    location.pathname === `/Group/${id}/Edit` &&
+    groupData?.creator.username !== user?.username
+  ) {
     return <Navigate to={`/Group/${id}/Main`} replace />;
   }
-  
+
   return (
     <main className={styles.groupMain__container}>
       {location.pathname === `/Group/${id}/Main` && groupData && (
@@ -65,7 +81,12 @@ const GroupPage = () => {
         <GroupMembers membersData={membersData} />
       )}
       {location.pathname === `/Group/${id}/Edit` && groupData && (
-        <GroupEdit groupData={groupData} dataTags={interestsData} />
+        <GroupEdit
+          groupData={groupData}
+          dataTags={interestsData}
+          onGroupDataChange={handleGroupDataChange}
+          onInterestsChange={handleInterestsChange}
+        />
       )}
     </main>
   );

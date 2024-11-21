@@ -69,6 +69,13 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
     return `${year}-${month}-${day}`;
   };
 
+  const formatDateSet = (date: Date): string => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1; 
+    const year = date.getFullYear(); 
+    return `${month}/${day}/${year}`;
+};
+
   const [formData, setFormData] = useState({
     firstname,
     lastname,
@@ -81,9 +88,8 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
   });
 
   const { setMainInfo, user, token } = useStore();
-
   const handleCancelChanges = () => {
-    const formattedBirthday = new Date(birthday).toISOString().split("T")[0];
+    const formattedBirthday = formatDate(birthday);
     setFormData({
       firstname,
       lastname,
@@ -106,24 +112,24 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
             firstname,
             lastname,
             patronymic,
-            tgName,
             gender,
+            tgName,
             birthDay,
             description,
             interests: selectedInterests,
           };
-
           await updateUserInfo(user.username, token, dataToSend);
         }
-        setMainInfo(
-          firstname,
-          lastname,
-          patronymic,
-          gender,
-          tgName,
-          birthday,
-          description
-        );
+        const birthday = birthDay ? formatDateSet(new Date(birthDay)) : '';
+      setMainInfo(
+        firstname,
+        lastname,
+        patronymic,
+        gender,
+        tgName,
+        birthday,
+        description,
+      );
         navigate(`/Profile/${username}`);
       } catch (error) {
         console.error("Ошибка при сохранении изменений:", error);
