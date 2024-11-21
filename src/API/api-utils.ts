@@ -215,13 +215,13 @@ const updateUserInfo = (login: string, token: string, data: UpdateUserInfoData) 
 
 
 interface UpdateUserSecurityData {
-  newEmail: string;
-  newUsername: string;
+  newUserName: string;
+  oldPassword: string;
   newPassword: string;
 }
 
 const updateUserSecurity = (login: string, token: string, updateData: UpdateUserSecurityData) =>
-  axiosRequest('put', endpoints.updateSecurityInfo(login, updateData.newUsername, updateData.newPassword, updateData.newEmail), token);
+  axiosRequest('put', endpoints.updateSecurityInfo(login), token, updateData);
 
 const setJWT = (jwt: string) => {
   localStorage.setItem('jwt', jwt)

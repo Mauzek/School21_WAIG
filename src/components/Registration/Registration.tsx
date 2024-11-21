@@ -227,6 +227,7 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
               <div>
                 <input
                   type="password"
+                  placeholder="Минимально 6 символов"
                   className={`${styles.input__box}`}
                   name="password"
                   onChange={handleChange}

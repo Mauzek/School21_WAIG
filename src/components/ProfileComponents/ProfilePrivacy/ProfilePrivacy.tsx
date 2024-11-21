@@ -2,27 +2,26 @@ import { FC, useState } from "react";
 import styles from "./ProfilePrivacy.module.css";
 import imgOK from "../../../assets/icons/checker.svg";
 import imgBad from "../../../assets/icons/close_popup.svg";
-import { logoutUser, updateUserSecurity } from "../../../API/api-utils";
+import { isResponseOk, logoutUser, updateUserSecurity } from "../../../API/api-utils";
 import { useStore } from "../../../store/app-store";
 import { useNavigate } from "react-router-dom";
 
 interface ProfilePrivacyProps {
-  email: string;
   username: string;
 }
 
 export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
-  email,
   username,
 }) => {
   const [usernameInput, setUsernameInput] = useState(username);
-  const [newPassword, setNewPassword] = useState("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [oldPassword, setOldPassword] = useState<string>("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { user, token } = useStore();
 
   const isFieldValid = (value: string) =>
-    value.trim() !== "" && value.trim().length >= 4;
+    value.trim() !== "" && value.trim().length >= 6;
 
   const getInputStatus = (value: string) => {
     const isValid = isFieldValid(value);
@@ -36,6 +35,7 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
 
   const handleUndoChanges = () => {
     setNewPassword("");
+    setOldPassword("");
     setUsernameInput(username);
   };
 
@@ -43,8 +43,8 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
     try {
       if (!user) return;
       const updateData = {
-        newEmail: email,
-        newUsername: usernameInput,
+        newUserName: usernameInput,
+        oldPassword: oldPassword,
         newPassword: newPassword,
       };
       const response = await updateUserSecurity(
@@ -52,7 +52,7 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
         token,
         updateData
       );
-      if (response) {
+      if (isResponseOk(response)) {
         handleUndoChanges();
         logoutUser();
         navigate("/auth");
@@ -89,17 +89,39 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
             />
           </div>
         </li>
-        <li></li>
+        <li>
+          <label htmlFor="oldPasswordInput">Старый пароль:</label>
+          <input
+            id="oldPasswordInput"
+            placeholder="Подтвердите старый пароль"
+            type="password"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+            className={getInputClass(oldPassword)}
+            minLength={6}
+          />
+          <div
+            className={`${styles.privacy__input__status} ${getInputClass(
+              oldPassword
+            )}`}
+          >
+            <img
+              className={styles.imgResult}
+              src={getInputStatus(oldPassword)}
+              alt="status"
+            />
+          </div>
+        </li>
         <li>
           <label htmlFor="newPasswordInput">Новый пароль:</label>
           <input
             id="newPasswordInput"
-            placeholder="Новый пароль от 4х символов"
+            placeholder="Новый пароль от 6ти символов"
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             className={getInputClass(newPassword)}
-            minLength={4}
+            minLength={6}
           />
           <div
             className={`${styles.privacy__input__status} ${getInputClass(
@@ -112,7 +134,7 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
               alt="status"
             />
           </div>
-        </li>      
+        </li>          
       </ul>
       {error.length > 0 && <p className={styles.error}>{error}</p>}
       <ul className={styles.buttons__activity}>

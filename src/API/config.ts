@@ -65,7 +65,7 @@ export const endpoints = {
   deleteUserInterests: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/interests`, //delete
   getUserInterests: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/interests`, //get
   addUserInterest: (userlogin: string) => `${BASE_API}/api/user/${userlogin}/interests`,  //post
-  updateSecurityInfo: (userLogin: string, newLogin: string, newPassword: string, newEmail: string) => `${BASE_API}/api/user/${userLogin}/security?new_login=${newLogin}&password=${newPassword}&email=${newEmail}`, //put
+  updateSecurityInfo: (userLogin: string) => `${BASE_API}/api/user/${userLogin}/security`, //put
   getUsersByInterests: `${BASE_API}/api/user/search_interest`, //post {body}
   getUserByFullname: `${BASE_API}/api/user/search_name`, //post {body} 
   deleteOwnerUserByLogin: (userLogin: string) => `${BASE_API}/api/user/${userLogin}`, //delete 

@@ -63,7 +63,7 @@ const ProfilePage: FC = () => {
           <ProfileInfo userData={userData} userInterests={userInterests} />
         )}
         {location.pathname === `/Profile/${username}/Privacy` && (
-          <ProfilePrivacy email={userData.email} username={userData.username} />
+          <ProfilePrivacy username={userData.username} />
         )}
         {location.pathname === `/Profile/${username}/Edit` && (
           <ProfileEdit {...userData} userInterests={userInterests} />
