@@ -77,7 +77,9 @@ export const Interests: FC = () => {
 
   }
 
-  
+const handleCleareInterest = () => {
+  setCreatedInterest({ name: '', color: '000000' });
+}  
 
 const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
   setSearchTerm(event.target.value.toLowerCase().trim()); 
@@ -107,8 +109,8 @@ const filteredInterests =allInterests&& allInterests.filter(elem =>
           }
         </ul>
         <div className={styles.buttons__activity__container}>
-          <button className={`${styles.button__activity} ${styles.button__clear}`}>Очистить поля</button>
-          <button className={`${styles.button__activity} ${styles.button__create}`} onClick={handleCreateInterest}>Создать</button>
+          <button className={`${styles.button__activity} ${styles.button__clear}`}  onClick={handleCleareInterest}>Очистить поля</button>
+          <button className={`${styles.button__activity} ${styles.button__create}`} disabled={createdInterest.name.trim().length === 0} onClick={handleCreateInterest}>Создать</button>
         </div>
       </article>
       <article className={styles.change__menu}>
@@ -170,8 +172,8 @@ const filteredInterests =allInterests&& allInterests.filter(elem =>
                       <tr key={elem.name}>
                         <td ><div className={styles.color__print__value}> <div className={styles.color__print} style={{ background: `#${elem.color}` }}></div> <p>{elem.color}</p></div></td>
                         <td style={{ wordBreak: "break-all" }}>{elem.name}</td>
-                        <td><button onClick={() => handleDeleteInterest(elem.name)}>Delete</button></td>
-                        <td><button onClick={() => { handleSelectInterest(elem) }}>Select</button></td>
+                        <td><button onClick={() => handleDeleteInterest(elem.name)} className={styles.button__delete}>Delete</button></td>
+                        <td><button onClick={() => { handleSelectInterest(elem) }} className={styles.button__select}>Select</button></td>
                       </tr>
                     )
                   }

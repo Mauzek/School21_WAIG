@@ -65,13 +65,17 @@ export const CreateGroup: FC = () => {
       alert("Название группы не может быть пустым.");
       return;
     }
+
+    if (!groupData.interests.length) { 
+      alert("Нужно добавить хотя бы 1 интерес.");
+      return;
+    }
   
     if (user) {
       createGroup(user.username, token, groupData);
       navigate('/Groups/Managed');
     }
   };
-  
 
   const addInterest = (interest: { name: string; color: string }) => {
     setAvailableInterests((prev) =>

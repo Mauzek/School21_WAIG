@@ -105,7 +105,7 @@ export const ProfileEdit: FC<ProfileEditProps> = ({
   const handleSaveChanges = async () => {
     const { firstname, lastname, patronymic, tgName, gender, birthDay, description, interests } = formData;
 
-    if (firstname && lastname && patronymic && tgName && gender && birthday && interests) {
+    if (firstname && lastname && tgName && gender && birthday && interests) {
       try {
         if (user) {
           const dataToSend = {

@@ -52,7 +52,6 @@
 
 .colorPicker__tool>div {
     color: #fff;
-
 }
 
 .name__input {
@@ -91,15 +90,30 @@
     width: 250px;
     border-radius: 15px;
     border: 0;
+    cursor: pointer;
+    text-shadow: 1px 1px 3px #000;
+    transition: background-color 0.3s;
 }
 
 .button__clear {
     background-color: #36C5F0;
 }
 
+.button__clear:hover{
+    background-color: #2693BA;
+}
+
 .button__create {
     background-color: #44EB99;
-    color:#000
+}
+
+.button__create:disabled{
+    background-color: #545454;
+    cursor: not-allowed;
+}
+
+.button__create:hover:not(:disabled){
+    background-color: #2E9966;
 }
 
 .colorPicker__tool {
@@ -172,4 +186,27 @@
         width: 110px;
         /* align-items: start; */
         justify-content: start;
+    }
+    .button__delete{
+        border: 1px solid transparent;
+        border-radius: 3px;
+        padding: 3px;
+        transition: background-color 0.2s, border 0.2s;
+    }
+    
+    .button__delete:hover{
+        border: 1px solid #fff;
+        background-color: #ff0000;
+    }
+
+    .button__select{
+        border: 1px solid transparent;
+        border-radius: 3px;
+        padding: 3px;
+        transition: background-color 0.3s, border 0.3s;
+    }
+    
+    .button__select:hover{
+        border: 1px solid #fff;
+        background-color: #14c06c;
     }

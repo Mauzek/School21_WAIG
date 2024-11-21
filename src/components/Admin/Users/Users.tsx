@@ -79,7 +79,7 @@ export const Users: FC = () => {
                     </p>
                   </details> : <>{userone.description}</>}
                 </td>
-                <td> <button onClick={() => handleDeleteUser(token, userone.username)}>Delete</button></td>
+                <td> <button onClick={() => handleDeleteUser(token, userone.username)} className={styles.button__delete}>Delete</button></td>
               </tr>)
           })}
         </tbody>

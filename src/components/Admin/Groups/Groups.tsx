@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { useStore } from "../../../store/app-store";
 import styles from "./Groups.module.css"
 import { Group } from "../../../pages/Home";
-import { deleteGroupById, getAdminAllGroups, getAllGroups } from "../../../API/api-utils";
+import { deleteGroupById, getAdminAllGroups} from "../../../API/api-utils";
 
 export const Groups: FC = () => {
   const { token } = useStore();
@@ -31,10 +31,9 @@ export const Groups: FC = () => {
       if (token) {
         try {
           const result = await getAdminAllGroups(token);
-          console.log(result);
           setGroups(result);
         } catch (error) {
-          console.error("Error fetching users:", error);
+          console.error("Ошибка получения групп:", error);
         }
       }
     };
@@ -46,16 +45,6 @@ export const Groups: FC = () => {
     <>
       <table className={styles.groups__table}>
         <thead>
-          <tr className={styles.search__input__container}>
-            <th><input /></th>
-            <th><input /></th>
-            <th><input /></th>
-            <th><input /></th>
-            <th><input /></th>
-
-            <th><input /></th>
-            <th></th>
-          </tr>
           <tr className={styles.table__titles}>
             <th>ID</th>
             <th>Цвет</th>
@@ -65,7 +54,6 @@ export const Groups: FC = () => {
             <th>ID создателя</th>
             <th></th>
           </tr>
-
         </thead>
         <tbody>
           {groups.map(groupsData => {
@@ -95,7 +83,7 @@ export const Groups: FC = () => {
                   </details> : <>{groupsData.description}</>}
                 </td>
                 <td>{groupsData.creator.username}</td>
-                <td> <button onClick={() => handleDeleteGroup (token, groupsData.id)}>Delete</button></td>
+                <td> <button onClick={() => handleDeleteGroup (token, groupsData.id)} className={styles.button__delete}>Delete</button></td>
               </tr>)
           })}
         </tbody>

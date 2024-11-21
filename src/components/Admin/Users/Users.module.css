@@ -21,8 +21,20 @@ border-collapse: collapse;
     background-color: #363636;
     border: 1px solid black;
     vertical-align: top;
-    padding: 0px 15px;
+    padding: 5px 15px;
 }
     .users__table>tbody>tr{
     border: 1px solid black;
+}
+
+.button__delete{
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 3px;
+    transition: background-color 0.2s, border 0.2s;
+}
+
+.button__delete:hover{
+    border: 1px solid #fff;
+    background-color: #ff0000;
 }

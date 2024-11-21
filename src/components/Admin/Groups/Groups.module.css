@@ -1,58 +1,55 @@
 .color__container {
-   display: flex;
-   flex-direction: row;
-   gap: 15px
+    display: flex;
+    flex-direction: row;
+    gap: 15px
 }
 
-.color__print{
+.color__print {
 
-    height: 30px ;
+    height: 30px;
     width: 30px;
     border-radius: 50%;
     border: 0;
 }
 
-.groups__table{margin: 15px;
+.groups__table {
+    margin: 15px;
     border-collapse: collapse;
-      border-spacing: 0;
-    }
-    
-    .table__titles>th{
-        background-color: #404040;
-        width: max-content;
-        padding: 5px 15px;
-        border: 2px solid black;
-    }
-    
-    
-    .groups__table>tbody>tr>td{
-        background-color: #363636;
-        border: 1px solid black;
-        vertical-align: top;
-        padding: 5px 15px;
-    }
-        .groups__table>tbody>tr{
-        border: 1px solid black;
-    }
+    border-spacing: 0;
+}
+
+.table__titles>th {
+    background-color: #404040;
+    width: max-content;
+    padding: 5px 15px;
+    border: 2px solid black;
+}
 
 
-    .table__titles{
-        border: 1px solid black;
-        
-    }
+.groups__table>tbody>tr>td {
+    background-color: #363636;
+    border: 1px solid black;
+    vertical-align: top;
+    padding: 5px 15px;
+}
+
+.groups__table>tbody>tr {
+    border: 1px solid black;
+}
 
 
-    
-    .search__input__container > th:not(:last-child) {
-        padding: 0px 5px 15px;
-    }
-    
-    .search__input__container > th:not(:last-child)>input {
-        width: 100%;
-        height: 40px;
-        padding: 0px 5px;
-        border: 0;
-        border-radius: 10px;
-    background-color: #1D2633;
-    }
-    
+.table__titles {
+    border: 1px solid black;
+}
+
+.button__delete{
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 3px;
+    transition: background-color 0.2s, border 0.2s;
+}
+
+.button__delete:hover{
+    border: 1px solid #fff;
+    background-color: #ff0000;
+}
