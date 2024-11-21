@@ -30,8 +30,8 @@ export const Header: FC<HeaderProps> = ({ user }) => {
   useEffect(() => {
     const fetchUserGroups = async () => {
       try {
-        const groups = await getUserCreatedGroups(user.username, token);
-        setUserGroups(groups);
+        const groups = await getUserCreatedGroups(user.username,0,100, token);
+        setUserGroups(groups.content);
       } catch (error) {
         console.error("Failed to fetch user groups", error);
       }

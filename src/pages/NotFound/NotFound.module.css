@@ -1,0 +1,82 @@
+.codeArea {
+    position: absolute;
+    width: 60%;
+    max-width: 700px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Courier New", monospace;
+    color: #d3d7de;
+    background-color: rgba(0, 0, 0, 0.3) ;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.line {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.comment {
+    color: #777;
+    font-style: italic;
+    font-size: 1.3rem;
+}
+
+.keyword {
+    color: #d65562;
+}
+
+.operator {
+    color: #4ca8ef;
+}
+
+.variable {
+    font-style: italic;
+    color: #bdbdbd;
+}
+
+.indent {
+    padding-left: 20px;
+}
+
+.string {
+    color: #a6a61f;
+}
+
+.throwContent {
+    color: #2796ec;
+}
+
+.link {
+    color: #fff;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.link:hover {
+    color: #44eb99;
+}
+
+@media screen and (max-width: 768px) {
+    .codeArea {
+        width: 90%;
+        max-width: none;
+        padding: 15px;
+    }
+
+    .line {
+        font-size: 1.2rem;
+    }
+
+    .comment {
+        font-size: 1rem;
+    }
+
+    .link {
+        font-size: 1rem;
+    }
+}

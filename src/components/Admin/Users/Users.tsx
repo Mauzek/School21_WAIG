@@ -36,6 +36,7 @@ export const Users: FC = () => {
       console.error(`Error deleting user ${username}:`, error);
     }
   };
+  
   return (
     <>
       <table className={styles.users__table}>

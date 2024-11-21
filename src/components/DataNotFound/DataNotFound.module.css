@@ -1,0 +1,50 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #555;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .message {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #888;
+  }
+  
+  .icon {
+    display: block;
+    margin: 0 auto;
+    opacity: 0.8;
+  }
+  
+  .small .icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .small .message {
+    font-size: 0.8rem;
+  }
+  
+  .medium .icon {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .medium .message {
+    font-size: 1rem;
+  }
+  
+  .large .icon {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .large .message {
+    font-size: 1.2rem;
+  }
+  

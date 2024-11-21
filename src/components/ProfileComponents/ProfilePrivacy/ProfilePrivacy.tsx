@@ -15,84 +15,60 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
   email,
   username,
 }) => {
-  const [emailInput, setEmailInput] = useState(email);
   const [usernameInput, setUsernameInput] = useState(username);
-  const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { user, token } = useStore();
 
-  const validateEmail = (value: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   const isFieldValid = (value: string) =>
     value.trim() !== "" && value.trim().length >= 4;
 
-  const getInputStatus = (value: string, isEmail = false) => {
-    const isValid = isEmail ? validateEmail(value) : isFieldValid(value);
+  const getInputStatus = (value: string) => {
+    const isValid = isFieldValid(value);
     return isValid ? imgOK : imgBad;
   };
 
-  const getInputClass = (value: string, isEmail = false) => {
-    const isValid = isEmail ? validateEmail(value) : isFieldValid(value);
+  const getInputClass = (value: string) => {
+    const isValid = isFieldValid(value);
     return isValid ? styles.status__green : styles.status__red;
   };
 
   const handleUndoChanges = () => {
     setNewPassword("");
-    setOldPassword("");
-    setEmailInput(email);
     setUsernameInput(username);
   };
 
   const handleSaveChanges = async () => {
     try {
+      if (!user) return;
       const updateData = {
-        newEmail: emailInput,
+        newEmail: email,
         newUsername: usernameInput,
         newPassword: newPassword,
       };
-
-      const response = user && await updateUserSecurity(user.username, token, updateData);
-
+      const response = await updateUserSecurity(
+        user.username,
+        token,
+        updateData
+      );
       if (response) {
-        handleUndoChanges(); 
+        handleUndoChanges();
         logoutUser();
         navigate("/auth");
       }
     } catch (error) {
+      setError('Похоже что произошла ошибка');
       console.error("Ошибка при обновлении информации о пользователе:", error);
     }
   };
 
   return (
-    <>
+    <div className={styles.privacy__container}>
       <h2 className={styles.privacy__title}>Изменение конфиденциальности</h2>
-      <ul className={styles.privacy__container}>
+      <ul className={styles.privacy__container__list}>
         <li>
-          <label htmlFor="emailInput">Изменить почту:</label>
-          <input
-            id="emailInput"
-            type="email"
-            placeholder={email}
-            value={emailInput}
-            onChange={(e) => setEmailInput(e.target.value)}
-            className={getInputClass(emailInput, true)}
-          />
-          <div
-            className={`${styles.privacy__input__status} ${getInputClass(
-              emailInput,
-              true
-            )}`}
-          >
-            <img
-              className={styles.imgResult}
-              src={getInputStatus(emailInput, true)}
-              alt="status"
-            />
-          </div>
-        </li>
-        <li>
-          <label htmlFor="usernameInput">Изменить ник/логин:</label>
+          <label htmlFor="usernameInput">Новый логин:</label>
           <input
             id="usernameInput"
             type="text"
@@ -113,32 +89,7 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
             />
           </div>
         </li>
-        <li>
-          <h3>Изменение пароля</h3>
-        </li>
-        <li>
-          <label htmlFor="oldPasswordInput">Старый пароль:</label>
-          <input
-            id="oldPasswordInput"
-            placeholder="Старый пароль от 4х символов"
-            type="password"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-            className={getInputClass(oldPassword)}
-            minLength={4}
-          />
-          <div
-            className={`${styles.privacy__input__status} ${getInputClass(
-              oldPassword
-            )}`}
-          >
-            <img
-              className={styles.imgResult}
-              src={getInputStatus(oldPassword)}
-              alt="status"
-            />
-          </div>
-        </li>
+        <li></li>
         <li>
           <label htmlFor="newPasswordInput">Новый пароль:</label>
           <input
@@ -161,11 +112,13 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
               alt="status"
             />
           </div>
-        </li>
+        </li>      
       </ul>
+      {error.length > 0 && <p className={styles.error}>{error}</p>}
       <ul className={styles.buttons__activity}>
         <li>
           <button
+            
             onClick={handleSaveChanges}
             className={styles.buttons__activity__save}
           >
@@ -178,10 +131,7 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
             Отменить изменения
           </button>
         </li>
-        <li>
-          <button className={styles.buttons__activity__exit}>Выход</button>
-        </li>
       </ul>
-    </>
+    </div>
   );
 };

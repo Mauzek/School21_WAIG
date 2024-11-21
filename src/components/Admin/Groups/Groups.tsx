@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { useStore } from "../../../store/app-store";
 import styles from "./Groups.module.css"
 import { Group } from "../../../pages/Home";
-import { deleteGroupById, getAllGroups } from "../../../API/api-utils";
+import { deleteGroupById, getAdminAllGroups, getAllGroups } from "../../../API/api-utils";
 
 export const Groups: FC = () => {
   const { token } = useStore();
@@ -30,7 +30,9 @@ export const Groups: FC = () => {
     const fetchUsers = async () => {
       if (token) {
         try {
-          setGroups(await getAllGroups(token));
+          const result = await getAdminAllGroups(token);
+          console.log(result);
+          setGroups(result);
         } catch (error) {
           console.error("Error fetching users:", error);
         }
@@ -73,7 +75,7 @@ export const Groups: FC = () => {
               <tr key={groupsData.id}>
                 <td>{groupsData.id}</td>
                 <td>
-                  <div style={{ display: "flex", flexDirection: "row", gap: "15px" }}>
+                  <div className={styles.color__container}>
                     <div className={styles.color__print} style={{ background: `#${groupsData.color}` }} />
                     <p>
                       {groupsData.color}

@@ -3,6 +3,7 @@
   font-weight: 400;
 
   --green: #44eb99;
+  --green-hover:  #14c06c; /* 30% */
   --lightGray: #c6cfda;
   --linkBlue: #008bff;
   --heightAuth: 450px;

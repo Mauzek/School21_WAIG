@@ -1,3 +1,9 @@
+.color__container {
+   display: flex;
+   flex-direction: row;
+   gap: 15px
+}
+
 .color__print{
 
     height: 30px ;

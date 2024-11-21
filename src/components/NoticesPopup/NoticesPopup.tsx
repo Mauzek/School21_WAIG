@@ -4,6 +4,7 @@ import { Notice } from "./Notice/Notice.tsx";
 import styles from "./NoticesPopup.module.css";
 import { getFriendshipReq, getNotificationsByUsername } from "../../API/api-utils.ts";
 import { useStore } from "../../store/app-store.tsx";
+import DataNotFound from "../DataNotFound/DataNotFound.tsx";
 
 type Group = {
   id: number,
@@ -60,10 +61,12 @@ export const NoticesPopup: FC<NoticeProps> = ({
     }
     fetchNotices();
   }, [])
+
   return (
     <div
-      className={`${styles.popup} ${isNoticesBtnActive ? styles.enter : styles.exit
-        } `}
+      className={`${styles.popup} ${
+        isNoticesBtnActive ? styles.enter : styles.exit
+      } `}
     >
       <div className={styles.header}>
         <span className={styles.title}>Уведомления</span>
@@ -72,18 +75,22 @@ export const NoticesPopup: FC<NoticeProps> = ({
         </button>
       </div>
       <div className={styles.noticesList}>
-        {noticesList && noticesList.map((notice) => (
-          <Notice
-            key={notice.id}
-            id={notice.id}
-            groupId={notice.groupId}
-            name={notice.inviterUsername}
-            avatar={notice.userAvatar}
-            isGroupInvite={notice.isGroupInvite}
-            groupName={notice.groupNameq}
-            refreshGroups={setNoticesList}
-          />
-        ))}
+        {noticesList && noticesList.length > 0 ? (
+          noticesList.map((notice) => (
+            <Notice
+              key={notice.id}
+              id={notice.id}
+              groupId={notice.groupId}
+              name={notice.inviterUsername}
+              avatar={notice.userAvatar}
+              isGroupInvite={notice.isGroupInvite}
+              groupName={notice.groupNameq}
+              refreshGroups={setNoticesList}
+            />
+          ))
+        ) : (
+          <DataNotFound size="small" />
+        )}
       </div>
     </div>
   );

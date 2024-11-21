@@ -11,11 +11,13 @@ import { useStore } from "../../../store/app-store";
 interface GroupEditProps {
   groupData: Group;
   dataTags: Interests[];
+  onGroupDataChange: (updatedData: Partial<Group>) => void;
+  onInterestsChange: (updatedInterests: Interests[]) => void;
 }
 
 const MAX_DESCRIPTION_LENGTH = 300;
 
-export const GroupEdit: FC<GroupEditProps> = ({ groupData, dataTags }) => {
+export const GroupEdit: FC<GroupEditProps> = ({ groupData, dataTags,onGroupDataChange,onInterestsChange }) => {
   const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
   const [name, setName] = useState<string>(groupData.name);
   const [chars, setChars] = useState<string>(groupData.chars);
@@ -90,7 +92,7 @@ export const GroupEdit: FC<GroupEditProps> = ({ groupData, dataTags }) => {
   };
 
   const handleSaveEditGroup = async () => {
-    if (!name || !description || !chars || !color) {
+    if (!name || !description || !chars || !color || selectedInterests.length <= 0) {
       alert("Пожалуйста, заполните все обязательные поля.");
       return;
     }
@@ -104,6 +106,8 @@ export const GroupEdit: FC<GroupEditProps> = ({ groupData, dataTags }) => {
         interests: selectedInterests,
       };
       await editGroupInfo(groupData.id, token, dataToSend);
+      onGroupDataChange(dataToSend);
+      onInterestsChange(dataToSend.interests)
       navigate(`/Group/${groupData.id}/Main`);
     } catch (error) {
       console.error("Ошибка при сохранении изменений группы:", error);
