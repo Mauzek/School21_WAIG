@@ -24,6 +24,7 @@
 .logo {
     height: 90%;
     width: auto;
+    user-select: none;
 }
 
 .navTitleContainer {

@@ -149,6 +149,7 @@
   left: 0px;
   width: 100%;
   overflow: hidden;
+  height: 400px;
   position: absolute;
   padding: 0px 56px;
 }

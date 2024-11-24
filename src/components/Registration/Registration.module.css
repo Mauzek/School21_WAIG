@@ -402,13 +402,42 @@ label[id="female2"]:hover~label[id="female"] {
  transform: translateX(150%);
 }
 
+.googleAuthQR__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 400px;
+
+    text-align: center;
+  }
+  
+  .googleAuthQR__container p {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+
+  .googleAuthQR__container button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #44eb99;
+    color: #000;
+    font-size: 0.875rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 10;
+  }
+  
+  .googleAuthQR__container button:hover {
+    background-color: #14c06c;
+  }
+
 @media (max-width: 600px){
     .input {
         width: 280px;
     }
-}
-
-@media (max-width: 1200px){
-    
-
 }

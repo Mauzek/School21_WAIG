@@ -84,6 +84,7 @@ a:hover{
   z-index: -3;
   position: fixed;
   filter: blur(8px);
+  user-select: none;
 }
 
 .green {

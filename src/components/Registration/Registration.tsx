@@ -1,15 +1,17 @@
-import { FC, useState } from "react";
+import { FC, useState, useCallback, useEffect } from "react";
 import styles from "./Registration.module.css";
-import { Input } from "antd";
+import { Input, QRCode } from "antd";
 import regArrow from "../../assets/images/regArrow.svg";
 import sberCat from "../../assets/images/SberCat2.svg";
 import sberKusya from "../../assets/images/SberKusya1.svg";
 import { OTPProps } from "antd/es/input/OTP";
 import {
   confirmUserEmail,
+  getQR,
   isResponseOk,
   registration,
 } from "../../API/api-utils";
+import axios from "axios";
 
 interface RegistrationProps {
   setIsAuther: (value: boolean) => void;
@@ -17,7 +19,10 @@ interface RegistrationProps {
 
 export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
+  const [isConfirmEmail, setIsConfirmEmail] = useState<boolean>(false);
   const [confirmCode, setCofirmCode] = useState<string>("");
+  const [QRcode, setQRcode] = useState<string>("-");
+  const [isRegistered, setIsRegistered] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     birthDay: "",
@@ -28,24 +33,26 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
     gender: "",
     tgName: "",
     password: "",
-    profileImageId: "cristalGreen"
+    profileImageId: "cristalGreen",
   });
 
   const onChange: OTPProps["onChange"] = (text) => {
-    setCofirmCode(text);
+    if (text.length === 6) {
+      setCofirmCode(text);
+    }
   };
 
   const sharedProps: OTPProps = {
     onChange,
   };
 
-  const handleNextStep = () => {
-    if (currentStep < 5) setCurrentStep(currentStep + 1);
-  };
+  const handleNextStep = useCallback(() => {
+    setCurrentStep((prev) => Math.min(prev + 1, 5));
+  }, []);
 
-  const handlePreviousStep = () => {
-    setCurrentStep(currentStep - 1);
-  };
+  const handlePreviousStep = useCallback(() => {
+    setCurrentStep((prev) => Math.max(prev - 1, 1));
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -66,14 +73,41 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
     }
   };
 
-  if (currentStep === 5) {
-    registration(formData);
-  }
+  useEffect(() => {
+    if (currentStep === 5 && !isRegistered) {
+      registration(formData)
+        .then(() => setIsRegistered(true)) 
+        .catch((err) => console.error("Ошибка регистрации:", err));
+    }
+  }, [currentStep, isRegistered, formData]);
 
-  const confirmEmail = async () => {
-    const response = await confirmUserEmail(confirmCode);
-    if (isResponseOk(response)) setIsAuther(true);
-  };
+  const confirmEmail = useCallback(async () => {
+    try {
+      const response = await confirmUserEmail(confirmCode);
+      if (isResponseOk(response)) {
+        setIsConfirmEmail(true);
+        const res = await getQR(formData.username);
+        setQRcode(res.qrCodeUrl);
+        console.log(QRCode);
+      } else {
+        console.error("Ошибка при подтверждении email");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 409) {
+          console.error("Ошибка 409:", error.response.data);
+        } else {
+          console.error("Ошибка запроса:", error);
+        }
+      } else {
+        console.error("Неизвестная ошибка:", error);
+      }
+    }
+  }, [confirmCode, formData.username]);
+
+  const confirmQRCode = useCallback(() => {
+    setIsAuther(true);
+  }, [setIsAuther]);
 
   return (
     <div className={styles.reg__container}>
@@ -83,8 +117,9 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
       <div>
         <div className={styles.form__container}>
           <div
-            className={`${styles.form__container__part} ${currentStep > 1 ? styles.form__container__left : ""
-              }`}
+            className={`${styles.form__container__part} ${
+              currentStep > 1 ? styles.form__container__left : ""
+            }`}
           >
             <div className={`${styles.input} `}>
               <label className={styles.input__label}>Фамилия</label>
@@ -118,8 +153,9 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
             </div>
           </div>
           <div
-            className={`${styles.form__container__part} ${currentStep > 2 ? styles.form__container__left : ""
-              } ${currentStep < 2 ? styles.form__container__right : ""}`}
+            className={`${styles.form__container__part} ${
+              currentStep > 2 ? styles.form__container__left : ""
+            } ${currentStep < 2 ? styles.form__container__right : ""}`}
           >
             <div className={`${styles.input} `}>
               <label className={styles.input__label}>Дата рождения</label>
@@ -134,9 +170,7 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
             </div>
             <div className={`${styles.input} ${styles.Gender__container}`}>
               <label className={styles.input__label}>Пол</label>
-              <div className={styles.main__gender__container}
-
-              >
+              <div className={styles.main__gender__container}>
                 <div
                   className={`${styles.Gender__img} ${styles.gender__img__male}`}
                 >
@@ -157,7 +191,9 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
                   <img src={sberCat} className={styles.Male__img} />
                 </div>
                 <hr className={styles.gender__container__separator} />
-                <div className={`${styles.Gender__img} ${styles.gender__img__female}`}                >
+                <div
+                  className={`${styles.Gender__img} ${styles.gender__img__female}`}
+                >
                   <label
                     htmlFor="female"
                     id="female2"
@@ -178,8 +214,9 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
             </div>
           </div>
           <div
-            className={`${styles.form__container__part} ${currentStep > 3 ? styles.form__container__left : ""
-              } ${currentStep < 3 ? styles.form__container__right : ""}`}
+            className={`${styles.form__container__part} ${
+              currentStep > 3 ? styles.form__container__left : ""
+            } ${currentStep < 3 ? styles.form__container__right : ""}`}
           >
             <div className={`${styles.input} `}>
               <label className={styles.input__label}>Ник telegram</label>
@@ -209,8 +246,9 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
           </div>
           <div
             style={{ width: "100%" }}
-            className={`${styles.form__container__part} ${currentStep > 4 ? styles.form__container__left : ""
-              } ${currentStep < 4 ? styles.form__container__right : ""}`}
+            className={`${styles.form__container__part} ${
+              currentStep > 4 ? styles.form__container__left : ""
+            } ${currentStep < 4 ? styles.form__container__right : ""}`}
           >
             <div className={`${styles.input} `}>
               <label className={styles.input__label}>Ник на платформе</label>
@@ -243,37 +281,49 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
               </div>
             </div>
           </div>
-          <div
-            className={` ${styles.emailAccept__container} ${styles.form__container__part
-              }  ${currentStep > 5 ? styles.form__container__left : ""} ${currentStep < 5 ? styles.form__container__right : ""
+          {isConfirmEmail ? (
+            <div className={styles.googleAuthQR__container}>
+              <p>Отсканируйте QR-код в приложении google authenticator</p>
+              <QRCode value={QRcode} bgColor="#fff"/>
+              <button onClick={confirmQRCode}>Продолжить</button>
+            </div>
+          ) : (
+            <div
+              className={` ${styles.emailAccept__container} ${
+                styles.form__container__part
+              }  ${currentStep > 5 ? styles.form__container__left : ""} ${
+                currentStep < 5 ? styles.form__container__right : ""
               }`}
-          >
-            <label className={`${styles.lable_email_accept}`}>
-              Вам отправлено письмо с кодом на почту. Введите его в поле ниже.
-            </label>
-            <Input.OTP
-              formatter={(str) => str.toUpperCase()}
-              {...sharedProps}
-            />
-            <button
-              onClick={confirmEmail}
-              disabled={!confirmCode}
-              className={`${styles.button__accept_email} ${currentStep === 5
-                ? styles.input__active
-                : styles.input__inactive
-                }`}
             >
-              Подтвердить
-            </button>
-          </div>
+              <label className={`${styles.lable_email_accept}`}>
+                Вам отправлено письмо с кодом на почту. Введите его в поле ниже.
+              </label>
+              <Input.OTP
+                formatter={(str) => str.toUpperCase()}
+                {...sharedProps}
+              />
+              <button
+                onClick={confirmEmail}
+                // disabled={!confirmCode}
+                className={`${styles.button__accept_email} ${
+                  currentStep === 5
+                    ? styles.input__active
+                    : styles.input__inactive
+                }`}
+              >
+                Подтвердить
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div className={styles.step__container}>
         <div>
           <button
-            className={`${styles.step__button}  ${currentStep !== 1 ? styles.input__active : styles.input__inactive
-              }`}
-            style={{ transform: "scale(-1,1)" }}
+            className={`${styles.step__button}  ${
+              currentStep !== 1 ? styles.input__active : styles.input__inactive
+            }`}
+            style={isConfirmEmail ? { display: "none" } : {transform: "scale(-1, 1)"}}
             onClick={handlePreviousStep}
           >
             <img src={regArrow} />
@@ -281,8 +331,9 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
         </div>
         <div>
           <button
-            className={`${styles.step__button} ${currentStep !== 5 ? styles.input__active : styles.input__inactive
-              }`}
+            className={`${styles.step__button} ${
+              currentStep !== 5 ? styles.input__active : styles.input__inactive
+            }`}
             onClick={handleNextStep}
           >
             <img src={regArrow} />

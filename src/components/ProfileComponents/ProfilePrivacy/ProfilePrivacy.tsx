@@ -78,13 +78,11 @@ export const ProfilePrivacy: FC<ProfilePrivacyProps> = ({
             className={getInputClass(usernameInput)}
           />
           <div
-            className={`${styles.privacy__input__status} ${getInputClass(
-              usernameInput
-            )}`}
+            className={`${styles.privacy__input__status} ${styles.status__green}`}
           >
             <img
               className={styles.imgResult}
-              src={getInputStatus(usernameInput)}
+              src={imgOK}
               alt="status"
             />
           </div>

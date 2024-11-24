@@ -11,44 +11,68 @@ import {
   getUser,
   getJWT,
   setUsername,
+  verify2FA, // функция для проверки 2FA
 } from "../../API/api-utils";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../store/app-store";
+import { TwoFactorAuthentication } from "../../components/2FA/2FA";
 
 export default function AuthPage() {
   const navigate = useNavigate();
   const [isAuther, setIsAuther] = useState<boolean>(true);
   const [isPasswordHidden, setIsPasswordHidden] = useState<boolean>(true);
+  const [is2FA, setIs2FA] = useState<boolean>(false);
+  const [confirmCode, setConfirmCode] = useState<string>("");
   const [authData, setAuthData] = useState({ username: "", password: "" });
+  const { updateUserStore, setToken } = useStore();
+  const [userData, setUserData] = useState<any>(null);
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAuthData({ ...authData, [e.target.name]: e.target.value });
   };
-  const { updateUserStore, setToken } = useStore();
-  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const userData: Response | Error = await authorize(authData);
-    if (isResponseOk(userData)) {
-      setJWT(userData.token);
-      const tokenJWT = getJWT();
-      if (tokenJWT) {
-        setToken(tokenJWT);
-        const responseUser = await getUser(authData.username, tokenJWT);
-        setUsername(authData.username);
-        updateUserStore(responseUser);
-        navigate("/Home");
-      } else {
-        console.log("Token is null, unable to proceed with authentication.");
+    try {
+      const response = await authorize(authData);
+      if (response) {
+        setUserData(response); 
+        setIs2FA(true); 
       }
+    } catch (error: any) {
+      alert( "Ошибка авторизации. Проверьте данные и попробуйте снова.");
+    }
+  }
+
+  const handle2FACheck = async () => {
+    if (!userData) return;
+    const isCodeValid = await verify2FA(authData.username,confirmCode); 
+    if (isResponseOk(isCodeValid)) {
+      setJWT(userData.token);
+      setToken(userData.token);
+
+      const responseUser = await getUser(authData.username, userData.token);
+      setUsername(authData.username);
+      updateUserStore(responseUser);
+
+      navigate("/Home"); 
     } else {
-      console.log("no");
+      console.log("2FA validation failed");
     }
   };
 
   return (
     <main className={styles.auth__centre}>
-      <div className={`${isAuther ? styles.auth : styles.reg} ${styles.main__container}`}              >
+      <div
+        className={`${isAuther ? styles.auth : styles.reg} ${styles.main__container}`}
+      >
         <div className={styles.auth__asd1}>
-          {isAuther ? (
+          {is2FA ? (
+            <TwoFactorAuthentication
+              setConfirmCode={setConfirmCode}
+              handleSubmit={handle2FACheck}
+            />
+          ) : isAuther ? (
             <div className={styles.auth__container}>
               <h2 className={styles.login__title}>Добро пожаловать в WAIG</h2>
               <p className={styles.login__description}>
@@ -67,10 +91,13 @@ export default function AuthPage() {
                     ></input>
                   </div>
                 </div>
-                <div className={`${styles.input} ${styles.password__box__flex}`}>
+                <div
+                  className={`${styles.input} ${styles.password__box__flex}`}
+                >
                   <label
                     htmlFor="password"
-                    className={styles.password__label}>
+                    className={styles.password__label}
+                  >
                     <div>
                       <input
                         id="password"
@@ -112,7 +139,7 @@ export default function AuthPage() {
         </div>
         <div></div>
         <div className={styles.switch__button}>
-          <p className={styles.switch__button__title}>
+         {!is2FA &&  <p className={styles.switch__button__title}>
             {isAuther ? "Нет аккаунта?" : "Уже зарегистрированы?"}
             <button
               className={styles.switch__button__link}
@@ -120,7 +147,7 @@ export default function AuthPage() {
             >
               {isAuther ? "Зарегистрироваться" : "Войти"}{" "}
             </button>
-          </p>
+          </p>}
         </div>
       </div>
     </main>

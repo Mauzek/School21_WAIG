@@ -2,23 +2,54 @@ import axios from "axios";
 import { endpoints } from "./config";
 import { User, Interests } from "../types";
 
-const axiosRequest = async (method: 'get' | 'post' | 'put' | 'delete', url: string, token?: string, data?: any) => {
-  try {
-    const headers = {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }),
-    };
+  const axiosRequest = async (method: 'get' | 'post' | 'put' | 'delete', url: string, token?: string, data?: any) => {
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
+      };
 
-    const response = await axios({ method, url, headers, data });
-    return response.data;
-  } catch (error) {
-    console.error("Ошибка при выполнении запроса:", error);
-    throw error;
+      const response = await axios({ method, url, headers, data });
+      return response.data;
+    } catch (error) {
+      console.error("Ошибка при выполнении запроса:", error);
+      throw error;
+    }
+  };
+
+  const verify2FA = async (userLogin:string, code: string) => {
+    try {
+      const data = { username : userLogin, totp: code };
+      const response = await axiosRequest('post', endpoints.verify2FA, undefined, data);
+      return response;  
+    } catch (error) {
+      alert("Ошибка. Неправильный ключ аунтефикации")
+      console.error("Ошибка при верификации 2FA:", error);
+      throw error;
+    }
   }
-};
 
-const authorize = (data: { username: string; password: string }) =>
-  axiosRequest('post', endpoints.auth, undefined, data);
+  const getQR = async (userLogin: string) => {
+    try {
+      const response = await axiosRequest('post', endpoints.getQRCode(userLogin), undefined, {});
+      return response; 
+    } catch (error) {
+      console.error("Ошибка при получении QR-кода:", error);
+      throw error;  
+    }
+  }
+
+  const authorize = (data: { username: string; password: string }) =>{
+    try {
+      const response = axiosRequest('post', endpoints.auth, undefined, data);
+      return response;  
+    } catch (error) {
+      alert("Ошибка авторизации. Проверьте данные и попробуйте снова.")
+      console.error("Ошибка при верификации 2FA:", error);
+      throw error;
+    }
+  }
+    // axiosRequest('post', endpoints.auth, undefined, data);
 
 const acceptFriendshipReq = (login: string, friendLogin: string, token: string) =>
   axiosRequest('post', endpoints.acceptFriendshipReq(login, friendLogin), token);
@@ -38,7 +69,7 @@ interface registrationData {
 const registration = (data: registrationData) =>
   axiosRequest('post', endpoints.registration, undefined, data);
 
-const confirmUserEmail = (code: string) =>
+const confirmUserEmail = (code: string)=>
   axiosRequest('get', endpoints.confirmEmail(code));
 
 interface CreateGroupData {
@@ -306,4 +337,6 @@ export {
   confirmUserEmail,
   acceptNotice,
   cancelNotice,
+  verify2FA,
+  getQR
 };

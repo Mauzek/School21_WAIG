@@ -19,6 +19,8 @@ export const endpoints = {
   refreshToken: `${BASE_API}/auth/refresh`, //post
   confirmEmail: (code: string) => `${BASE_API}/auth/activate/${code}`,
   getUser: (userLogin: string) => `${BASE_API}/api/user/${userLogin}`, //get //http://localhost:8080/api/user/{login}
+  verify2FA: `${BASE_API}/auth/verify-totp`, //post
+  getQRCode: (userLogin: string) => `${BASE_API}/auth/generate-qr?username=${userLogin}`, //post
 
   //Admin Endpoints
   adminGetAllUsers: `${BASE_API}/admin/users`, //get
