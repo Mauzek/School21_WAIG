@@ -88,7 +88,6 @@ export const Registration: FC<RegistrationProps> = ({ setIsAuther }) => {
         setIsConfirmEmail(true);
         const res = await getQR(formData.username);
         setQRcode(res.qrCodeUrl);
-        console.log(QRCode);
       } else {
         console.error("Ошибка при подтверждении email");
       }

@@ -49,7 +49,6 @@ import { User, Interests } from "../types";
       throw error;
     }
   }
-    // axiosRequest('post', endpoints.auth, undefined, data);
 
 const acceptFriendshipReq = (login: string, friendLogin: string, token: string) =>
   axiosRequest('post', endpoints.acceptFriendshipReq(login, friendLogin), token);
